@@ -3,7 +3,7 @@ clc;
 clear all;
 % ZR_PROGRAM_BuiltTestResult();
 % ZR_PROGRAM_BuiltTestResult('C:\Users\WUKang\Documents\MATLAB\Test\tester1\010603\g_XMLfile010603.xml');
-ZR_PROGRAM_BuiltTestResult('xml','G:\lm\work\ZR_LIB_0610\g_XMLfile040704.xml');
+ZR_PROGRAM_BuiltTestResult('xml','G:\lm\work\ZR_LIB_0601');
 % function ZR_Start(in_xmlfile)
 % % %%
 

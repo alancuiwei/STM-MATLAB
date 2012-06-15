@@ -43,6 +43,7 @@ switch g_tables.outfiletype
         xml_write(strcat(g_tables.outdir,'/',g_tables.xml.record.pos.filename,'.xml'),g_tables.tabledata.record.pos);
         ZR_PROCESS_SaveReturnrateToXML();
         ZR_PROCESS_SaveReferenceToXML();
+        ZR_PROCESS_SaveDailyInfoToXML();
 end
 
 end

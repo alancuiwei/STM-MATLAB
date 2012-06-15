@@ -4,7 +4,7 @@ function out_serialmarketdata = ZR_FUN_QuerySerialMarketData(in_cmname)
 % 返回：查询得到的数据：struct(op,hp,lp,cp,vl.oi,index)
 %       合约数据（日期、开、高、低、收、交易量、持仓量）
 l_sqlstr1='select currentdate,openprice,highprice,lowprice,closeprice,volume,openinterest,pricegap,contractmonth from serialdailydata_t';
-l_sqlstr1=strcat(l_sqlstr1,' where commodityid=''', in_cmname, ''' and closeprice is not null order by currentdate');
+l_sqlstr1=strcat(l_sqlstr1,' where commodityid=''', in_cmname, ''' and closeprice is not null and closeprice <100000000 order by currentdate');
 
 % 连接数据库
 l_conn=database('futuretest','root','123456');

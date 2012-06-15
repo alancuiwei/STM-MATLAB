@@ -8,6 +8,7 @@ try
         g_XMLfile.strategypath=pwd;
         g_XMLfile.isupdated=0;
     end
+    % addpath(g_XMLfile.strategypath);
     g_XMLfile.strategyid=num2str(g_XMLfile.strategyid);
     if length(g_XMLfile.strategyid)==5
         g_XMLfile.strategyid=strcat('0',g_XMLfile.strategyid);

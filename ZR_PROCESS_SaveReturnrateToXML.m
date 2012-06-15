@@ -21,23 +21,23 @@ for l_rateid=1:length(g_reference.monthreturnrate.data(:))
 end
 l_startid=find(g_reference.monthreturnrate.data(:),1);
 l_num=0;
-l_monthfigurexml=struct('ATTRIBUTE',[]);
+% l_monthfigurexml=struct('ATTRIBUTE',[]);
 for l_id=l_startid:length(l_returnrate)
     l_num=l_num+1;
     l_returnratexml(l_num).rightid=l_rightid{l_id};
     l_returnratexml(l_num).yearid=l_year{l_id};
     l_returnratexml(l_num).monthid=l_month{l_id};
     l_returnratexml(l_num).returnrate=l_returnrate{l_id};
-    l_monthfigurexml(l_num).ATTRIBUTE.name=strcat(num2str(l_year{l_id}),'-',num2str(l_month{l_id}));
-    l_monthfigurexml(l_num).ATTRIBUTE.value=l_returnrate{l_id};
+%     l_monthfigurexml(l_num).ATTRIBUTE.name=strcat(num2str(l_year{l_id}),'-',num2str(l_month{l_id}));
+%     l_monthfigurexml(l_num).ATTRIBUTE.value=l_returnrate{l_id};
 end
-l_yearfigurexml=struct('ATTRIBUTE',[]);
-for l_yearid=1:length(g_reference.years.data)
-    l_yearfigurexml(l_yearid).ATTRIBUTE.name=g_reference.years.data(l_yearid);
-    l_yearfigurexml(l_yearid).ATTRIBUTE.value=g_reference.yearreturnrate.data(l_yearid);    
-end
+% l_yearfigurexml=struct('ATTRIBUTE',[]);
+% for l_yearid=1:length(g_reference.years.data)
+%     l_yearfigurexml(l_yearid).ATTRIBUTE.name=g_reference.years.data(l_yearid);
+%     l_yearfigurexml(l_yearid).ATTRIBUTE.value=g_reference.yearreturnrate.data(l_yearid);    
+% end
 xml_write(strcat(g_tables.outdir,'/',g_tables.xml.returnrate.filename,'.xml'),l_returnratexml);
-Pref.ItemName = 'set';
-xml_write(strcat(g_tables.outdir,'/','monthfigure','.xml'), l_monthfigurexml, 'MyTree',Pref);
-xml_write(strcat(g_tables.outdir,'/','yearfigure','.xml'), l_yearfigurexml, 'MyTree',Pref);
+% Pref.ItemName = 'set';
+% xml_write(strcat(g_tables.outdir,'/','monthfigure','.xml'), l_monthfigurexml, 'MyTree',Pref);
+% xml_write(strcat(g_tables.outdir,'/','yearfigure','.xml'), l_yearfigurexml, 'MyTree',Pref);
 end

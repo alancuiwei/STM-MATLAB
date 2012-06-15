@@ -2,7 +2,7 @@ function out_contractinfo=ZR_FUN_QueryActiveContractInfo(in_contractname)
 % 从数据库中得到该合约的信息
 % 输入：合约名
 % 返回：查询得到的数据：struct(daystolasttradeday)
-l_sqlstr1='select lasttradedate,daystolasttradedate from contract_t where lasttradedate>CURRENT_DATE';
+l_sqlstr1='select lasttradedate,daystolasttradedate from contract_t where lasttradedate>CURRENT_DATE ';
 l_sqlstr1=strcat(l_sqlstr1,' and contractid=''', in_contractname, '''');
 
 % 连接数据库

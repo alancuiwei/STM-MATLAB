@@ -16,7 +16,7 @@ sqlstr1=strcat(sqlstr1,',after_t.openprice,after_t.highprice,after_t.lowprice,af
 sqlstr1=strcat(sqlstr1,',before_t.currentdate');
 sqlstr1=strcat(sqlstr1,' from marketdaydata_t as before_t,marketdaydata_t as after_t where before_t.currentdate=after_t.currentdate');
 sqlstr1=strcat(sqlstr1,' and before_t.contractid=''', in_beforecontractname, ''' and after_t.contractid=''', in_aftercontractname);
-sqlstr1=strcat(sqlstr1, ''' order by before_t.currentdate;');
+sqlstr1=strcat(sqlstr1, ''' and before_t.closeprice<100000000 and after_t.closeprice<100000000 order by before_t.currentdate;');
 
 % 连接数据库
 conn=database('futuretest','root','123456');

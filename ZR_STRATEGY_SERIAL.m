@@ -25,7 +25,7 @@ for l_cmid=1:l_cmnum
     l_inputdata=g_rawdata;
     l_inputdata.strategyparams=g_commodityparams;
     % 调入第三方函数
-    l_output=KDJContinTrade(l_inputdata);
+    l_output=ZR_STRATEGY_040704(l_inputdata);
     g_traderecord=l_output.record;    
     ZR_PROCESS_TradeDataPerSerialContract();
     % 计算报告数据

@@ -12,7 +12,12 @@ l_ctnum=length(l_contractnames);
 l_pairs=G_ExtractHistoryDataFromMySQL.allpairs;
 l_pairnum=length(G_ExtractHistoryDataFromMySQL.allpairs);
 l_currentdate=G_ExtractHistoryDataFromMySQL.currentdate;
+if l_pairnum > 0
 l_pairnames{l_pairnum}='';
+else
+    l_pairnames = [];
+end
+ 
 % 检查g_database是否存在，不存在则重新生成
 if isempty(g_database)
     % 行情数据更新日期

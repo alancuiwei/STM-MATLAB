@@ -11,6 +11,8 @@ l_enddatevec=datevec(l_enddatenum);
 l_enddatenum=datenum([l_enddatevec(1),12,31,0,0,0]);
 g_report.enddatenum=l_enddatenum;
 % 初始化时间保证金向量
+g_report.dailyinfo.dailydatenum=l_startdatenum:l_enddatenum;
+% 初始化时间保证金向量
 g_report.dailyinfo.margin=zeros(1,(l_enddatenum-l_startdatenum+1));
 % 初始化时间仓位向量
 g_report.dailyinfo.posnum=zeros(1,(l_enddatenum-l_startdatenum+1));

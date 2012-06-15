@@ -12,12 +12,15 @@ G_ExtractHistoryDataFromMySQL=[];
 G_RunSpecialTestCase=[];
 G_ShowTestResults=[];
 G_RunOptimization=[];
-
-if nargin>0
-    % 从XML文件里读出
-    ZR_CONFIG_SetFromXML(varargin{:});
-else
-    error('程序执行必须依赖xml文件')
+switch varargin{1}
+    case 'xml'
+        if nargin>0
+            % 从XML文件里读出
+            ZR_CONFIG_SetFromXML(varargin{2});
+        else
+            error('程序执行必须依赖xml文件')
+        end        
+    case 'database'
 end
 % 配置程序运行参数
 ZR_CONFIG_G_Start();

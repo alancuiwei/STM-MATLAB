@@ -151,4 +151,6 @@ else
     % 初始化交易费
     g_report.commodity(in_cmid).dailyinfo.tradecharge=zeros(1,(l_enddatenum-l_startdatenum+1));
 end    
+    % 初始化时间向量
+    g_report.commodity(in_cmid).dailyinfo.dailydatenum=l_startdatenum:l_enddatenum;
 end

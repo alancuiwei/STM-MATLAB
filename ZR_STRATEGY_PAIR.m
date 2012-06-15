@@ -32,6 +32,7 @@ for l_cmid=1:l_cmnum
         l_inputdata.pair=g_rawdata.pair(l_pairid);
         % 计算合约的指标
         g_traderecord=ZR_STRATEGY_PAIR_PLUGIN_020603_L1_S7_S10(l_inputdata);
+%         g_traderecord=ZR_STRATEGY_040704(l_inputdata);
         % 计算交易记录
         ZR_PROCESS_TradeDataPerPair(l_pairid);
         % 计算交易记录，交易记录可能来自第三方     

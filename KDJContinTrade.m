@@ -165,14 +165,77 @@ for i=1:numel(ForceTrade)
             DateNum=inputdata.commodity.serialmkdata.date(ForceTrade(i)+2);
             DateNum
             CntID=find(ismember(inputdata.contractname,CntName)==1);
+            find(ismember(inputdata.contract(1,CntID).mkdata.date,DateNum)==1)
             DataID=find(ismember(inputdata.contract(1,CntID).mkdata.date,DateNum)==1);
             outputdata.record.cpdateprice(PositionForceInTrade-1)=inputdata.contract(1,CntID).mkdata.op(DataID);
         end
+         % 0503-lm
+        %主力合约在交割月前仍未平仓，当天立即移仓 
+        Dattmp = char(inputdata.commodity.serialmkdata.date(ForceTrade(i)));
+        LastDayFlag = judgeIsLastDay(Dattmp);
+        if (LastDayFlag)%LastDayFlag 表示交割月前仍未平仓的标志
+            %这段的处理------
+            CntName=inputdata.commodity.serialmkdata.ctname(ForceTrade(i));
+            CntName
+            DateNum=inputdata.commodity.serialmkdata.date(ForceTrade(i));
+            DateNum
+            CntID=find(ismember(inputdata.contractname,CntName)==1);
+            DataID=find(ismember(inputdata.contract(1,CntID).mkdata.date,DateNum)==1);
+            outputdata.record.cpdateprice(PositionForceInTrade-1)=inputdata.contract(1,CntID).mkdata.op(DataID);
+        end
+        % 0503-lm
     end
 end
 %==========================================================================
 
+% 判断日期是不是最后一天
+function lastDay = judgeIsLastDay(date)
+Day = str2double(date(end-1:end));
+Month = str2double(date(end-4:end-3));
+Year = str2double(date(1:4));
+if(mod(Year,100) ~= 0)
+    if (mod(Year,4) == 0)
+        Leap = 1;
+    else
+        Leap = 0;
+    end
+else
+    if(mod(Year,400) == 0)
+        Leap = 1;
+    else
+        Leap = 0;
+    end
+end
 
-
+switch(Month)
+    case {1,3,5,7,8,10,12}
+        if(Day == 31)
+            lastDay = 1;
+        else
+            lastDay = 0;
+        end
+    case {4,6,9,11}
+        if(Day == 30)
+            lastDay = 1;
+        else
+            lastDay = 0;
+        end
+    case 2
+        if(Leap)
+            if(Day == 29)
+                lastDay = 1;
+            else
+                lastDay = 0;
+            end
+        else
+            if(Day == 28)
+                lastDay = 1;
+            else
+                lastDay = 0;
+            end
+        end
+    otherwise
+        lastDay = 0;
+end
 
 

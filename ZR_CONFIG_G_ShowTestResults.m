@@ -48,9 +48,10 @@ G_ShowTestResults.g_tables.xls.record.pos.sheetname='posrecord';
 G_ShowTestResults.g_tables.xls.record.trade.sheetname='traderecord';
 G_ShowTestResults.g_tables.xls.optimization.filename='Optim';
 % 导出到xml
-G_ShowTestResults.g_tables.xml.record.pos.filename='posrecord';
-G_ShowTestResults.g_tables.xml.returnrate.filename='returnrate';
-G_ShowTestResults.g_tables.xml.reference.filename='reference';
+G_ShowTestResults.g_tables.xml.record.pos.filename=strcat('posrecord-',num2str(g_XMLfile.userid));
+G_ShowTestResults.g_tables.xml.returnrate.filename=strcat('returnrate-',num2str(g_XMLfile.userid));
+G_ShowTestResults.g_tables.xml.reference.filename=strcat('reference-',num2str(g_XMLfile.userid));
+G_ShowTestResults.g_tables.xml.dailyinfo.filename=strcat('dailyinfo-',num2str(g_XMLfile.userid));
 
 % 测评参数表
 G_ShowTestResults.g_tables.reference.name.title='合约名称';
@@ -93,12 +94,25 @@ G_ShowTestResults.g_figure.savetradebar.issaved=0;
 
 % 显示报告
 G_ShowTestResults.g_tables.strategyid=g_XMLfile.strategyid;
-if ~g_XMLfile.isupdated
-    G_ShowTestResults.g_tables.outfiletype='xml';
-    G_ShowTestResults.g_tables.outdir=g_XMLfile.path;
-    G_ShowTestResults.g_figure.savetradebar.outdir=g_XMLfile.path;
-elseif g_DBconfig.isupdated
-    G_ShowTestResults.g_tables.outfiletype='database';
+G_ShowTestResults.g_tables.outdir=g_XMLfile.path;
+G_ShowTestResults.g_figure.savetradebar.outdir=g_XMLfile.path;    
+switch g_XMLfile.resulttype
+    case 'xml'
+        G_ShowTestResults.g_tables.outfiletype='xml';    
+    case 'database'
+        G_ShowTestResults.g_tables.outfiletype='database';     
+    case 'xls'  
+        G_ShowTestResults.g_tables.outfiletype='xls';
 end
-G_ShowTestResults.g_tables.outfiletype='xls';
+
+
+% if ~g_XMLfile.isupdated
+%     G_ShowTestResults.g_tables.outfiletype='xml';
+%     G_ShowTestResults.g_tables.outdir=g_XMLfile.path;
+%     G_ShowTestResults.g_figure.savetradebar.outdir=g_XMLfile.path;
+% elseif g_DBconfig.isupdated
+%     G_ShowTestResults.g_tables.outfiletype='database';
+% end
+% G_ShowTestResults.g_tables.outfiletype='xls';
+% G_ShowTestResults.g_tables.outfiletype='xml';
 end

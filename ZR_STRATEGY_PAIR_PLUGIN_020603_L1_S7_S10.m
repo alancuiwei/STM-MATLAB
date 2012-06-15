@@ -39,7 +39,7 @@ else
     l_cpgapdata(l_cpgapdata>0)=0;
     g_indicatordata.pair.negativemaxgap=zeros(size(l_cpgapdata));
     % 计算gap周期内的最大值,以及最大值时的index
-    l_cpgapdata=l_pairdata.mkdata.cpgap;
+    l_cpgapdata=in_inputdata.pair.mkdata.cpgap;
     g_indicatordata.pair.maxgap=zeros(size(l_cpgapdata));
     g_indicatordata.pair.maxgapid=ones(size(l_cpgapdata));
     % 计算周期内gap为最大值时，近期和远期的价格

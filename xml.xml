@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml>
+   <coredata>
+      <startdate>nolimit</startdate>
+      <enddate>nolimit</enddate>
+   </coredata>
+   <g_strategyparams>
+      <period>6</period>
+      <losses>0</losses>
+      <wins>-56</wins>
+      <handnum>1</handnum>
+   </g_strategyparams>
+</xml>

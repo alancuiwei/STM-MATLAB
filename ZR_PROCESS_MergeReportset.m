@@ -97,9 +97,16 @@ else
         l_commandstr='';
         if ~isempty(l_titlenames)
             for l_titleid=1:length(l_titlenames)
-                l_commandstr=strcat(l_commandstr,...
-                    sprintf('g_reportset.commodity(l_cmid).dailyinfo.%s=g_reportset.commodity(l_cmid).dailyinfo.%s+g_report.commodity(l_cmid).dailyinfo.%s;',...
-                    l_titlenames{l_titleid},l_titlenames{l_titleid},l_titlenames{l_titleid}));  
+                l_judge=sprintf('strcmp(''%s'',''dailydatenum'')',l_titlenames{l_titleid});
+                if eval(l_judge)
+                    l_commandstr=strcat(l_commandstr,...
+                        sprintf('g_reportset.commodity(l_cmid).dailyinfo.%s=g_report.commodity(l_cmid).dailyinfo.%s;',...
+                        l_titlenames{l_titleid},l_titlenames{l_titleid})); 
+                else                
+                    l_commandstr=strcat(l_commandstr,...
+                        sprintf('g_reportset.commodity(l_cmid).dailyinfo.%s=g_reportset.commodity(l_cmid).dailyinfo.%s+g_report.commodity(l_cmid).dailyinfo.%s;',...
+                        l_titlenames{l_titleid},l_titlenames{l_titleid},l_titlenames{l_titleid})); 
+                end
             end
         end
         eval(l_commandstr); 

@@ -4,7 +4,9 @@ global G_RunSpecialTestCase;
 global g_XMLfile;
 global g_DBconfig;
 G_RunSpecialTestCase.g_method.runstrategy.fun=@ZR_STRATEGY_SERIAL;
-G_RunSpecialTestCase.g_method.rundataprocess=@ZR_DATAPROCESS_010603;
+% G_RunSpecialTestCase.g_method.runstrategy.fun=@ZR_STRATEGY_PAIR;
+% G_RunSpecialTestCase.g_method.rundataprocess=@ZR_DATAPROCESS_010603;
+G_RunSpecialTestCase.g_method.rundataprocess=@ZR_DATAPROCESS_040704;
 G_RunSpecialTestCase.coredata.type='pair';
 G_RunSpecialTestCase.coredata.needupdate=1;
 G_RunSpecialTestCase.issetbyXML=1;
@@ -47,11 +49,25 @@ else
     G_RunSpecialTestCase.strategyid=g_DBconfig.strategyid;
     G_RunSpecialTestCase.g_commoditynames=g_DBconfig.g_commoditynames;
     G_RunSpecialTestCase.g_pairnames=g_DBconfig.g_pairnames;
-    G_RunSpecialTestCase.g_contractnames={'',''};
-    G_RunSpecialTestCase.g_strategyparams(1).period=4*ones(100,1);
-    G_RunSpecialTestCase.g_strategyparams(1).losses=0*ones(100,1);
-    G_RunSpecialTestCase.g_strategyparams(1).wins=-56*ones(100,1);
-    G_RunSpecialTestCase.g_strategyparams(1).handnum=1*ones(100,1);        
+    G_RunSpecialTestCase.g_contractnames=g_DBconfig.allcontractnames;
+    
+    % 策略参数设定
+    l_titlenames=fieldnames(g_XMLfile.g_strategyparams);
+    l_commandstr='';
+    if ~isempty(l_titlenames)
+        for l_titleid=1:length(l_titlenames)
+            l_commandstr=strcat(l_commandstr,...
+                sprintf('G_RunSpecialTestCase.g_strategyparams.%s=g_XMLfile.g_strategyparams.%s*%s',...
+                l_titlenames{l_titleid},l_titlenames{l_titleid},'ones(length(G_RunSpecialTestCase.g_commoditynames),1);')); 
+        end
+    end
+    eval(l_commandstr);  
+    G_RunSpecialTestCase.g_strategyparams(1).handnum=1*ones(length(G_RunSpecialTestCase.g_commoditynames),1);
+%     G_RunSpecialTestCase.g_contractnames={'',''};
+%     G_RunSpecialTestCase.g_strategyparams(1).period=4*ones(100,1);
+%     G_RunSpecialTestCase.g_strategyparams(1).losses=0*ones(100,1);
+%     G_RunSpecialTestCase.g_strategyparams(1).wins=-56*ones(100,1);
+%     G_RunSpecialTestCase.g_strategyparams(1).handnum=1*ones(100,1);        
 end
 
 % 策略运行时需要的数据

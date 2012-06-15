@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <g_XMLfile>
    <coredata>
-      <startdate>2010-01-01</startdate>
-      <enddate>2010-12-31</enddate>
+      <startdate></startdate>
+      <enddate></enddate>
    </coredata>
    <g_strategyparams>
       <period>16</period>
@@ -14,6 +14,9 @@
    <g_contractnames/>
    <strategyid>010603</strategyid>
    <path>D:\Users\Administrator\Documents\MATLAB\Test\tester1\010603\</path>
-   <strategypath>D:\Users\Administrator\Documents\MATLAB\ZR_LIB_0220\ZR_LIB\</strategypath>
+   <strategypath>D:\Users\Administrator\Documents\MATLAB\ZR_LIB_0610\</strategypath>
    <isupdated>1</isupdated>
+   <userid/>
+   <objecttype>future</objecttype>
+   <resulttype>xls</resulttype>      
 </g_XMLfile>
