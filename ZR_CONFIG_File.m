@@ -21,6 +21,7 @@ switch varargin{1}
             error('程序执行必须依赖xml文件')
         end        
     case 'database'
+        ZR_CONFIG_SetXMLfileFromDB(varargin{2},varargin{3},varargin{4});
 end
 % 配置程序运行参数
 ZR_CONFIG_G_Start();

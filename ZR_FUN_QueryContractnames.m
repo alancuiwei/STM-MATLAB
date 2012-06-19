@@ -6,9 +6,7 @@ l_sqlstr1='select distinct _t.contractid from (select contractid from marketdayd
 l_sqlstr1=strcat(l_sqlstr1,' where contractid regexp ''^',in_commodityid,'[0-9].*(',in_months,')$'' order by currentdate) _t');
 
 % 连接数据库
-l_conn=database('futuretest','root','123456');
-l_cur=fetch(exec(l_conn,l_sqlstr1));
-l_data=l_cur.data;
+l_data=ZR_DATABASE_AccessDB('futuretest',l_sqlstr1);
 
 % 读入数据
 if(strcmp(l_data,'No Data'))
@@ -16,6 +14,5 @@ if(strcmp(l_data,'No Data'))
 else
     out_contractnames=l_data(:,1)';
 end
-close(l_cur);
-close(l_conn);
+
 end

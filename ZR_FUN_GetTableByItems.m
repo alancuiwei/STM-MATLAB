@@ -1,5 +1,5 @@
 function out_table=ZR_FUN_GetTableByItems(in_varstr)
-% 根据item得到title名称，item必须包含title的属性
+% 根据item得到title名称，item必须包含title的属性;
 global g_tables;
 global g_reportset;
 global g_reference;

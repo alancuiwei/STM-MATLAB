@@ -114,20 +114,32 @@ for l_cmid=1:length(g_reportset.commodity)
         % 盈利交易次数的比率
         g_reference.commodity.profittraderate(l_cmid)=g_reference.commodity.profittradenum(l_cmid)/g_reference.commodity.totaltradenum(l_cmid);
         % 最大单笔盈利金额
-        g_reference.commodity.maxprofit(l_cmid)=max(l_posprofit); 
-        % 最大单笔亏损金额
-        g_reference.commodity.maxloss(l_cmid)=min(l_posprofit);
+        if isempty(l_posprofit(l_posprofit>0))
+            g_reference.commodity.maxprofit(l_cmid)=0;
+            % 每单交易盈利
+            g_reference.commodity.profitpertrade(l_cmid)=0;             
+        else
+            g_reference.commodity.maxprofit(l_cmid)=max(l_posprofit(l_posprofit>0)); 
         % 每单交易盈利
         g_reference.commodity.profitpertrade(l_cmid)=sum(l_posprofit(l_posprofit>0))....
             /g_reference.commodity.profittradenum(l_cmid); 
+        end
+        % 最大单笔亏损金额
+        if isempty(l_posprofit(l_posprofit<0))
+            g_reference.commodity.maxloss(l_cmid)=0;
+            % 每单交易亏损
+            g_reference.commodity.losspertrade(l_cmid)=0;            
+        else
+            g_reference.commodity.maxloss(l_cmid)=min(l_posprofit(l_posprofit<0));
         % 每单交易亏损
         g_reference.commodity.losspertrade(l_cmid)=sum(l_posprofit(l_posprofit<=0))....
             /g_reference.commodity.losstradenum(l_cmid);
+        end        
         % 总体每单交易盈亏率
         g_reference.commodity.returnpertrade(l_cmid)=sum(l_posprofit)....
             /g_reference.commodity.totaltradenum(l_cmid);
         % 期望值
-        g_reference.commodity.expectedvalue(l_cmid)=g_reference.commodity.returnpertrade(l_cmid)/abs(g_reference.commodity.losspertrade(l_cmid)); 
+        g_reference.commodity.expectedvalue(l_cmid)=g_reference.commodity.returnpertrade(l_cmid)/(abs(g_reference.commodity.losspertrade(l_cmid)+1)); 
         % 最大回退
         [l_maxdrawdown, l_maxdrawdownspread]=maxdrawdown(g_reportset.commodity(l_cmid).dailyinfo.profit(l_startid:l_endid)...
             -g_reportset.commodity(l_cmid).dailyinfo.profit(l_startid),'arithmetic');
@@ -300,20 +312,33 @@ g_reference.losstradenum=sum(l_posprofit<=0);
 % 盈利交易次数的比率
 g_reference.profittraderate=g_reference.profittradenum/g_reference.totaltradenum;
 % 最大单笔盈利金额
-g_reference.maxprofit=max(l_posprofit); 
-% 最大单笔亏损金额
-g_reference.maxloss=min(l_posprofit);
+if isempty(l_posprofit(l_posprofit>0))
+    g_reference.maxprofit=0;
+    % 每单交易盈利
+    g_reference.profitpertrade=0; 
+else
+    g_reference.maxprofit=max(l_posprofit(l_posprofit>0)); 
 % 每单交易盈利
 g_reference.profitpertrade=sum(l_posprofit(l_posprofit>0))....
     /g_reference.profittradenum; 
+end
+% 最大单笔亏损金额
+if isempty(l_posprofit(l_posprofit<0))
+    g_reference.maxloss=0;
+    % 每单交易亏损
+    g_reference.losspertrade=0;    
+else
+    g_reference.maxloss=min(l_posprofit(l_posprofit<=0));
 % 每单交易亏损
 g_reference.losspertrade=sum(l_posprofit(l_posprofit<=0))....
     /g_reference.losstradenum;
+end  
+
 % 总体每单交易盈亏率
 g_reference.returnpertrade=sum(l_posprofit)....
     /g_reference.totaltradenum;
 % 期望值
-g_reference.expectedvalue=g_reference.returnpertrade/abs(g_reference.losspertrade); 
+g_reference.expectedvalue=g_reference.returnpertrade/(abs(g_reference.losspertrade)+1); 
 % 最大回退
 [l_maxdrawdown, l_maxdrawdownspread]=maxdrawdown(g_reportset.dailyinfo.profit(l_startid:l_endid)...
     -g_reportset.dailyinfo.profit(l_startid),'arithmetic');

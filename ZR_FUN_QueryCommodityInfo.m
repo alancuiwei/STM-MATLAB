@@ -12,9 +12,7 @@ l_sqlstr1=strcat(l_sqlstr1,...
     ''' and commodity_t.commodityid=ibbranchcommodity_t.commodityid');
 
 % 连接数据库
-l_conn=database('futuretest','root','123456');
-l_cur=fetch(exec(l_conn,l_sqlstr1));
-l_data=l_cur.data;
+l_data=ZR_DATABASE_AccessDB('futuretest',l_sqlstr1);
 
 % 读入数据,如果没有品种信息，则报错
 if(strcmp(l_data,'No Data'))
@@ -28,8 +26,5 @@ else
         'issinglemargin',cell2mat(l_data(5)),...
         'tradeunit',cell2mat(l_data(6)));
 end
-close(l_cur);
-close(l_conn);
-
 
 end

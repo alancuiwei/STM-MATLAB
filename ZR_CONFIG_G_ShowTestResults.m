@@ -101,6 +101,9 @@ switch g_XMLfile.resulttype
         G_ShowTestResults.g_tables.outfiletype='xml';    
     case 'database'
         G_ShowTestResults.g_tables.outfiletype='database';     
+        G_ShowTestResults.g_tables.userid=g_XMLfile.userid; 
+        G_ShowTestResults.g_tables.ordernum=g_XMLfile.ordernum; 
+        G_ShowTestResults.g_tables.strategyid=g_XMLfile.strategyid; 
     case 'xls'  
         G_ShowTestResults.g_tables.outfiletype='xls';
 end

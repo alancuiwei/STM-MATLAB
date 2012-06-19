@@ -16,13 +16,11 @@ sqlstr1=strcat(sqlstr1,',after_t.openprice,after_t.highprice,after_t.lowprice,af
 sqlstr1=strcat(sqlstr1,',before_t.currentdate');
 sqlstr1=strcat(sqlstr1,' from marketdaydata_t as before_t,marketdaydata_t as after_t where before_t.currentdate=after_t.currentdate');
 sqlstr1=strcat(sqlstr1,' and before_t.contractid=''', in_beforecontractname, ''' and after_t.contractid=''', in_aftercontractname);
-sqlstr1=strcat(sqlstr1, ''' and before_t.closeprice<100000000 and after_t.closeprice<100000000 order by before_t.currentdate;');
+sqlstr1=strcat(sqlstr1, ''' and before_t.closeprice between 1 and 100000000 and after_t.closeprice between 1 and 100000000 order by before_t.currentdate;');
 
 % 连接数据库
-conn=database('futuretest','root','123456');
-cur=fetch(exec(conn,sqlstr1));
-% cur=exec(temp_conn,sqlstr1);
-temp_data=cur.data;
+temp_data=ZR_DATABASE_AccessDB('futuretest',sqlstr1);
+
 if(strcmp(temp_data,'No Data'))
     out_pairdata=[];
     error('%s-%s没有配对数据',cell2mat(in_beforecontractname),cell2mat(in_aftercontractname));
@@ -36,7 +34,6 @@ else
         'index',[cell2mat(temp_data(:,7)),cell2mat(temp_data(:,14))],...
         'datalen',length(temp_data(:,1)));
 end
-close(cur);
-close(conn);
+
 
 end

@@ -1,7 +1,8 @@
 function ZR_PROCESS_SaveReturnrateToDB(in_strategyid)
 % 把回报率导入到数据库中
 global g_reference;
-l_data=struct('rightid',[],'yearid',[],'monthid',[],'returnrate',[]);
+global g_tables;
+l_data=struct('rightid',[],'yearid',[],'monthid',[],'returnrate',[],'strategyid',[],'userid',[],'ordernum',[]);
 l_clock=clock;
 for l_cmid=1:length(g_reference.commodity.monthreturnrate)
     l_rightid=repmat(g_reference.commodity.rightid(l_cmid),1,length(g_reference.commodity.monthreturnrate(l_cmid).data(:)));
@@ -46,15 +47,21 @@ l_data.rightid=cat(2,l_data.rightid,l_rightid(l_startid:l_endid));
 l_data.yearid=cat(2,l_data.yearid,l_year(l_startid:l_endid));
 l_data.monthid=cat(2,l_data.monthid,l_month(l_startid:l_endid));
 l_data.returnrate=cat(2,l_data.returnrate,l_returnrate(l_startid:l_endid));
+l_data.strategyid=repmat({g_tables.strategyid}, 1, length(l_data.returnrate));
+l_data.userid=repmat({g_tables.userid}, 1, length(l_data.returnrate));
+l_data.ordernum=repmat({g_tables.ordernum}, 1, length(l_data.returnrate));
 
 l_sqlstr1='delete from strategyreturnrate_t ';
-l_sqlstr1=strcat(l_sqlstr1,' where rightid regexp ''^',in_strategyid,'''');
+% l_sqlstr1=strcat(l_sqlstr1,' where rightid regexp ''^',in_strategyid,'''');
+l_sqlstr1=strcat(l_sqlstr1,' WHERE strategyid= ''',g_tables.strategyid,''' ');
+l_sqlstr1=strcat(l_sqlstr1,' and userid= ',g_tables.userid,' ');
+l_sqlstr1=strcat(l_sqlstr1,' and ordernum= ',g_tables.ordernum,' ');
 % 连接数据库
-l_conn=database('futuretest','root','123456');
+l_conn=database('webfuturetest_101','root','123456');
 exec(l_conn,l_sqlstr1);
-l_colnames={'rightid';'yearid';'monthid';'returnrate'};
-l_exdata=[l_data.rightid',l_data.yearid',l_data.monthid',l_data.returnrate'];
-insert(l_conn, 'strategyreturnrate_t', l_colnames, l_exdata)
+l_colnames={'rightid';'yearid';'monthid';'returnrate';'strategyid';'userid';'ordernum'};
+l_exdata=[l_data.rightid',l_data.yearid',l_data.monthid',l_data.returnrate',l_data.strategyid',l_data.userid',l_data.ordernum'];
+insert(l_conn, 'strategyreturnrate_t', l_colnames, l_exdata);
 close(l_conn);
 
 end

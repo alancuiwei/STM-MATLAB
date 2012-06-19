@@ -7,6 +7,7 @@ global g_rawdata;
 global g_coredata;
 global g_traderecord;
 global g_commodityparams;
+global g_rightid;
 % 设置策略参数
 ZR_FUN_SetStrategyParams(varargin{:});
 % 如果没有合约名集的信息，则用G_RunSpecialTestCase中的合约名集
@@ -20,6 +21,7 @@ for l_cmid=1:l_cmnum
     % 每一个品种初始化
     ZR_FUN_InitGlobalVarsPerCommodity();
     g_rawdata=g_coredata(l_cmid);
+    g_rawdata.rightid=g_rightid(l_cmid);
     % 根据每一个品种设置策略参数
     ZR_FUN_SetParamsPerCommodity(l_cmid);
     l_inputdata=g_rawdata;

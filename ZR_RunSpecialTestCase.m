@@ -16,7 +16,7 @@ global g_report;
 global g_reference;
 global g_tables;
 global g_figure;
-global g_XMLfile;
+global g_rightid;
 global g_DBconfig;
 % 设置运行模式
 G_Start.runmode='RunSpecialTestCase';
@@ -29,6 +29,7 @@ g_pairnames=G_RunSpecialTestCase.g_pairnames;
 g_contractnames=G_RunSpecialTestCase.g_contractnames;
 g_tables=G_ShowTestResults.g_tables;
 g_figure=G_ShowTestResults.g_figure;
+g_rightid=g_DBconfig.g_rightid;
 % 使用的方法
 g_method=G_RunSpecialTestCase.g_method;
 % 中间数据处理，生成g_coredata

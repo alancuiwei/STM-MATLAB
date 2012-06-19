@@ -3,7 +3,6 @@ function ZR_PROCESS_TradeDataPerSerialContract( )
 global g_traderecord;
 global g_rawdata;
 global g_tradedata;
-global G_RunSpecialTestCase;
 
 % 交易单位
 l_tradeunit(1)=g_rawdata.commodity.info(1).tradeunit;
@@ -29,7 +28,7 @@ if(g_traderecord.num>0)
         % pos
         % 名字
         g_tradedata.pos.name(l_posid)=g_traderecord.ctname(l_index);
-        g_tradedata.pos.rightid(l_posid)={G_RunSpecialTestCase.strategyid};
+        g_tradedata.pos.rightid(l_posid)=g_rawdata.rightid;
         % 开仓时间
         g_tradedata.pos.opdate(l_posid)=g_traderecord.opdate(l_index);
         % 平仓时间

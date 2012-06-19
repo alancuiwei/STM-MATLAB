@@ -5,14 +5,17 @@ global g_XMLfile;
 global G_Start;
 % 如果从XML文件中获取参数，DB不必更新
 if ~g_XMLfile.isupdated
-    g_DBconfig=xml_read(strcat(G_Start.currentpath,'/','g_DBconfig',in_strategyid,'.xml'));
-    return;
+    %g_DBconfig=xml_read(strcat(G_Start.currentpath,'/','g_DBconfig',in_strategyid,'.xml'));
+    %g_DBconfig.strategyid=g_XMLfile.strategyid;
+    %g_DBconfig.isupdated=1;
+    %return;
 end
 
 g_DBconfig.strategyid=in_strategyid;
 l_strategyinfo=ZR_FUN_QueryArbitrageInfo(in_strategyid);
 g_DBconfig.allcommoditynames=unique(cat(1,l_strategyinfo.firstcommodityid,l_strategyinfo.secondcommodityid));
 g_DBconfig.g_commoditynames=strcat(l_strategyinfo.firstcommodityid,'-',l_strategyinfo.secondcommodityid);           %包含'-'说明是套利对
+g_DBconfig.g_rightid=l_strategyinfo.rightid;
 g_DBconfig.allcontractnames={};
 g_DBconfig.g_pairnames={};
 g_DBconfig.allpairs=[];
@@ -67,6 +70,6 @@ for l_id=1:length(l_strategyinfo.rightid)
     end
 end
 % 写入xml文件
-xml_write(strcat(G_Start.currentpath,'/','g_DBconfig',in_strategyid,'.xml'),g_DBconfig);
-g_DBconfig.isupdated=1;
+% xml_write(strcat(G_Start.currentpath,'/','g_DBconfig',in_strategyid,'.xml'),g_DBconfig);
+g_DBconfig.isupdated=g_XMLfile.isupdated;
 end

@@ -3,11 +3,26 @@ function ZR_CONFIG_G_RunSpecialTestCase()
 global G_RunSpecialTestCase;
 global g_XMLfile;
 global g_DBconfig;
+
+switch g_XMLfile.strategyid      %套利类型
+    case '010603'       %跨期套利
+        G_RunSpecialTestCase.coredata.type='pair';
+        G_RunSpecialTestCase.g_method.runstrategy.fun=@ZR_STRATEGY_PAIR;    
+        G_RunSpecialTestCase.g_method.rundataprocess=@ZR_DATAPROCESS_010603;
+    case '040704'       %单边策略
+        G_RunSpecialTestCase.coredata.type='serial'; 
 G_RunSpecialTestCase.g_method.runstrategy.fun=@ZR_STRATEGY_SERIAL;
+        G_RunSpecialTestCase.g_method.rundataprocess=@ZR_DATAPROCESS_040704;
+    case '10'       %？？？？？
+end
+% l_cmdstr=strcat('G_RunSpecialTestCase.g_method.rundataprocess=@ZR_DATAPROCESS_',g_XMLfile.strategyid,';');
+% eval(l_cmdstr);
+
+% G_RunSpecialTestCase.g_method.runstrategy.fun=@ZR_STRATEGY_SERIAL;
 % G_RunSpecialTestCase.g_method.runstrategy.fun=@ZR_STRATEGY_PAIR;
 % G_RunSpecialTestCase.g_method.rundataprocess=@ZR_DATAPROCESS_010603;
-G_RunSpecialTestCase.g_method.rundataprocess=@ZR_DATAPROCESS_040704;
-G_RunSpecialTestCase.coredata.type='pair';
+% G_RunSpecialTestCase.g_method.rundataprocess=@ZR_DATAPROCESS_040704;
+%G_RunSpecialTestCase.coredata.type='pair';
 G_RunSpecialTestCase.coredata.needupdate=1;
 G_RunSpecialTestCase.issetbyXML=1;
 % 如果有xml的设定就用xml
