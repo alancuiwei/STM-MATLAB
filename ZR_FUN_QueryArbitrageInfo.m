@@ -7,7 +7,7 @@ l_sqlstr1='select rightid,firstcommodityid,secondcommodityid,firstcommodityunit,
 l_sqlstr1=strcat(l_sqlstr1,' where rightid regexp ''^',in_strategyid,'''');
 
 % 连接数据库
-l_data=ZR_DATABASE_AccessDB('futuretest',l_sqlstr1);
+l_data=ZR_DATABASE_AccessDB('futuretest','sql',l_sqlstr1);
 
 % 读入数据
 if(strcmp(l_data,'No Data'))

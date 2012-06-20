@@ -19,7 +19,7 @@ sqlstr1=strcat(sqlstr1,' and before_t.contractid=''', in_beforecontractname, '''
 sqlstr1=strcat(sqlstr1, ''' and before_t.closeprice between 1 and 100000000 and after_t.closeprice between 1 and 100000000 order by before_t.currentdate;');
 
 % 连接数据库
-temp_data=ZR_DATABASE_AccessDB('futuretest',sqlstr1);
+temp_data=ZR_DATABASE_AccessDB('futuretest','sql',sqlstr1);
 
 if(strcmp(temp_data,'No Data'))
     out_pairdata=[];

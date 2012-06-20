@@ -6,7 +6,7 @@ l_sqlstr1=strcat(l_sqlstr1,' WHERE strategyid= ''',g_tables.strategyid,''' ');
 l_sqlstr1=strcat(l_sqlstr1,' and userid= ',g_tables.userid,' ');
 l_sqlstr1=strcat(l_sqlstr1,' and ordernum= ',g_tables.ordernum,' ');
 % 连接数据库
-l_conn=database('webfuturetest_101','root','123456');
+l_conn=ZR_DATABASE_AccessDB('webfuturetest_101','conn');
 exec(l_conn,l_sqlstr1);
 l_colnames={'rightid';'tradeobject';'isclosepos';'openposdate';'closeposdate';'openposprice';'closeposprice';'marginaccount';'profit';'strategyid';'userid';'ordernum'};
 l_strategyid=repmat({g_tables.strategyid},length(g_tables.tabledata.record.pos(2:end,1)),1);

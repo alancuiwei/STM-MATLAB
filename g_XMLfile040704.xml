@@ -11,10 +11,11 @@
    <g_pairnames/>
    <g_contractnames/>
    <strategyid>040704</strategyid>
-   <path>G:/lm/work/Result/tester1/040704/</path>
-   <strategypath>G:/lm/work/ZR_LIB_0619/</strategypath>
-   <isupdated>1</isupdated>
-<userid/>
+   <path>G:/lm/work/Result/tester1/040704</path>
+   <strategypath>G:/lm/work/ZR_LIB_0619</strategypath>
+   <isupdated>0</isupdated>
+<userid>52</userid>
+<ordernum>1</ordernum>
    <objecttype>future</objecttype>
-   <resulttype>xls</resulttype> 
+   <resulttype>xml</resulttype> 
 </g_XMLfile>

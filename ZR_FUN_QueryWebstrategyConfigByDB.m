@@ -5,7 +5,7 @@ function out_data=ZR_FUN_QueryWebstrategyConfigByDB()
 l_sqlstr1='SELECT strategyid, userid, ordernum FROM strategyweb where configtype=''database''';
 
 % 连接数据库
-l_data=ZR_DATABASE_AccessDB('webfuturetest_101',l_sqlstr1);
+l_data=ZR_DATABASE_AccessDB('webfuturetest_101','sql',l_sqlstr1);
 
 % 读入数据
 if(strcmp(l_data,'No Data'))

@@ -7,7 +7,7 @@ l_sqlstr1='select currentdate,openprice,highprice,lowprice,closeprice,volume,ope
 l_sqlstr1=strcat(l_sqlstr1,' where contractid=''', in_contractname, ''' and closeprice between 1 and 100000000 order by currentdate');
 
 % 连接数据库
-l_data=ZR_DATABASE_AccessDB('futuretest',l_sqlstr1);
+l_data=ZR_DATABASE_AccessDB('futuretest','sql',l_sqlstr1);
 
 % 读入数据
 if(strcmp(l_data,'No Data'))

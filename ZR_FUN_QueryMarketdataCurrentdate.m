@@ -4,7 +4,7 @@ function out_currentdate=ZR_FUN_QueryMarketdataCurrentdate()
 l_sqlstr1='select currentdate from marketdaydata_t order by currentdate DESC limit 0,1;';
 
 % 连接数据库
-l_data=ZR_DATABASE_AccessDB('futuretest',l_sqlstr1);
+l_data=ZR_DATABASE_AccessDB('futuretest','sql',l_sqlstr1);
 
 % 读入数据
 if(strcmp(l_data,'No Data'))

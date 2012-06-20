@@ -13,7 +13,7 @@ end
 l_strategyid=strcat(in_strategyid,'000000');
 l_rightid(end+1)={l_strategyid};
 % 连接数据库
-l_conn=database('webfuturetest_101','root','123456');
+l_conn=ZR_DATABASE_AccessDB('webfuturetest_101','conn');
 exec(l_conn,l_sqlstr1);
 l_colnames={'rightid';'minmarginaccount';'totalnetprofit';'grossprofit';'grossloss';'avemonthreturn';'aveyearreturn';'toaltradingdays';'totaltrades';'avedaytrades';...
     'numwintrades';'numlosstrades';'percentprofitable';'largestwintrade';'largestlosstrade';'avewintrade';'avelosstrade';'avetrade';'expectvalue';'maxdrawdown';...
