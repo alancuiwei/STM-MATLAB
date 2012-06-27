@@ -12,8 +12,9 @@ switch varargin{2}
           l_cur=fetch(exec(l_conn,varargin{3}));
           out_data=l_cur.data;  
           close(l_cur);
+          close(l_conn);
     case 'conn'
           out_data=l_conn;
 end
-close(l_conn);
+%
 end

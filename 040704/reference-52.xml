@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<l_referencexml>
+   <rightid>040704000000</rightid>
+   <minmarginaccount>26929</minmarginaccount>
+   <totalnetprofit>27682</totalnetprofit>
+   <grossprofit>145104</grossprofit>
+   <grossloss>-117422</grossloss>
+   <avemonthreturn>0.0139676607053784</avemonthreturn>
+   <aveyearreturn>0.147658127456857</aveyearreturn>
+   <toaltradingdays>2192</toaltradingdays>
+   <totaltrades>165</totaltrades>
+   <avedaytrades>0.0752737226277372</avedaytrades>
+   <numwintrades>81</numwintrades>
+   <numlosstrades>84</numlosstrades>
+   <percentprofitable>0.490909090909091</percentprofitable>
+   <largestwintrade>9254</largestwintrade>
+   <largestlosstrade>-12220</largestlosstrade>
+   <avewintrade>1791.40740740741</avewintrade>
+   <avelosstrade>-1397.88095238095</avelosstrade>
+   <avetrade>167.769696969697</avetrade>
+   <expectvalue>0.119931361338609</expectvalue>
+   <maxdrawdown>46598</maxdrawdown>
+   <maxdrawdowndays>1162</maxdrawdowndays>
+</l_referencexml>

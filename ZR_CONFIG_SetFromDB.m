@@ -70,6 +70,6 @@ for l_id=1:length(l_strategyinfo.rightid)
     end
 end
 % Ð´ÈëxmlÎÄ¼þ
-% xml_write(strcat(G_Start.currentpath,'/','g_DBconfig',in_strategyid,'.xml'),g_DBconfig);
+xml_write(strcat(G_Start.currentpath,'/','g_DBconfig',in_strategyid,'.xml'),g_DBconfig);
 g_DBconfig.isupdated=g_XMLfile.isupdated;
 end

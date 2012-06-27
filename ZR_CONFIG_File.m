@@ -7,8 +7,6 @@ global G_ShowTestResults;
 global G_RunOptimization;
 % global G_ConfigFile;
 global g_XMLfile;
-global g_JDBCdriver;
-global g_DatabaseURL;
 G_Start=[];
 G_ExtractHistoryDataFromMySQL=[];
 G_RunSpecialTestCase=[];

@@ -42,12 +42,12 @@ PositionTrade=unique(sort(PositionTrade));
 %                                          
 Cnt=1;%计数变量
 %plot(Price')
-figure('Name',cell2mat(inputdata.commodity.name));
+% figure('Name',cell2mat(inputdata.commodity.name));
 %figure(2)
-plot(Price(1,:),'b');
-hold on;
-plot(Price(2,:),'r')
-hold off;
+% plot(Price(1,:),'b');
+% hold on;
+% plot(Price(2,:),'r')
+% hold off;
 for i=2:numel(PositionTrade)
     if(SignPrice(PositionTrade(i))~=0) %判断此交点位置是否刚好为整数
         if(Price(1,PositionTrade(i)+1)>Price(1,PositionTrade(i)) && Price(2,PositionTrade(i)+1)>Price(2,PositionTrade(i)) ...

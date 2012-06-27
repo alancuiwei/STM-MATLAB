@@ -57,7 +57,8 @@ l_sqlstr1=strcat(l_sqlstr1,' WHERE strategyid= ''',g_tables.strategyid,''' ');
 l_sqlstr1=strcat(l_sqlstr1,' and userid= ',g_tables.userid,' ');
 l_sqlstr1=strcat(l_sqlstr1,' and ordernum= ',g_tables.ordernum,' ');
 % 连接数据库
-l_conn=ZR_DATABASE_AccessDB('webfuturetest','conn');
+% l_conn=database('webfuturetest_101','root','123456');
+l_conn=ZR_DATABASE_AccessDB('webfuturetest_101','conn');
 exec(l_conn,l_sqlstr1);
 l_colnames={'rightid';'yearid';'monthid';'returnrate';'strategyid';'userid';'ordernum'};
 l_exdata=[l_data.rightid',l_data.yearid',l_data.monthid',l_data.returnrate',l_data.strategyid',l_data.userid',l_data.ordernum'];
