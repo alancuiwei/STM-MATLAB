@@ -1,4 +1,4 @@
-function ZR_PROCESS_SaveReportsetToDB(in_strategyid)
+function ZR_PROCESS_SaveReportsetToDB()
 % 将交易记录存入数据库中
 global g_tables;
 l_sqlstr1='delete from strategypositionrecord_t ';

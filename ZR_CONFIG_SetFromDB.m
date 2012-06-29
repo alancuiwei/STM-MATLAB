@@ -29,8 +29,8 @@ for l_id=1:length(l_strategyinfo.rightid)
             switch l_rightid(7:8)       %配对类型          
                 case '01'       %逐月套利对
                 case '02'       %主力/次主力套利对
-                    % l_months=ZR_FUN_QueryMasterMonths(l_strategyinfo.firstcommodityid{l_id});
-                    l_months=ZR_FUN_QueryDeliverMonths(l_strategyinfo.firstcommodityid{l_id});      %查询该品种主力合约
+                    l_months=ZR_FUN_QueryMasterMonths(l_strategyinfo.firstcommodityid{l_id});
+                    % l_months=ZR_FUN_QueryDeliverMonths(l_strategyinfo.firstcommodityid{l_id});      %查询该品种主力合约
                     l_contractnames=ZR_FUN_QueryContractnames(l_strategyinfo.firstcommodityid{l_id},cell2mat(l_months));        %查询该品种所有合约名
                     l_allpairs=struct('ctname1',[],'ctunit1',[],'ctname2',[],'ctunit2',[],'rightid',l_rightid);
                     g_DBconfig.allcontractnames=cat(1,g_DBconfig.allcontractnames,l_contractnames(:));

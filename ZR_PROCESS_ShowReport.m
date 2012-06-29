@@ -36,9 +36,10 @@ switch g_tables.outfiletype
         catch
         end
     case 'database'  
-        ZR_PROCESS_SaveReportsetToDB(g_tables.strategyid);
-        ZR_PROCESS_SaveReferenceToDB(g_tables.strategyid);
-        ZR_PROCESS_SaveReturnrateToDB(g_tables.strategyid);     
+        ZR_PROCESS_SaveReportsetToDB();
+        ZR_PROCESS_SaveReferenceToDB();
+        ZR_PROCESS_SaveReturnrateToDB();  
+        ZR_PROCESS_SaveDailyInfoToDB();
     case 'xml'
         xml_write(strcat(g_tables.outdir,'/',g_tables.xml.record.pos.filename,'.xml'),g_tables.tabledata.record.pos);
         ZR_PROCESS_SaveReturnrateToXML();

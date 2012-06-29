@@ -19,6 +19,15 @@
       <item>TA-TA</item>
       <item>l-l</item>
    </g_commoditynames>
+   <g_rightid>
+      <item>010603020707</item>
+      <item>010603021414</item>
+      <item>010603020505</item>
+      <item>010603021313</item>
+      <item>010603021212</item>
+      <item>010603020404</item>
+      <item>010603021010</item>
+   </g_rightid>
    <allcontractnames>
       <item>a0305</item>
       <item>a0309</item>
@@ -57,6 +66,7 @@
       <item>a1303</item>
       <item>a1307</item>
       <item>a1309</item>
+      <item>a1311</item>
       <item>y0605</item>
       <item>y0609</item>
       <item>y0701</item>
@@ -85,6 +95,7 @@
       <item>y1212</item>
       <item>y1301</item>
       <item>y1303</item>
+      <item>y1305</item>
       <item>RO0709</item>
       <item>RO0801</item>
       <item>RO0805</item>
@@ -106,6 +117,7 @@
       <item>RO211</item>
       <item>RO301</item>
       <item>RO303</item>
+      <item>RO305</item>
       <item>v0909</item>
       <item>v1001</item>
       <item>v1005</item>
@@ -130,6 +142,7 @@
       <item>v1302</item>
       <item>v1303</item>
       <item>v1304</item>
+      <item>v1305</item>
       <item>p0801</item>
       <item>p0805</item>
       <item>p0809</item>
@@ -159,6 +172,7 @@
       <item>p1302</item>
       <item>p1303</item>
       <item>p1304</item>
+      <item>p1305</item>
       <item>TA0705</item>
       <item>TA0709</item>
       <item>TA0801</item>
@@ -190,6 +204,7 @@
       <item>TA302</item>
       <item>TA303</item>
       <item>TA304</item>
+      <item>TA305</item>
       <item>l0801</item>
       <item>l0805</item>
       <item>l0809</item>
@@ -219,6 +234,7 @@
       <item>l1302</item>
       <item>l1303</item>
       <item>l1304</item>
+      <item>l1305</item>
    </allcontractnames>
    <g_pairnames>
       <item>a0305-a0309</item>
@@ -257,6 +273,7 @@
       <item>a1211-a1303</item>
       <item>a1303-a1307</item>
       <item>a1307-a1309</item>
+      <item>a1309-a1311</item>
       <item>y0605-y0609</item>
       <item>y0609-y0701</item>
       <item>y0701-y0705</item>
@@ -284,6 +301,7 @@
       <item>y1211-y1212</item>
       <item>y1212-y1301</item>
       <item>y1301-y1303</item>
+      <item>y1303-y1305</item>
       <item>RO0709-RO0801</item>
       <item>RO0801-RO0805</item>
       <item>RO0805-RO0809</item>
@@ -304,6 +322,7 @@
       <item>RO207-RO211</item>
       <item>RO211-RO301</item>
       <item>RO301-RO303</item>
+      <item>RO303-RO305</item>
       <item>v0909-v1001</item>
       <item>v1001-v1005</item>
       <item>v1005-v1009</item>
@@ -327,6 +346,7 @@
       <item>v1301-v1302</item>
       <item>v1302-v1303</item>
       <item>v1303-v1304</item>
+      <item>v1304-v1305</item>
       <item>p0801-p0805</item>
       <item>p0805-p0809</item>
       <item>p0809-p0901</item>
@@ -355,6 +375,7 @@
       <item>p1301-p1302</item>
       <item>p1302-p1303</item>
       <item>p1303-p1304</item>
+      <item>p1304-p1305</item>
       <item>TA0705-TA0709</item>
       <item>TA0709-TA0801</item>
       <item>TA0801-TA0805</item>
@@ -385,6 +406,7 @@
       <item>TA301-TA302</item>
       <item>TA302-TA303</item>
       <item>TA303-TA304</item>
+      <item>TA304-TA305</item>
       <item>l0801-l0805</item>
       <item>l0805-l0809</item>
       <item>l0809-l0901</item>
@@ -413,6 +435,7 @@
       <item>l1301-l1302</item>
       <item>l1302-l1303</item>
       <item>l1303-l1304</item>
+      <item>l1304-l1305</item>
    </g_pairnames>
    <allpairs>
       <item>
@@ -668,6 +691,13 @@
          <rightid>010603020707</rightid>
       </item>
       <item>
+         <ctname1>a1309</ctname1>
+         <ctunit1>1</ctunit1>
+         <ctname2>a1311</ctname2>
+         <ctunit2>1</ctunit2>
+         <rightid>010603020707</rightid>
+      </item>
+      <item>
          <ctname1>y0605</ctname1>
          <ctunit1>1</ctunit1>
          <ctname2>y0609</ctname2>
@@ -857,6 +887,13 @@
          <rightid>010603021414</rightid>
       </item>
       <item>
+         <ctname1>y1303</ctname1>
+         <ctunit1>1</ctunit1>
+         <ctname2>y1305</ctname2>
+         <ctunit2>1</ctunit2>
+         <rightid>010603021414</rightid>
+      </item>
+      <item>
          <ctname1>RO0709</ctname1>
          <ctunit1>1</ctunit1>
          <ctname2>RO0801</ctname2>
@@ -993,6 +1030,13 @@
          <ctname1>RO301</ctname1>
          <ctunit1>1</ctunit1>
          <ctname2>RO303</ctname2>
+         <ctunit2>1</ctunit2>
+         <rightid>010603020505</rightid>
+      </item>
+      <item>
+         <ctname1>RO303</ctname1>
+         <ctunit1>1</ctunit1>
+         <ctname2>RO305</ctname2>
          <ctunit2>1</ctunit2>
          <rightid>010603020505</rightid>
       </item>
@@ -1154,6 +1198,13 @@
          <ctname1>v1303</ctname1>
          <ctunit1>1</ctunit1>
          <ctname2>v1304</ctname2>
+         <ctunit2>1</ctunit2>
+         <rightid>010603021313</rightid>
+      </item>
+      <item>
+         <ctname1>v1304</ctname1>
+         <ctunit1>1</ctunit1>
+         <ctname2>v1305</ctname2>
          <ctunit2>1</ctunit2>
          <rightid>010603021313</rightid>
       </item>
@@ -1350,6 +1401,13 @@
          <ctname1>p1303</ctname1>
          <ctunit1>1</ctunit1>
          <ctname2>p1304</ctname2>
+         <ctunit2>1</ctunit2>
+         <rightid>010603021212</rightid>
+      </item>
+      <item>
+         <ctname1>p1304</ctname1>
+         <ctunit1>1</ctunit1>
+         <ctname2>p1305</ctname2>
          <ctunit2>1</ctunit2>
          <rightid>010603021212</rightid>
       </item>
@@ -1564,6 +1622,13 @@
          <rightid>010603020404</rightid>
       </item>
       <item>
+         <ctname1>TA304</ctname1>
+         <ctunit1>1</ctunit1>
+         <ctname2>TA305</ctname2>
+         <ctunit2>1</ctunit2>
+         <rightid>010603020404</rightid>
+      </item>
+      <item>
          <ctname1>l0801</ctname1>
          <ctunit1>1</ctunit1>
          <ctname2>l0805</ctname2>
@@ -1759,9 +1824,16 @@
          <ctunit2>1</ctunit2>
          <rightid>010603021010</rightid>
       </item>
+      <item>
+         <ctname1>l1304</ctname1>
+         <ctunit1>1</ctunit1>
+         <ctname2>l1305</ctname2>
+         <ctunit2>1</ctunit2>
+         <rightid>010603021010</rightid>
+      </item>
    </allpairs>
    <currentdate>
-      <item>2012-05-04</item>
+      <item>2012-06-08</item>
    </currentdate>
-   <isupdated>1</isupdated>
+   <isupdated>0</isupdated>
 </g_DBconfig>

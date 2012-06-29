@@ -60,7 +60,7 @@ for l_cmid=1:l_cmnum
             l_pair=g_database.pairs(l_realpairid);
             l_pairindex=find(l_realpairid);
             while l_pairnum<=length(g_database.pairs(l_realpairid))
-                if isempty(find(strcmp(g_pairnames,g_database.pairnames(l_pairindex(l_pairnum))),1))
+                if isempty(find(strcmp(g_contractnames,g_database.pairnames(l_pairindex(l_pairnum))),1))
                     l_pair(l_pairid)=[];
                 else
                     l_pairid=l_pairid+1;

@@ -1,4 +1,4 @@
-function ZR_PROCESS_SaveReferenceToDB(in_strategyid)
+function ZR_PROCESS_SaveReferenceToDB()
 % 将策略性能参数写入数据库
 global g_tables;
 global g_reportset;
@@ -10,7 +10,7 @@ l_rightid=cell(1,length(g_reportset.commodity));
 for l_id=1:length(g_reportset.commodity)
     l_rightid(l_id)=g_reportset.commodity(l_id).record.pos.rightid(1);
 end
-l_strategyid=strcat(in_strategyid,'000000');
+l_strategyid=strcat(g_tables.strategyid,'000000');
 l_rightid(end+1)={l_strategyid};
 % 连接数据库
 % l_conn=database('webfuturetest_101','root','123456');

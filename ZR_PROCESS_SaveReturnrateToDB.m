@@ -1,4 +1,4 @@
-function ZR_PROCESS_SaveReturnrateToDB(in_strategyid)
+function ZR_PROCESS_SaveReturnrateToDB()
 % 把回报率导入到数据库中
 global g_reference;
 global g_tables;
@@ -27,7 +27,7 @@ for l_cmid=1:length(g_reference.commodity.monthreturnrate)
     l_data.returnrate=cat(2,l_data.returnrate,l_returnrate(l_startid:l_endid));
 end
 % 总体的收益率
-l_rightid=repmat({strcat(in_strategyid,'000000')},1,length(g_reference.monthreturnrate.data(:)));
+l_rightid=repmat({strcat(g_tables.strategyid,'000000')},1,length(g_reference.monthreturnrate.data(:)));
 l_year=cell(1,length(g_reference.monthreturnrate.data(:)));
 l_month=cell(1,length(g_reference.monthreturnrate.data(:)));
 l_returnrate=cell(1,length(g_reference.monthreturnrate.data(:)));
