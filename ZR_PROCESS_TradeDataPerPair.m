@@ -31,7 +31,7 @@ if(g_traderecord.num>0)
         % pos
         % 名字
         g_tradedata(in_pairid).pos.name(l_posid)=g_rawdata.pair(in_pairid).name;
-        g_tradedata(in_pairid).pos.rightid(l_posid)={g_rawdata.pair(in_pairid).rightid};
+        g_tradedata(in_pairid).pos.rightid(l_posid)=g_rawdata.rightid;
         % 开仓时间
         g_tradedata(in_pairid).pos.opdate(l_posid)=g_traderecord.opdate(l_index);
         l_opdateid= find(strcmp(g_traderecord.opdate{l_index},g_rawdata.pair(in_pairid).mkdata.date),1,'first');

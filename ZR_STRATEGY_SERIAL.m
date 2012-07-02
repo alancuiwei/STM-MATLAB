@@ -8,6 +8,7 @@ global g_coredata;
 global g_traderecord;
 global g_commodityparams;
 global g_rightid;
+global G_RunSpecialTestCase;
 % 设置策略参数
 ZR_FUN_SetStrategyParams(varargin{:});
 % 如果没有合约名集的信息，则用G_RunSpecialTestCase中的合约名集
@@ -27,7 +28,12 @@ for l_cmid=1:l_cmnum
     l_inputdata=g_rawdata;
     l_inputdata.strategyparams=g_commodityparams;
     % 调入第三方函数
-    l_output=ZR_STRATEGY_040704(l_inputdata);
+    switch G_RunSpecialTestCase.strategyid
+        case '040704'
+            l_output=ZR_STRATEGY_040704(l_inputdata);
+        case '040706'
+            l_output=ZR_STRATEGY_040706(l_inputdata);
+    end
     g_traderecord=l_output.record;    
     ZR_PROCESS_TradeDataPerSerialContract();
     % 计算报告数据

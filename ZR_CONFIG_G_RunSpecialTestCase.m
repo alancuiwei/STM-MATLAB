@@ -11,9 +11,12 @@ switch g_XMLfile.strategyid      %套利类型
         G_RunSpecialTestCase.g_method.rundataprocess=@ZR_DATAPROCESS_010603;
     case '040704'       %单边策略
         G_RunSpecialTestCase.coredata.type='serial'; 
-G_RunSpecialTestCase.g_method.runstrategy.fun=@ZR_STRATEGY_SERIAL;
+        G_RunSpecialTestCase.g_method.runstrategy.fun=@ZR_STRATEGY_SERIAL;
         G_RunSpecialTestCase.g_method.rundataprocess=@ZR_DATAPROCESS_040704;
-    case '10'       %？？？？？
+    case '040706'       
+        G_RunSpecialTestCase.coredata.type='serial';
+        G_RunSpecialTestCase.g_method.runstrategy.fun=@ZR_STRATEGY_SERIAL;
+        G_RunSpecialTestCase.g_method.rundataprocess=@ZR_DATAPROCESS_040704;    %数据处理函数仍然沿用040704的方法
 end
 % l_cmdstr=strcat('G_RunSpecialTestCase.g_method.rundataprocess=@ZR_DATAPROCESS_',g_XMLfile.strategyid,';');
 % eval(l_cmdstr);

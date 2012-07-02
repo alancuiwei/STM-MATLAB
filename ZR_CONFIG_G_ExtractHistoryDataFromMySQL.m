@@ -4,7 +4,7 @@ global G_ExtractHistoryDataFromMySQL;
 global g_DBconfig;
 global G_Start;
 G_ExtractHistoryDataFromMySQL.g_method.runextractdatabase=@ZR_DATABASE_History_MasterPairs;
-G_ExtractHistoryDataFromMySQL.outfilename='DATABASE_History_010601_0129.mat';
+G_ExtractHistoryDataFromMySQL.outfilename='DATABASE_History.mat';
 G_ExtractHistoryDataFromMySQL.isupdated=0;
 G_ExtractHistoryDataFromMySQL.updatepairtype='no';
 G_ExtractHistoryDataFromMySQL.updatecontracttype='no';

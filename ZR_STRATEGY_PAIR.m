@@ -7,6 +7,8 @@ global g_rawdata;
 global g_coredata;
 global g_traderecord;
 global g_commodityparams;
+global G_RunSpecialTestCase;
+global g_rightid;
 % 设置策略参数
 ZR_FUN_SetStrategyParams(varargin{:});
 % 如果没有合约名集的信息，则用G_RunSpecialTestCase中的合约名集
@@ -20,6 +22,7 @@ for l_cmid=1:l_cmnum
     % 每一个品种初始化
     ZR_FUN_InitGlobalVarsPerCommodity();
     g_rawdata=g_coredata(l_cmid);
+    g_rawdata.rightid=g_rightid(l_cmid);
     % 根据每一个品种设置策略参数
     ZR_FUN_SetParamsPerCommodity(l_cmid);
     % 得到同品种合约的数量
@@ -31,7 +34,11 @@ for l_cmid=1:l_cmnum
         % 单个套利对的数据
         l_inputdata.pair=g_rawdata.pair(l_pairid);
         % 计算合约的指标
-        g_traderecord=ZR_STRATEGY_PAIR_PLUGIN_020603_L1_S7_S10(l_inputdata);
+        switch G_RunSpecialTestCase.strategyid
+            case '010603'
+                g_traderecord=ZR_STRATEGY_010603(l_inputdata);
+            % other cases 
+        end
 %         g_traderecord=ZR_STRATEGY_040704(l_inputdata);
         % 计算交易记录
         ZR_PROCESS_TradeDataPerPair(l_pairid);

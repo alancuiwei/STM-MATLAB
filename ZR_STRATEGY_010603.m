@@ -1,4 +1,4 @@
-function out_traderecord=ZR_STRATEGY_PAIR_PLUGIN_020603_L1_S7_S10(in_inputdata)
+function out_traderecord=ZR_STRATEGY_010603(in_inputdata)
 % Óð¸ùÓ¢Ê÷µÄ²ßÂÔ:020601
 
 SUB_ComputeIndicatorPerPair(in_inputdata);
