@@ -1,4 +1,6 @@
-function outputdata=KDJContinTrade(inputdata)
+function outputdata=ZR_STRATEGY_040705(inputdata)
+%tmp=load('KDJRO.mat');
+%inputdata=tmp.l_inputdata;
 %==========================================================================
 %输出变量初始化操作
 outputdata.orderlist.price=[];
@@ -28,6 +30,7 @@ CntName=char(inputdata.commodity.serialmkdata.ctname);%计算移仓点
 DiffCntNme=CntName(2:end,:)-CntName(1:size(CntName,1)-1,:);
 [PosChaDay,a]=find(DiffCntNme~=0);
 PosChaDay=sort(PosChaDay);
+PosChaDay(PosChaDay<=(Position(1)))=[];
 ForceTrade=unique(PosChaDay); %单个合约的最后一天
 
 PositionTrade=[Position,PositionInter];
@@ -35,6 +38,7 @@ PositionTrade=unique(sort(PositionTrade));
 %==========================================================================
 %在不考虑强制平仓的情况下寻找出需要交易的点
 Cnt=1;%计数变量
+figure('Name',cell2mat(inputdata.commodity.name));
 plot(Price')
 for i=1:numel(PositionTrade)
     if(SignPrice(PositionTrade(i))~=0) %判断此交点位置是否刚好为整数
@@ -106,7 +110,7 @@ for i=1:numel(RealTradeDay)
             end
         end
     end   
-    outputdata.record.ctname(i)=inputdata.commodity.serialmkdata.ctname(RealTradeDay(i));
+    outputdata.record.ctname(i)=inputdata.commodity.serialmkdata.ctname(RealTradeDay(i)+1);
 end
 
 %==========================================================================
@@ -119,7 +123,7 @@ for i=1:numel(ForceTrade)
                 outputdata.orderlist.price=0;
         else
             outputdata.record.direction(PositionForceInTrade)=outputdata.record.direction(PositionForceInTrade-1);
-            outputdata.record.opdateprice(PositionForceInTrade)=inputdata.commodity.serialmkdata.op(ForceTrade(i)+1)+inputdata.commodity.serialmkdata.gap(ForceTrade(i)+1);
+            outputdata.record.opdateprice(PositionForceInTrade)=inputdata.commodity.serialmkdata.op(ForceTrade(i)+2)+inputdata.commodity.serialmkdata.gap(ForceTrade(i)+2);
             outputdata.record.opdate(PositionForceInTrade)=inputdata.commodity.serialmkdata.date(ForceTrade(i)+2);
         end
     end
@@ -161,27 +165,32 @@ for i=1:numel(ForceTrade)
                 outputdata.orderlist.price=0;
         else
             CntName=inputdata.commodity.serialmkdata.ctname(ForceTrade(i));
-            CntName
+            CntName;
             DateNum=inputdata.commodity.serialmkdata.date(ForceTrade(i)+2);
-            DateNum
+            DateNum;
             CntID=find(ismember(inputdata.contractname,CntName)==1);
-            find(ismember(inputdata.contract(1,CntID).mkdata.date,DateNum)==1)
+            find(ismember(inputdata.contract(1,CntID).mkdata.date,DateNum)==1);
             DataID=find(ismember(inputdata.contract(1,CntID).mkdata.date,DateNum)==1);
             outputdata.record.cpdateprice(PositionForceInTrade-1)=inputdata.contract(1,CntID).mkdata.op(DataID);
         end
          % 0503-lm
         %主力合约在交割月前仍未平仓，当天立即移仓 
         Dattmp = char(inputdata.commodity.serialmkdata.date(ForceTrade(i)));
+        C=char(CntName);
+        c=C(end-1:end);
+        d=Dattmp(1,6:7);
+        if c<=d
         LastDayFlag = judgeIsLastDay(Dattmp);
         if (LastDayFlag)%LastDayFlag 表示交割月前仍未平仓的标志
             %这段的处理------
             CntName=inputdata.commodity.serialmkdata.ctname(ForceTrade(i));
-            CntName
+            CntName;
             DateNum=inputdata.commodity.serialmkdata.date(ForceTrade(i));
-            DateNum
+            DateNum;
             CntID=find(ismember(inputdata.contractname,CntName)==1);
             DataID=find(ismember(inputdata.contract(1,CntID).mkdata.date,DateNum)==1);
             outputdata.record.cpdateprice(PositionForceInTrade-1)=inputdata.contract(1,CntID).mkdata.op(DataID);
+        end
         end
         % 0503-lm
     end

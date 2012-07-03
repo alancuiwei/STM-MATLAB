@@ -56,8 +56,8 @@
       <item>a1105</item>
       <item>a1109</item>
       <item>a1201</item>
-      <item>a1209</item>
       <item>a1205</item>
+      <item>a1209</item>
       <item>a1301</item>
       <item>a1305</item>
       <item>a1309</item>
@@ -194,9 +194,9 @@
       <item>a1101-a1105</item>
       <item>a1105-a1109</item>
       <item>a1109-a1201</item>
-      <item>a1201-a1209</item>
-      <item>a1209-a1205</item>
-      <item>a1205-a1301</item>
+      <item>a1201-a1205</item>
+      <item>a1205-a1209</item>
+      <item>a1209-a1301</item>
       <item>a1301-a1305</item>
       <item>a1305-a1309</item>
       <item>y0605-y0609</item>
@@ -485,19 +485,19 @@
       <item>
          <ctname1>a1201</ctname1>
          <ctunit1>1</ctunit1>
-         <ctname2>a1209</ctname2>
-         <ctunit2>1</ctunit2>
-         <rightid>010603020707</rightid>
-      </item>
-      <item>
-         <ctname1>a1209</ctname1>
-         <ctunit1>1</ctunit1>
          <ctname2>a1205</ctname2>
          <ctunit2>1</ctunit2>
          <rightid>010603020707</rightid>
       </item>
       <item>
          <ctname1>a1205</ctname1>
+         <ctunit1>1</ctunit1>
+         <ctname2>a1209</ctname2>
+         <ctunit2>1</ctunit2>
+         <rightid>010603020707</rightid>
+      </item>
+      <item>
+         <ctname1>a1209</ctname1>
          <ctunit1>1</ctunit1>
          <ctname2>a1301</ctname2>
          <ctunit2>1</ctunit2>

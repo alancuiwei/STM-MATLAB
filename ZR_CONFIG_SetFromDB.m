@@ -2,14 +2,8 @@ function ZR_CONFIG_SetFromDB(in_strategyid)
 % 从数据库中得到配置数据
 global g_DBconfig;
 global g_XMLfile;
-global G_Start;
+% global G_Start;
 % 如果从XML文件中获取参数，DB不必更新
-if ~g_XMLfile.isupdated
-    %g_DBconfig=xml_read(strcat(G_Start.currentpath,'/','g_DBconfig',in_strategyid,'.xml'));
-    %g_DBconfig.strategyid=g_XMLfile.strategyid;
-    %g_DBconfig.isupdated=1;
-    %return;
-end
 
 g_DBconfig.strategyid=in_strategyid;
 l_strategyinfo=ZR_FUN_QueryArbitrageInfo(in_strategyid);
@@ -63,6 +57,23 @@ for l_id=1:length(l_strategyinfo.rightid)
                             g_DBconfig.allpairs=cat(2,g_DBconfig.allpairs,l_allpairs);
                         case '02'       %主力/次主力套利对
                     end
+                case '05'       %KDJ穿越
+                    switch l_rightid(7:8)       %配对类型
+                        case '01'       %逐月套利对
+                            l_months=ZR_FUN_QueryMasterMonths(l_strategyinfo.firstcommodityid{l_id});      %查询该品种主力合约
+                            l_contractnames=ZR_FUN_QueryContractnames(l_strategyinfo.firstcommodityid{l_id},cell2mat(l_months));        %查询该品种所有合约名
+                            l_allpairs=struct('ctname1',[],'ctunit1',[],'ctname2',[],'ctunit2',[],'rightid',l_rightid);
+                            g_DBconfig.allcontractnames=cat(1,g_DBconfig.allcontractnames,l_contractnames(:));
+                            l_pairnames=cell((length(l_contractnames)-1),1);
+                            for l_ctid=1:(length(l_contractnames)-1)
+                                l_pairnames{l_ctid}=strcat(l_contractnames{l_ctid},'-',l_contractnames{l_ctid+1});
+                                l_allpairs(l_ctid)=struct('ctname1',l_contractnames{l_ctid},'ctunit1',l_strategyinfo.firstcommodityunit(l_id),...
+                                    'ctname2',l_contractnames{l_ctid+1},'ctunit2',l_strategyinfo.secondcommodityunit(l_id),'rightid',l_rightid);
+                            end
+                            g_DBconfig.g_pairnames=cat(1,g_DBconfig.g_pairnames,l_pairnames);
+                            g_DBconfig.allpairs=cat(2,g_DBconfig.allpairs,l_allpairs);
+                        case '02'       %主力/次主力套利对
+                    end
                 case '06'       %MACD
                     switch l_rightid(7:8)       %配对类型
                         case '01'       %逐月套利对
@@ -88,6 +99,6 @@ for l_id=1:length(l_strategyinfo.rightid)
 %     g_DBconfig.allcontractnames=sort(g_DBconfig.allcontractnames);
 end
 % 写入xml文件
-xml_write(strcat(G_Start.currentpath,'/','g_DBconfig',in_strategyid,'.xml'),g_DBconfig);
+% xml_write(strcat(G_Start.currentpath,'/','g_DBconfig',in_strategyid,'.xml'),g_DBconfig);
 g_DBconfig.isupdated=g_XMLfile.isupdated;
 end

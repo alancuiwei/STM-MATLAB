@@ -31,6 +31,8 @@ for l_cmid=1:l_cmnum
     switch G_RunSpecialTestCase.strategyid
         case '040704'
             l_output=ZR_STRATEGY_040704(l_inputdata);
+        case '040705'
+            l_output=ZR_STRATEGY_040705(l_inputdata);
         case '040706'
             l_output=ZR_STRATEGY_040706(l_inputdata);
     end

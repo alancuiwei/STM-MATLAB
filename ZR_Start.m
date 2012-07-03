@@ -3,7 +3,7 @@ clc;
 clear all;
 % ZR_PROGRAM_BuiltTestResult();
 % ZR_PROGRAM_BuiltTestResult('C:\Users\WUKang\Documents\MATLAB\Test\tester1\010603\g_XMLfile010603.xml');
-ZR_PROGRAM_BuiltTestResult('xml','G:\lm\ZR_LIB_0629\g_XMLfile040706.xml');
+ZR_PROGRAM_BuiltTestResult('xml','G:\lm\ZR_LIB_0702\g_XMLfile040705_KDJ.xml');
 % function ZR_Start(in_xmlfile)
 % % %%
 % l_strategydata=ZR_FUN_QueryWebstrategyConfigByDB();
