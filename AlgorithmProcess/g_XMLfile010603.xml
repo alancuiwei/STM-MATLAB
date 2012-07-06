@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<g_XMLfile>
+   <coredata>
+      <startdate></startdate>
+      <enddate></enddate>
+   </coredata>
+   <g_strategyparams>
+      <period>16</period>
+      <losses>0</losses>
+      <wins>-6</wins>
+   </g_strategyparams>
+   <g_commoditynames/>
+   <g_pairnames/>
+   <g_contractnames/>
+   <strategyid>010603</strategyid>
+   <path>G:\lm\work\ZR_LIB_0627_old\010603\</path>
+   <strategypath>G:\lm\work\ZR_LIB_0627_old\AlgorithmProcess\</strategypath>
+   <isupdated>1</isupdated>
+   <userid/>
+   <objecttype>future</objecttype>
+   <resulttype>xls</resulttype>      
+</g_XMLfile>
