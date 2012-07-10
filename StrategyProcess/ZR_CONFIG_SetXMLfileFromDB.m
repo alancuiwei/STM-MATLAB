@@ -26,7 +26,7 @@ l_data=ZR_DATABASE_AccessDB('webfuturetest_101','sql',l_sqlstr1);
 
 % 读入数据
 if(strcmp(l_data,'No Data'))
-    error('没有策略%s信息',in_stratedyid);
+    error(strcat('没有策略信息:',in_strategyid));
 else
     g_XMLfile.coredata.startdate=l_data{1,1};
     if ~strcmp(l_data{1,2},'null')
@@ -45,7 +45,7 @@ l_data=ZR_DATABASE_AccessDB('webfuturetest_101','sql',l_sqlstr1);
 
 % 读入数据
 if(strcmp(l_data,'No Data'))
-    error('没有策略%s信息',in_stratedyid);
+    error(strcat('没有策略信息:',in_strategyid));
 else
     for l_id=1:length(l_data(:,1))
         l_cmdstr=strcat('g_XMLfile.g_strategyparams.',l_data{l_id,1},'=',num2str(l_data{l_id,2}),';');

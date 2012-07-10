@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<g_XMLfile>
+   <coredata>
+      <startdate>2010-01-01</startdate>
+      <enddate>2010-12-31</enddate>
+   </coredata>
+   <g_strategyparams>
+    <K>9</K> <D>3</D> <J>3</J>
+   </g_strategyparams>
+   <g_commoditynames>
+	  <item>l</item>
+	  <item>p</item> 
+   </g_commoditynames>
+   <g_pairnames/>
+   <g_contractnames/>
+   <strategyid>040707</strategyid>
+   <path>./040707</path>
+   <strategypath>./</strategypath>
+   <isupdated>1</isupdated>
+<userid/>
+   <objecttype>future</objecttype>
+   <resulttype>xls</resulttype> 
+</g_XMLfile>

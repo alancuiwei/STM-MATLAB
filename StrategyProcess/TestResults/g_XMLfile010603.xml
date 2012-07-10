@@ -13,8 +13,8 @@
    <g_pairnames/>
    <g_contractnames/>
    <strategyid>010603</strategyid>
-   <path>G:\lm\work\ZR_LIB_0627_old\010603\</path>
-   <strategypath>G:\lm\work\ZR_LIB_0627_old\AlgorithmProcess\</strategypath>
+   <path>./010603</path>
+   <strategypath>./</strategypath>
    <isupdated>1</isupdated>
    <userid/>
    <objecttype>future</objecttype>

@@ -11,7 +11,7 @@ l_data=ZR_DATABASE_AccessDB('futuretest','sql',l_sqlstr1);
 
 % 读入数据
 if(strcmp(l_data,'No Data'))
-    error('没有策略%s信息',in_stratedyid);
+    error(strcat('没有策略信息:',in_strategyid));
 else
     out_strategyinfo=struct('rightid',{l_data(:,1)}',...
         'firstcommodityid',{l_data(:,2)}',...

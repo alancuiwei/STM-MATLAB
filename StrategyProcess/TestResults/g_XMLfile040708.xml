@@ -5,18 +5,18 @@
       <enddate>2010-12-31</enddate>
    </coredata>
    <g_strategyparams>
-       <K>9</K> <D>3</D> <J>3</J>   
+    <D>6</D>
    </g_strategyparams>
    <g_commoditynames>
-	  <item>l</item>
-	  <item>p</item> 
+	  <item>a</item>
+	  <item>RO</item> 
    </g_commoditynames>
    <g_pairnames/>
    <g_contractnames/>
-   <strategyid>040705</strategyid>
-   <path>G:\lm\work\ZR_LIB_0627_old\040705\</path>
-   <strategypath>G:\lm\work\ZR_LIB_0627_old\AlgorithmProcess\</strategypath>
-   <isupdated>0</isupdated>
+   <strategyid>040708</strategyid>
+   <path>./040708</path>
+   <strategypath>./</strategypath>
+   <isupdated>1</isupdated>
 <userid/>
    <objecttype>future</objecttype>
    <resulttype>xls</resulttype> 
