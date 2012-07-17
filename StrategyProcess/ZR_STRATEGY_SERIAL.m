@@ -29,7 +29,9 @@ for l_cmid=1:l_cmnum
     l_inputdata=g_rawdata;
     l_inputdata.strategyparams=g_commodityparams;
     % 调入第三方函数
-    eval(strcat('l_output=ZR_STRATEGY_',g_rawdata.rightid{1}(1:6),'(l_inputdata);'));
+%     eval(strcat('l_output=ZR_STRATEGY_',g_rawdata.rightid{1}(1:6),'(l_inputdata);'));
+    eval(strcat('[l_stoutput,TradeDay]=ZR_STRATEGY_',g_rawdata.rightid{1}(1:6),'(l_inputdata);'));
+    l_output=ZR_FUN_MoveToStoreHouse(l_inputdata,l_stoutput,TradeDay);
 %     switch g_strategyid
 %         case '040704'
 %             l_output=ZR_STRATEGY_040704(l_inputdata);
