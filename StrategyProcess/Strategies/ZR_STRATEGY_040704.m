@@ -1,4 +1,4 @@
-function [outputdata,TradeDay]=ZR_STRATEGY_040704_new(inputdata)
+function [outputdata,TradeDay]=ZR_STRATEGY_040704(inputdata)
 % l_temp=load('serial_a.mat');
 % inputdata=l_temp.l_inputdata;
 %==========================================================================

@@ -10,11 +10,15 @@ function ZR_PROGRAM_BuildTests(varargin)
 % ------------------------------------------------------------------------
 % |     'all'     |  
 % |     'xml'     |  'g_XMLfileXXXX.xml'  |   
+% |     'xml'     |  'g_XMLfileXXXX.xml'  |       'new'               |
 % |     'xml'     |  'g_XMLfileXXXX.xml'  |   'g_DBconfigXXXX.xml'    |
 % |   'database'  |   strategyid          |       userid              |   ordernum   |
 
 % 加载搜索路径
-addpath(strcat('./Strategies'));
+if ~isdeployed
+    addpath(strcat('./Strategies'));
+end
+
 
 % 检查输入参数
 switch varargin{1}
@@ -33,4 +37,6 @@ switch varargin{1}
 end
 
 % 删除搜索路径
-rmpath(strcat('./Strategies'));
+if ~isdeployed
+    rmpath(strcat('./Strategies'));
+end

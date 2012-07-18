@@ -1,4 +1,4 @@
-function [outputdata,TradeDay]=ZR_STRATEGY_040706_new(inputdata)
+function [outputdata,TradeDay]=ZR_STRATEGY_040706(inputdata)
 %tmp=load('inRO.mat');
 %inputdata=tmp.l_inputdata;
 %==========================================================================

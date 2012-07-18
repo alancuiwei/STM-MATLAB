@@ -6,8 +6,8 @@ global G_Start;
 
 in_strategyid=g_XMLfile.strategyid;
 % 如果输入参数中包含'g_DBconfigXXXX.xml'文件，则从文件中获取参数，DB不必更新
-if nargin>2 && ~isempty(strfind(varargin{3},'.xml'))
-        if exist(varargin{3})
+if nargin>2 && if ~isempty(strfind(varargin{3},'.xml'))
+        if exist(strcat(g_XMLfile.strategypath,'/','g_DBconfig',in_strategyid,'.xml'),'file')
             g_DBconfig=xml_read(strcat(g_XMLfile.strategypath,'/','g_DBconfig',in_strategyid,'.xml'));
             % 从xml_read中读出的g_DBconfig，其中的成员变量需要做转置操作
 %           g_DBconfig.allcommoditynames = g_DBconfig.allcommoditynames';
@@ -35,7 +35,7 @@ if nargin>2 && ~isempty(strfind(varargin{3},'.xml'))
             g_DBconfig.isupdated=0;
             return;
         else
-            error('xml文件不存在:%s',varargin{3});
+            error('xml文件不存在:%s',strcat(g_XMLfile.strategypath,'/','g_DBconfig',in_strategyid,'.xml'));
         end
 end
 
@@ -78,13 +78,11 @@ for l_id=1:length(l_strategyinfo.rightid)
     g_DBconfig.allpairs=cat(2,g_DBconfig.allpairs,l_allpairs);
 end
 
-if nargin > 2
-    switch varargin{3}                 
-        case 'new'
+switch varargin{3}                 
+    case 'new'
         % 写入xml文件
         xml_write(strcat(G_Start.currentpath,'/','g_DBconfig',in_strategyid,'.xml'),g_DBconfig);    
-        otherwise        
-    end
+    otherwise        
 end
 
 g_DBconfig.isupdated=g_XMLfile.isupdated;

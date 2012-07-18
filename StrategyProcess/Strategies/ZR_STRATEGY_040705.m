@@ -1,4 +1,4 @@
-function [outputdata,TradeDay]=ZR_STRATEGY_040705_new(inputdata)
+function [outputdata,TradeDay]=ZR_STRATEGY_040705(inputdata)
 %==========================================================================
 %输出变量初始化操作
 outputdata.orderlist.price=[];

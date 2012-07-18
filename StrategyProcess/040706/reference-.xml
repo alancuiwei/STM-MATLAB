@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <l_referencexml>
    <rightid>040706000000</rightid>
-   <minmarginaccount>12581</minmarginaccount>
-   <totalnetprofit>-182</totalnetprofit>
-   <grossprofit>71632</grossprofit>
-   <grossloss>-71814</grossloss>
-   <avemonthreturn>-0.000107957154059604</avemonthreturn>
-   <aveyearreturn>-0.00120552155366558</aveyearreturn>
-   <toaltradingdays>4018</toaltradingdays>
-   <totaltrades>102</totaltrades>
-   <avedaytrades>0.0253857640617223</avedaytrades>
-   <numwintrades>38</numwintrades>
-   <numlosstrades>64</numlosstrades>
-   <percentprofitable>0.372549019607843</percentprofitable>
-   <largestwintrade>13084</largestwintrade>
+   <minmarginaccount>52997</minmarginaccount>
+   <totalnetprofit>101765</totalnetprofit>
+   <grossprofit>280990</grossprofit>
+   <grossloss>-179225</grossloss>
+   <avemonthreturn>0.0263112802407479</avemonthreturn>
+   <aveyearreturn>0.278147819687907</aveyearreturn>
+   <toaltradingdays>2192</toaltradingdays>
+   <totaltrades>155</totaltrades>
+   <avedaytrades>0.0707116788321168</avedaytrades>
+   <numwintrades>58</numwintrades>
+   <numlosstrades>97</numlosstrades>
+   <percentprofitable>0.374193548387097</percentprofitable>
+   <largestwintrade>33000</largestwintrade>
    <largestlosstrade>-7816</largestlosstrade>
-   <avewintrade>1885.05263157895</avewintrade>
-   <avelosstrade>-1122.09375</avelosstrade>
-   <avetrade>-1.7843137254902</avetrade>
-   <expectvalue>-0.00158874869127372</expectvalue>
-   <maxdrawdown>22090</maxdrawdown>
-   <maxdrawdowndays>1650</maxdrawdowndays>
+   <avewintrade>4844.65517241379</avewintrade>
+   <avelosstrade>-1847.68041237113</avelosstrade>
+   <avetrade>656.548387096774</avetrade>
+   <expectvalue>0.355144341176136</expectvalue>
+   <maxdrawdown>37638</maxdrawdown>
+   <maxdrawdowndays>120</maxdrawdowndays>
 </l_referencexml>
