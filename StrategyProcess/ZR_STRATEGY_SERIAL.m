@@ -29,17 +29,19 @@ for l_cmid=1:l_cmnum
     l_inputdata=g_rawdata;
     l_inputdata.strategyparams=g_commodityparams;
     % 调入第三方函数
+%     eval(strcat('[l_stoutput,TradeDay]=ZR_STRATEGY_',g_rawdata.rightid{1}(1:6),'(l_inputdata);'));
+%     l_output=ZR_FUN_MoveToStoreHouse(l_inputdata,l_stoutput,TradeDay);
+
 %     eval(strcat('l_output=ZR_STRATEGY_',g_rawdata.rightid{1}(1:6),'(l_inputdata);'));
-    eval(strcat('[l_stoutput,TradeDay]=ZR_STRATEGY_',g_rawdata.rightid{1}(1:6),'(l_inputdata);'));
-    l_output=ZR_FUN_MoveToStoreHouse(l_inputdata,l_stoutput,TradeDay);
-%     switch g_strategyid
-%         case '040704'
-%             l_output=ZR_STRATEGY_040704(l_inputdata);
-%         case '040705'
-%             l_output=ZR_STRATEGY_040705(l_inputdata);
-%         case '040706'
-%             l_output=ZR_STRATEGY_040706(l_inputdata);
-%     end
+
+%     l_output=ZR_STRATEGY_COMBINE('040709','040705',l_inputdata);
+%     prerecord=ZR_STRATEGY_SERIAL_PROCESS('040709','040706',l_inputdata);
+%     l_output=ZR_FUN_MoveToStoreHousePerSerial(l_inputdata,prerecord);
+%         
+    eval(strcat('l_output_strategy=ZR_STRATEGY_S',g_rawdata.rightid{1}(1:6),'(l_inputdata);'));
+    l_output_move=ZR_PROCESS_ShiftPositionPerSerial();
+    l_output=ZR_PROCESS_MergeStrategyAndShiftPos(l_output_strategy,l_output_move);
+ 
     g_traderecord=l_output.record;    
     ZR_PROCESS_TradeDataPerSerialContract();
     % 计算报告数据

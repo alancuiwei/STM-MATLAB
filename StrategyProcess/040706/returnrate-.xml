@@ -2,249 +2,63 @@
 <l_returnratexml>
    <item>
       <rightid>040706000000</rightid>
-      <yearid>2007</yearid>
-      <monthid>1</monthid>
-      <returnrate>0.0213596996056381</returnrate>
-   </item>
-   <item>
-      <rightid>040706000000</rightid>
-      <yearid>2007</yearid>
-      <monthid>2</monthid>
-      <returnrate>0</returnrate>
-   </item>
-   <item>
-      <rightid>040706000000</rightid>
-      <yearid>2007</yearid>
-      <monthid>3</monthid>
-      <returnrate>0</returnrate>
-   </item>
-   <item>
-      <rightid>040706000000</rightid>
-      <yearid>2007</yearid>
-      <monthid>4</monthid>
-      <returnrate>0.00460403419061456</returnrate>
-   </item>
-   <item>
-      <rightid>040706000000</rightid>
-      <yearid>2007</yearid>
-      <monthid>5</monthid>
-      <returnrate>-0.0347566843406231</returnrate>
-   </item>
-   <item>
-      <rightid>040706000000</rightid>
-      <yearid>2007</yearid>
-      <monthid>6</monthid>
-      <returnrate>0</returnrate>
-   </item>
-   <item>
-      <rightid>040706000000</rightid>
-      <yearid>2007</yearid>
-      <monthid>7</monthid>
-      <returnrate>0</returnrate>
-   </item>
-   <item>
-      <rightid>040706000000</rightid>
-      <yearid>2007</yearid>
+      <yearid>2009</yearid>
       <monthid>8</monthid>
-      <returnrate>0.0368700115100855</returnrate>
+      <returnrate>-0.00030370904673323</returnrate>
    </item>
    <item>
       <rightid>040706000000</rightid>
-      <yearid>2007</yearid>
-      <monthid>9</monthid>
-      <returnrate>-0.0105666358473121</returnrate>
-   </item>
-   <item>
-      <rightid>040706000000</rightid>
-      <yearid>2007</yearid>
-      <monthid>10</monthid>
-      <returnrate>-0.0106609808102345</returnrate>
-   </item>
-   <item>
-      <rightid>040706000000</rightid>
-      <yearid>2007</yearid>
-      <monthid>11</monthid>
-      <returnrate>0.154612525237278</returnrate>
-   </item>
-   <item>
-      <rightid>040706000000</rightid>
-      <yearid>2007</yearid>
-      <monthid>12</monthid>
-      <returnrate>0.00175481631035719</returnrate>
-   </item>
-   <item>
-      <rightid>040706000000</rightid>
-      <yearid>2008</yearid>
-      <monthid>1</monthid>
-      <returnrate>0</returnrate>
-   </item>
-   <item>
-      <rightid>040706000000</rightid>
-      <yearid>2008</yearid>
-      <monthid>2</monthid>
-      <returnrate>0</returnrate>
-   </item>
-   <item>
-      <rightid>040706000000</rightid>
-      <yearid>2008</yearid>
-      <monthid>3</monthid>
-      <returnrate>0.192539200332094</returnrate>
-   </item>
-   <item>
-      <rightid>040706000000</rightid>
-      <yearid>2008</yearid>
-      <monthid>4</monthid>
-      <returnrate>-0.353906824914618</returnrate>
-   </item>
-   <item>
-      <rightid>040706000000</rightid>
-      <yearid>2008</yearid>
-      <monthid>5</monthid>
-      <returnrate>-0.0845330867784969</returnrate>
-   </item>
-   <item>
-      <rightid>040706000000</rightid>
-      <yearid>2008</yearid>
-      <monthid>6</monthid>
-      <returnrate>-0.25767496273374</returnrate>
-   </item>
-   <item>
-      <rightid>040706000000</rightid>
-      <yearid>2008</yearid>
-      <monthid>7</monthid>
-      <returnrate>-0.00577391173085269</returnrate>
-   </item>
-   <item>
-      <rightid>040706000000</rightid>
-      <yearid>2008</yearid>
-      <monthid>8</monthid>
-      <returnrate>0.737966299979244</returnrate>
-   </item>
-   <item>
-      <rightid>040706000000</rightid>
-      <yearid>2008</yearid>
+      <yearid>2009</yearid>
       <monthid>9</monthid>
       <returnrate>0</returnrate>
    </item>
    <item>
       <rightid>040706000000</rightid>
-      <yearid>2008</yearid>
+      <yearid>2009</yearid>
       <monthid>10</monthid>
-      <returnrate>0.246881898975414</returnrate>
+      <returnrate>0.0616529364868456</returnrate>
    </item>
    <item>
       <rightid>040706000000</rightid>
-      <yearid>2008</yearid>
+      <yearid>2009</yearid>
       <monthid>11</monthid>
       <returnrate>0</returnrate>
    </item>
    <item>
       <rightid>040706000000</rightid>
-      <yearid>2008</yearid>
-      <monthid>12</monthid>
-      <returnrate>1.03456799441478</returnrate>
-   </item>
-   <item>
-      <rightid>040706000000</rightid>
-      <yearid>2009</yearid>
-      <monthid>1</monthid>
-      <returnrate>-0.0561541219314301</returnrate>
-   </item>
-   <item>
-      <rightid>040706000000</rightid>
-      <yearid>2009</yearid>
-      <monthid>2</monthid>
-      <returnrate>-0.00456629620544559</returnrate>
-   </item>
-   <item>
-      <rightid>040706000000</rightid>
-      <yearid>2009</yearid>
-      <monthid>3</monthid>
-      <returnrate>-0.140234352887899</returnrate>
-   </item>
-   <item>
-      <rightid>040706000000</rightid>
-      <yearid>2009</yearid>
-      <monthid>4</monthid>
-      <returnrate>0.0652489763571523</returnrate>
-   </item>
-   <item>
-      <rightid>040706000000</rightid>
-      <yearid>2009</yearid>
-      <monthid>5</monthid>
-      <returnrate>-0.107289091835387</returnrate>
-   </item>
-   <item>
-      <rightid>040706000000</rightid>
-      <yearid>2009</yearid>
-      <monthid>6</monthid>
-      <returnrate>0.232843368492556</returnrate>
-   </item>
-   <item>
-      <rightid>040706000000</rightid>
-      <yearid>2009</yearid>
-      <monthid>7</monthid>
-      <returnrate>-0.00701926524142876</returnrate>
-   </item>
-   <item>
-      <rightid>040706000000</rightid>
-      <yearid>2009</yearid>
-      <monthid>8</monthid>
-      <returnrate>0.154989905088967</returnrate>
-   </item>
-   <item>
-      <rightid>040706000000</rightid>
-      <yearid>2009</yearid>
-      <monthid>9</monthid>
-      <returnrate>-0.270354925750514</returnrate>
-   </item>
-   <item>
-      <rightid>040706000000</rightid>
-      <yearid>2009</yearid>
-      <monthid>10</monthid>
-      <returnrate>-0.0792686378474253</returnrate>
-   </item>
-   <item>
-      <rightid>040706000000</rightid>
-      <yearid>2009</yearid>
-      <monthid>11</monthid>
-      <returnrate>0.00667962337490801</returnrate>
-   </item>
-   <item>
-      <rightid>040706000000</rightid>
       <yearid>2009</yearid>
       <monthid>12</monthid>
-      <returnrate>0.100100005660698</returnrate>
+      <returnrate>0.0874682054591701</returnrate>
    </item>
    <item>
       <rightid>040706000000</rightid>
       <yearid>2010</yearid>
       <monthid>1</monthid>
-      <returnrate>0.0273411702549201</returnrate>
+      <returnrate>0</returnrate>
    </item>
    <item>
       <rightid>040706000000</rightid>
       <yearid>2010</yearid>
       <monthid>2</monthid>
-      <returnrate>-0.109440156990018</returnrate>
+      <returnrate>0</returnrate>
    </item>
    <item>
       <rightid>040706000000</rightid>
       <yearid>2010</yearid>
       <monthid>3</monthid>
-      <returnrate>-0.0353982300884956</returnrate>
+      <returnrate>0</returnrate>
    </item>
    <item>
       <rightid>040706000000</rightid>
       <yearid>2010</yearid>
       <monthid>4</monthid>
-      <returnrate>-0.0440779666773591</returnrate>
+      <returnrate>0</returnrate>
    </item>
    <item>
       <rightid>040706000000</rightid>
       <yearid>2010</yearid>
       <monthid>5</monthid>
-      <returnrate>-0.11596882842425</returnrate>
+      <returnrate>-0.0788124976272731</returnrate>
    </item>
    <item>
       <rightid>040706000000</rightid>
@@ -256,19 +70,19 @@
       <rightid>040706000000</rightid>
       <yearid>2010</yearid>
       <monthid>7</monthid>
-      <returnrate>0.168368020831368</returnrate>
+      <returnrate>0</returnrate>
    </item>
    <item>
       <rightid>040706000000</rightid>
       <yearid>2010</yearid>
       <monthid>8</monthid>
-      <returnrate>0.0148121591788214</returnrate>
+      <returnrate>0</returnrate>
    </item>
    <item>
       <rightid>040706000000</rightid>
       <yearid>2010</yearid>
       <monthid>9</monthid>
-      <returnrate>0.0834009472234277</returnrate>
+      <returnrate>0.153524923123648</returnrate>
    </item>
    <item>
       <rightid>040706000000</rightid>
@@ -280,121 +94,121 @@
       <rightid>040706000000</rightid>
       <yearid>2010</yearid>
       <monthid>11</monthid>
-      <returnrate>0.446044115704663</returnrate>
+      <returnrate>0</returnrate>
    </item>
    <item>
       <rightid>040706000000</rightid>
       <yearid>2010</yearid>
       <monthid>12</monthid>
-      <returnrate>0</returnrate>
+      <returnrate>0.532401958923351</returnrate>
    </item>
    <item>
       <rightid>040706000000</rightid>
       <yearid>2011</yearid>
       <monthid>1</monthid>
-      <returnrate>0.00726456214502708</returnrate>
+      <returnrate>0</returnrate>
    </item>
    <item>
       <rightid>040706000000</rightid>
       <yearid>2011</yearid>
       <monthid>2</monthid>
-      <returnrate>-0.101949166933977</returnrate>
+      <returnrate>0</returnrate>
    </item>
    <item>
       <rightid>040706000000</rightid>
       <yearid>2011</yearid>
       <monthid>3</monthid>
-      <returnrate>-0.0110760986470932</returnrate>
+      <returnrate>0</returnrate>
    </item>
    <item>
       <rightid>040706000000</rightid>
       <yearid>2011</yearid>
       <monthid>4</monthid>
-      <returnrate>0.0519652055776742</returnrate>
+      <returnrate>0</returnrate>
    </item>
    <item>
       <rightid>040706000000</rightid>
       <yearid>2011</yearid>
       <monthid>5</monthid>
-      <returnrate>-0.116704719135045</returnrate>
+      <returnrate>-0.268630651835542</returnrate>
    </item>
    <item>
       <rightid>040706000000</rightid>
       <yearid>2011</yearid>
       <monthid>6</monthid>
-      <returnrate>-0.0621167235881276</returnrate>
+      <returnrate>0</returnrate>
    </item>
    <item>
       <rightid>040706000000</rightid>
       <yearid>2011</yearid>
       <monthid>7</monthid>
-      <returnrate>-0.0476819442609959</returnrate>
-   </item>
-   <item>
-      <rightid>040706000000</rightid>
-      <yearid>2011</yearid>
-      <monthid>8</monthid>
-      <returnrate>-0.0309451478385569</returnrate>
-   </item>
-   <item>
-      <rightid>040706000000</rightid>
-      <yearid>2011</yearid>
-      <monthid>9</monthid>
-      <returnrate>-0.151442534483084</returnrate>
-   </item>
-   <item>
-      <rightid>040706000000</rightid>
-      <yearid>2011</yearid>
-      <monthid>10</monthid>
       <returnrate>0</returnrate>
    </item>
    <item>
       <rightid>040706000000</rightid>
       <yearid>2011</yearid>
+      <monthid>8</monthid>
+      <returnrate>0</returnrate>
+   </item>
+   <item>
+      <rightid>040706000000</rightid>
+      <yearid>2011</yearid>
+      <monthid>9</monthid>
+      <returnrate>0</returnrate>
+   </item>
+   <item>
+      <rightid>040706000000</rightid>
+      <yearid>2011</yearid>
+      <monthid>10</monthid>
+      <returnrate>-0.18662920921757</returnrate>
+   </item>
+   <item>
+      <rightid>040706000000</rightid>
+      <yearid>2011</yearid>
       <monthid>11</monthid>
-      <returnrate>0.230994207219277</returnrate>
+      <returnrate>0</returnrate>
    </item>
    <item>
       <rightid>040706000000</rightid>
       <yearid>2011</yearid>
       <monthid>12</monthid>
-      <returnrate>-0.030209257127762</returnrate>
+      <returnrate>0</returnrate>
    </item>
    <item>
       <rightid>040706000000</rightid>
       <yearid>2012</yearid>
       <monthid>1</monthid>
-      <returnrate>-0.0946657357963658</returnrate>
+      <returnrate>0</returnrate>
    </item>
    <item>
       <rightid>040706000000</rightid>
       <yearid>2012</yearid>
       <monthid>2</monthid>
-      <returnrate>-0.0236239787157764</returnrate>
+      <returnrate>-0.07805322501044</returnrate>
    </item>
    <item>
       <rightid>040706000000</rightid>
       <yearid>2012</yearid>
       <monthid>3</monthid>
-      <returnrate>0.0973640017359473</returnrate>
+      <returnrate>0</returnrate>
    </item>
    <item>
       <rightid>040706000000</rightid>
       <yearid>2012</yearid>
       <monthid>4</monthid>
-      <returnrate>0.0298884842538257</returnrate>
+      <returnrate>0</returnrate>
    </item>
    <item>
       <rightid>040706000000</rightid>
       <yearid>2012</yearid>
       <monthid>5</monthid>
-      <returnrate>-0.0332282959412797</returnrate>
+      <returnrate>0</returnrate>
    </item>
    <item>
       <rightid>040706000000</rightid>
       <yearid>2012</yearid>
       <monthid>6</monthid>
-      <returnrate>0.229862067664207</returnrate>
+      <returnrate>0.34136896852815</returnrate>
    </item>
    <item>
       <rightid>040706000000</rightid>

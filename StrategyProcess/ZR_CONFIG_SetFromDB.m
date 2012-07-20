@@ -82,7 +82,8 @@ if nargin > 2
     switch varargin{3}                 
         case 'new'
         % Ð´ÈëxmlÎÄ¼þ
-        xml_write(strcat(G_Start.currentpath,'/','g_DBconfig',in_strategyid,'.xml'),g_DBconfig);    
+        xml_write(strcat(G_Start.currentpath,'/','g_DBconfig',in_strategyid,'.xml'),g_DBconfig);
+        exit;
         otherwise        
     end
 end

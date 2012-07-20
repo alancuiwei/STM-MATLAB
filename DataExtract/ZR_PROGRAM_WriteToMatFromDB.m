@@ -39,22 +39,22 @@ end
 disp('所有品种数据获取完毕！');
 
 % 获取合约名称
-allpairs=[];
+l_allpairs=[];
 for l_id=1:numel(g_database.commoditynames)
     l_rightid='1';      %策略名改为‘1’
     l_months=ZR_FUN_QueryMasterMonths(g_database.commoditynames(l_id));       %查询该品种主力合约
 %     l_months=ZR_FUN_QueryDeliverMonths(g_database.commoditynames(l_id));    %查询逐月合约     
     l_contractnames=ZR_FUN_QueryContractnames(g_database.commoditynames(l_id),cell2mat(l_months));        %查询该品种所有合约名
-    l_allpairs=struct('ctname1',[],'ctunit1',[],'ctname2',[],'ctunit2',[],'rightid',l_rightid);
+    l_pairs=struct('ctname1',[],'ctunit1',[],'ctname2',[],'ctunit2',[],'rightid',l_rightid);
     g_database.contractnames=cat(1,g_database.contractnames,l_contractnames(:));    %暂不适用跨品种
 %     l_pairnames=cell((length(l_contractnames)-1),1);
     for l_ctid=1:(length(l_contractnames)-1)
 %         l_pairnames{l_ctid}=strcat(l_contractnames{l_ctid},'-',l_contractnames{l_ctid+1});
-        l_allpairs(l_ctid)=struct('ctname1',l_contractnames{l_ctid},'ctunit1',1,...
+        l_pairs(l_ctid)=struct('ctname1',l_contractnames{l_ctid},'ctunit1',1,...
                             'ctname2',l_contractnames{l_ctid+1},'ctunit2',1,'rightid',l_rightid);
     end
 %     g_DBconfig.g_pairnames=cat(1,g_DBconfig.g_pairnames,l_pairnames);
-    allpairs=cat(2,allpairs,l_allpairs);
+    l_allpairs=cat(2,l_allpairs,l_pairs);
 end
 
 % 遍历所有的合约名，获得所有的合约数据信息
@@ -68,24 +68,25 @@ for l_ctid=1:length(g_database.contractnames)
 end
 disp('所有合约数据获取完毕！');
 
+
 % 遍历所有的套利对，获得所有的套利对数据信息
-for l_pairid=1:length(allpairs)
-    l_ctname=allpairs(l_pairid).ctname1;
-    allpairs(l_pairid).ctid1=find(strcmp(g_database.contractnames,l_ctname));
-    l_ctname=allpairs(l_pairid).ctname2;
-    allpairs(l_pairid).ctid2=find(strcmp(g_database.contractnames,l_ctname));
-    l_pairnames{l_pairid}=strcat(allpairs(l_pairid).ctname1,'-',allpairs(l_pairid).ctname2);
-    allpairs(l_pairid).name=l_pairnames(l_pairid);
-    allpairs(l_pairid).mkdata=ZR_FUN_QueryPairData(allpairs(l_pairid).ctname1,allpairs(l_pairid).ctname2,...
-        allpairs(l_pairid).ctunit1,allpairs(l_pairid).ctunit2);
+for l_pairid=1:length(l_allpairs)
+    l_ctname=l_allpairs(l_pairid).ctname1;
+    l_allpairs(l_pairid).ctid1=find(strcmp(g_database.contractnames,l_ctname));
+    l_ctname=l_allpairs(l_pairid).ctname2;
+    l_allpairs(l_pairid).ctid2=find(strcmp(g_database.contractnames,l_ctname));
+    l_pairnames{l_pairid}=strcat(l_allpairs(l_pairid).ctname1,'-',l_allpairs(l_pairid).ctname2);
+    l_allpairs(l_pairid).name=l_pairnames(l_pairid);
+    l_allpairs(l_pairid).mkdata=ZR_FUN_QueryPairData(l_allpairs(l_pairid).ctname1,l_allpairs(l_pairid).ctname2,...
+        l_allpairs(l_pairid).ctunit1,l_allpairs(l_pairid).ctunit2);
 %         l_pairs(l_pairid).info.isactive=g_database.contracts(l_pairs(l_pairid).ctid1).info.isactive...
 %             &g_database.contracts(l_pairs(l_pairid).ctid2).info.isactive;
-    allpairs(l_pairid).info.daystolasttradedate=min(g_database.contracts(allpairs(l_pairid).ctid1).info.daystolasttradedate...
-           ,g_database.contracts(allpairs(l_pairid).ctid2).info.daystolasttradedate);
-    allpairs(l_pairid).datalen=allpairs(l_pairid).mkdata.datalen;
+    l_allpairs(l_pairid).info.daystolasttradedate=min(g_database.contracts(l_allpairs(l_pairid).ctid1).info.daystolasttradedate...
+           ,g_database.contracts(l_allpairs(l_pairid).ctid2).info.daystolasttradedate);
+    l_allpairs(l_pairid).datalen=l_allpairs(l_pairid).mkdata.datalen;
 end
 g_database.pairnames=l_pairnames;
-g_database.pairs=allpairs;
+g_database.pairs=l_allpairs;
 disp('所有品种数据获取完毕！');
 disp('所有数据获取完毕！');
     

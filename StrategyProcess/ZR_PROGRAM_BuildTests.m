@@ -10,7 +10,6 @@ function ZR_PROGRAM_BuildTests(varargin)
 % ------------------------------------------------------------------------
 % |     'all'     |  
 % |     'xml'     |  'g_XMLfileXXXX.xml'  |   
-% |     'xml'     |  'g_XMLfileXXXX.xml'  |       'new'               |
 % |     'xml'     |  'g_XMLfileXXXX.xml'  |   'g_DBconfigXXXX.xml'    |
 % |   'database'  |   strategyid          |       userid              |   ordernum   |
 
@@ -18,7 +17,6 @@ function ZR_PROGRAM_BuildTests(varargin)
 if ~isdeployed
     addpath(strcat('./Strategies'));
 end
-
 
 % 检查输入参数
 switch varargin{1}

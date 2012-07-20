@@ -37,26 +37,18 @@ for i=1:numel(ForceTrade)
     PositionForceInTrade=find(RealTradeDay==ForceTrade(i));
     if (PositionForceInTrade>1)
         if(ForceTrade(i)+2>numel(inputdata1.commodity.serialmkdata.date)) %假如交点为今天和昨天之间，则更新outputdata.orderlist向量
-            outputdata.orderlist.direction=1;
-            outputdata.orderlist.price=0;
+                outputdata.orderlist.direction=1;
+                outputdata.orderlist.price=0;
         else
             outputdata.record.direction(PositionForceInTrade)=outputdata.record.direction(PositionForceInTrade-1);
-            outputdata.record.opdateprice(PositionForceInTrade)=inputdata1.commodity.serialmkdata.op(ForceTrade(i)+2)+inputdata1.commodity.serialmkdata.gap(ForceTrade(i)+2);
+%            outputdata.record.opdateprice(PositionForceInTrade)=inputdata1.commodity.serialmkdata.op(ForceTrade(i)+1)+inputdata1.commodity.serialmkdata.gap(ForceTrade(i)+1);
+            CntName=inputdata1.commodity.serialmkdata.ctname(ForceTrade(i)+1);
+            DateNum=inputdata1.commodity.serialmkdata.date(ForceTrade(i)+2);
+            CntID=find(ismember(inputdata1.contractname,CntName)==1);
+            DataID=find(ismember(inputdata1.contract(1,CntID).mkdata.date,DateNum)==1);
+            outputdata.record.opdateprice(PositionForceInTrade)=inputdata1.contract(1,CntID).mkdata.op(DataID);
             outputdata.record.opdate(PositionForceInTrade)=inputdata1.commodity.serialmkdata.date(ForceTrade(i)+2);
         end
-%         if(ForceTrade(i)+2>numel(inputdata1.commodity.serialmkdata.date)) %假如交点为今天和昨天之间，则更新outputdata.orderlist向量
-%                 outputdata.orderlist.direction=1;
-%                 outputdata.orderlist.price=0;
-%         else
-%             outputdata.record.direction(PositionForceInTrade)=outputdata.record.direction(PositionForceInTrade-1);
-% %            outputdata.record.opdateprice(PositionForceInTrade)=inputdata1.commodity.serialmkdata.op(ForceTrade(i)+1)+inputdata1.commodity.serialmkdata.gap(ForceTrade(i)+1);
-%             CntName=inputdata1.commodity.serialmkdata.ctname(ForceTrade(i)+1);
-%             DateNum=inputdata1.commodity.serialmkdata.date(ForceTrade(i)+2);
-%             CntID=find(ismember(inputdata1.contractname,CntName)==1);
-%             DataID=find(ismember(inputdata1.contract(1,CntID).mkdata.date,DateNum)==1);
-%             outputdata.record.opdateprice(PositionForceInTrade)=inputdata1.contract(1,CntID).mkdata.op(DataID);
-%             outputdata.record.opdate(PositionForceInTrade)=inputdata1.commodity.serialmkdata.date(ForceTrade(i)+2);
-%         end
 %         outputdata.record.ctname(PositionForceInTrade)=inputdata1.commodity.serialmkdata.ctname(ForceTrade(i)+1);
     end
 %     outputdata.record.ctname(PositionInTrade)=inputdata1.commodity.serialmkdata.ctname(ForceTrade(i)+1);
