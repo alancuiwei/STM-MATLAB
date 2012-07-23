@@ -8,6 +8,7 @@ global g_coredata;
 global g_traderecord;
 global g_commodityparams;
 global g_rightid;
+global g_orderlist;
 
 % 设置策略参数
 % ZR_FUN_SetStrategyParams(varargin{:});
@@ -37,15 +38,20 @@ for l_cmid=1:l_cmnum
 %     l_output=ZR_STRATEGY_COMBINE('040709','040705',l_inputdata);
 %     prerecord=ZR_STRATEGY_SERIAL_PROCESS('040709','040706',l_inputdata);
 %     l_output=ZR_FUN_MoveToStoreHousePerSerial(l_inputdata,prerecord);
-%         
+%   
+    %执行策略函数
     eval(strcat('l_output_strategy=ZR_STRATEGY_S',g_rawdata.rightid{1}(1:6),'(l_inputdata);'));
+    %执行移仓操作
     l_output_move=ZR_PROCESS_ShiftPositionPerSerial();
+    %融合策略与移仓的交易记录
     l_output=ZR_PROCESS_MergeStrategyAndShiftPos(l_output_strategy,l_output_move);
  
     g_traderecord=l_output.record;    
+    g_orderlist=l_output.orderlist;
     ZR_PROCESS_TradeDataPerSerialContract();
     % 计算报告数据
     ZR_PROCESS_RecordReportPerCommodity(l_cmid);
+    ZR_PROCESS_OrderlistReportPerCommodity(l_cmid);
 %     % 保存交易的图表
 %     ZR_FUN_SaveTradeBarPerCommodity('contract');
 end

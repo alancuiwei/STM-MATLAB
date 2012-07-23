@@ -17,6 +17,9 @@ G_ShowTestResults.g_tables.record.pos.margin.title='保证金';
 G_ShowTestResults.g_tables.record.pos.optradecharge.title='开仓手续费';
 G_ShowTestResults.g_tables.record.pos.cptradecharge.title='平仓手续费';
 G_ShowTestResults.g_tables.record.pos.profit.title='盈亏金额';
+G_ShowTestResults.g_tables.orderlist.pos.name.title='合约名称';
+G_ShowTestResults.g_tables.orderlist.pos.price.title='价格';
+G_ShowTestResults.g_tables.orderlist.pos.direction.title='交易方向';
 % % G_ShowTestResults.g_tables.record.pos.type.title='策略类型';
 % % G_ShowTestResults.g_tables.record.pos.optype.title='开仓类型';
 % % G_ShowTestResults.g_tables.record.pos.cptype.title='平仓类型';
@@ -47,12 +50,13 @@ G_ShowTestResults.g_tables.xls.returnrate.sheetname='returnrate';
 G_ShowTestResults.g_tables.xls.record.pos.sheetname='posrecord';
 G_ShowTestResults.g_tables.xls.record.trade.sheetname='traderecord';
 G_ShowTestResults.g_tables.xls.optimization.filename='Optim';
+G_ShowTestResults.g_tables.xls.orderlist.pos.sheetname='orderlist';
 % 导出到xml
 G_ShowTestResults.g_tables.xml.record.pos.filename=strcat('posrecord-',num2str(g_XMLfile.userid));
 G_ShowTestResults.g_tables.xml.returnrate.filename=strcat('returnrate-',num2str(g_XMLfile.userid));
 G_ShowTestResults.g_tables.xml.reference.filename=strcat('reference-',num2str(g_XMLfile.userid));
 G_ShowTestResults.g_tables.xml.dailyinfo.filename=strcat('dailyinfo-',num2str(g_XMLfile.userid));
-
+G_ShowTestResults.g_tables.xml.orderlist.pos.filename=strcat('orderlist-',num2str(g_XMLfile.userid));
 % 测评参数表
 G_ShowTestResults.g_tables.reference.name.title='合约名称';
 G_ShowTestResults.g_tables.reference.costinput.title='投入资金';

@@ -15,6 +15,7 @@ global g_rawdata;
 %输出变量初始化操作
 outputdata.orderlist.price=[];
 outputdata.orderlist.direction=[];
+outputdata.orderlist.name={};
 outputdata.record.opdate={};
 outputdata.record.opdateprice=[];
 outputdata.record.cpdate={};
@@ -35,6 +36,7 @@ for i=1:numel(l_forceday)
     if(l_forceday(i)+2>numel(g_rawdata.commodity.serialmkdata.date)) %假如交点为今天和昨天之间，则更新outputdata.orderlist向量
             outputdata.orderlist.direction=1;
             outputdata.orderlist.price=0;
+            outputdata.orderlist.name=g_rawdata.commodity.serialmkdata.ctname(l_forceday(i)+1);
     else
             l_contractname=g_rawdata.commodity.serialmkdata.ctname(l_forceday(i)+1);
             l_datenum=g_rawdata.commodity.serialmkdata.date(l_forceday(i)+2);

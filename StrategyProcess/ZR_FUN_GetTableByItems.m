@@ -3,8 +3,11 @@ function out_table=ZR_FUN_GetTableByItems(in_varstr)
 global g_tables;
 global g_reportset;
 global g_reference;
+global g_orderlist;
+global g_orderreport;
 l_titlestr='';
 l_datastr='';
+g_reportset.orderlist=g_orderreport.orderlist;
 switch in_varstr
     case 'pos'
         l_titlenames=fieldnames(g_tables.record.pos);
@@ -120,6 +123,59 @@ switch in_varstr
 %             error('%s没有title属性',in_varstr);
 %             out_table={};
 %         end           
+    case 'g_orderreport.orderlist.pos'
+        out_table=[];
+        for l_cmid=1:length(g_orderreport.commodity)
+        if ~isempty(g_orderreport.commodity(l_cmid).orderlist.pos.name)
+        l_titlenames=fieldnames(g_tables.orderlist.pos);
+        if ~isempty(l_titlenames)
+            for l_titleid=1:length(l_titlenames)
+                l_titlestr=strcat(l_titlestr,',','g_tables.orderlist.pos.',l_titlenames{l_titleid},'.title');
+                if (eval(strcat('iscell(g_reportset.orderlist.pos.',l_titlenames{l_titleid},')')))
+                    l_datastr=strcat(l_datastr,';','g_reportset.orderlist.pos.',l_titlenames{l_titleid});
+                else
+                    l_datastr=strcat(l_datastr,';','num2cell(g_reportset.orderlist.pos.',l_titlenames{l_titleid},')');
+                end                
+            end
+            % 把第一个逗号去除掉
+            l_titlestr(1)=[];
+            l_datastr(1)=[];
+            % 将参数加到方法中
+            l_commandstr=sprintf('out_table=[{%s};[%s]''];',l_titlestr,l_datastr);
+            eval(l_commandstr);
+        else
+            error('%s没有title属性',in_varstr);
+            out_table={[]};
+        end
+%         else
+%             out_table={[]};
+        end
+        end
+        if isempty(out_table)
+            out_table={[]};
+        end
+% case 'direction'
+%         l_titlenames=fieldnames(g_tables.orderlist.pos);
+%         if ~isempty(l_titlenames)
+%             for l_titleid=1:length(l_titlenames)
+%                 l_titlestr=strcat(l_titlestr,',','g_tables.orderlist.direction.',l_titlenames{l_titleid},'.title');
+%                 if (eval(strcat('iscell(g_reportset.orderlist.direction.',l_titlenames{l_titleid},')')))
+%                     l_datastr=strcat(l_datastr,';','g_reportset.orderlist.direction.',l_titlenames{l_titleid});
+%                 else
+%                     l_datastr=strcat(l_datastr,';','num2cell(g_reportset.orderlist.direction.',l_titlenames{l_titleid},')');
+%                 end                
+%             end
+%             % 把第一个逗号去除掉
+%             l_titlestr(1)=[];
+%             l_datastr(1)=[];
+%             % 将参数加到方法中
+%             l_commandstr=sprintf('out_table=[{%s};[%s]''];',l_titlestr,l_datastr);
+%             eval(l_commandstr);
+%         else
+%             error('%s没有title属性',in_varstr);
+%             out_table={0};
+%         end
+%         
 end
 
 end

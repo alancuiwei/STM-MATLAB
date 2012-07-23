@@ -3,6 +3,7 @@ function ZR_PROCESS_MergeReportset()
 
 global g_reportset;
 global g_report;
+global g_orderreport;
 
 if isempty(g_reportset)
     g_reportset=g_report;
@@ -49,6 +50,16 @@ else
         end
     end
     eval(l_commandstr);    
+    % orderlist
+    l_titlenames=fieldnames(g_report.orderlist);
+    l_commandstr='';
+    if ~isempty(l_titlenames)
+        for l_titleid=1:length(l_titlenames)
+            l_commandstr=strcat(l_commandstr,sprintf('g_reportset.orderlist.%s=g_reportset.orderlist.%s+g_report.orderlist.%s;',...
+                l_titlenames{l_titleid},l_titlenames{l_titleid},l_titlenames{l_titleid})); 
+        end
+    end
+    eval(l_commandstr);
     
     % 各个品种
     for l_cmid=1:length(g_report.commodity)
@@ -110,6 +121,24 @@ else
             end
         end
         eval(l_commandstr); 
+        % orderlist
+        l_titlenames=fieldnames(g_report.orderlist);
+        l_commandstr='';
+        if ~isempty(l_titlenames)
+            for l_titleid=1:length(l_titlenames)
+                l_judge=sprintf('strcmp(''%s'',''num'')',l_titlenames{l_titleid});
+                if eval(l_judge)
+                    l_commandstr=strcat(l_commandstr,...
+                        sprintf('g_reportset.commodity(l_cmid).orderlist.%s=g_report.commodity(l_cmid).orderlist.%s;',...
+                        l_titlenames{l_titleid},l_titlenames{l_titleid})); 
+                else                
+                    l_commandstr=strcat(l_commandstr,...
+                        sprintf('g_reportset.commodity(l_cmid).orderlist.%s=g_reportset.commodity(l_cmid).orderlist.%s+g_report.commodity(l_cmid).orderlist.%s;',...
+                        l_titlenames{l_titleid},l_titlenames{l_titleid},l_titlenames{l_titleid})); 
+                end
+            end
+        end
+        eval(l_commandstr);
     end    
 end
 

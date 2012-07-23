@@ -5,6 +5,7 @@ function outputdata=ZR_STRATEGY_S040707(inputdata)
 %输出变量初始化操作
 outputdata.orderlist.price=[];
 outputdata.orderlist.direction=[];
+outputdata.orderlist.name={};
 outputdata.record.opdate={};
 outputdata.record.opdateprice=[];
 outputdata.record.cpdate={};
@@ -114,6 +115,7 @@ for l_tradeid=1:numel(l_realtradeday)
             if(l_realtradeday(l_tradeid)+2>numel(inputdata.commodity.serialmkdata.date)) %假如交点为今天和昨天之间，则更新outputdata.orderlist向量
                 outputdata.orderlist.direction=-1;
                 outputdata.orderlist.price=0;
+                outputdata.orderlist.name=inputdata.commodity.serialmkdata.ctname(l_realtradeday(l_tradeid)+1);
             else
                 outputdata.record.opdate(l_tradeid)=inputdata.commodity.serialmkdata.date(l_realtradeday(l_tradeid)+2); %计算出交易记录
                 outputdata.record.opdateprice(l_tradeid)=inputdata.commodity.serialmkdata.op(l_realtradeday(l_tradeid)+2)+inputdata.commodity.serialmkdata.gap(l_realtradeday(l_tradeid)+2);
@@ -123,6 +125,7 @@ for l_tradeid=1:numel(l_realtradeday)
             if(l_realtradeday(l_tradeid)+2>numel(inputdata.commodity.serialmkdata.date)) %假如交点为今天和昨天之间，则更新outputdata.orderlist向量
                     outputdata.orderlist.direction=1;
                     outputdata.orderlist.price=0;
+                    outputdata.orderlist.name=inputdata.commodity.serialmkdata.ctname(l_realtradeday(l_tradeid)+1);
             else 
                     outputdata.record.opdate(l_tradeid)=inputdata.commodity.serialmkdata.date(l_realtradeday(l_tradeid)+2); %计算出交易记录
                     outputdata.record.opdateprice(l_tradeid)=inputdata.commodity.serialmkdata.op(l_realtradeday(l_tradeid)+2)+inputdata.commodity.serialmkdata.gap(l_realtradeday(l_tradeid)+2);

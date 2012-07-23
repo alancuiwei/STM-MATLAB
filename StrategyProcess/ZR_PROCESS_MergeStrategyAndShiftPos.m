@@ -9,6 +9,7 @@ global g_rawdata;
 %输出变量初始化操作
 outputdata.orderlist.price=[];
 outputdata.orderlist.direction=[];
+outputdata.orderlist.name={};
 outputdata.record.opdate={};
 outputdata.record.opdateprice=[];
 outputdata.record.cpdate={};
@@ -65,6 +66,7 @@ end
 %合并交易记录
 outputdata.orderlist.price=inputdata_strategy.orderlist.price;
 outputdata.orderlist.direction=inputdata_strategy.orderlist.direction;
+outputdata.orderlist.name=inputdata_strategy.orderlist.name;
 %合并开仓日期，并根据开仓日期的顺序进行排序
 outputdata.record.opdate=unique([inputdata_strategy.record.opdate,inputdata_move.record.opdate]); 
 for l_id = 1:numel(outputdata.record.opdate)
@@ -124,4 +126,8 @@ for l_id = 1:numel(outputdata.record.opdate)
         outputdata.record.cpdateprice(l_id-1)=inputdata_move.record.cpdateprice(l_idx);
     end
 end
+%==========================================================================
+%修正交易记录中orderlist对应的合约名
+if ~isempty(outputdata.orderlist)
+    outputdata.record.ctname(end+1)=inputdata_strategy.record.ctname(end);
 end
