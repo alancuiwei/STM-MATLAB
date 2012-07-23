@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<g_XMLfile>
+   <coredata>
+      <startdate>2010-01-01</startdate>
+      <enddate>2010-12-31</enddate>
+   </coredata>
+   <g_strategyparams>
+       <fa>12</fa> 
+       <sl>26</sl> 
+       <si>9</si>        
+   </g_strategyparams>
+   <g_commoditynames/>
+   <g_pairnames/>
+   <g_contractnames/>
+   <strategyid>040706</strategyid>
+   <path>./040706</path>
+   <strategypath>./</strategypath>
+   <isupdated>1</isupdated>
+   <userid/>
+   <objecttype>future</objecttype>
+   <resulttype>xml</resulttype> 
+</g_XMLfile>
