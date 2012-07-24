@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ROOT>
+   <tr>
+      <td>合约名称</td>
+      <td>价格</td>
+      <td>交易方向</td>
+   </tr>
+   <tr>
+      <td>a1301</td>
+      <td>0</td>
+      <td>1</td>
+   </tr>
+</ROOT>
