@@ -3,7 +3,6 @@ function ZR_PROCESS_MergeReportset()
 
 global g_reportset;
 global g_report;
-global g_orderreport;
 
 if isempty(g_reportset)
     g_reportset=g_report;

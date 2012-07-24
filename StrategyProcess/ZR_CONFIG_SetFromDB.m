@@ -6,7 +6,7 @@ global G_Start;
 
 % 如果输入参数中包含'g_DBconfigXXXX.xml'文件，则从文件中获取参数，DB不必更新
 if nargin>2 && ~isempty(strfind(varargin{3},'.xml'))
-        if exist(varargin{3})
+        if exist(varargin{3},'file')
             g_DBconfig=xml_read(strcat(g_XMLfile.strategypath,'/','g_DBconfig',g_XMLfile.strategyid,'.xml'));
             % 从xml_read中读出的g_DBconfig，其中的成员变量需要做转置操作
 %           g_DBconfig.allcommoditynames = g_DBconfig.allcommoditynames';

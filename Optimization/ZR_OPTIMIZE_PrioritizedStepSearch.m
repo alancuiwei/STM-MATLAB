@@ -46,7 +46,7 @@ end
 
 % 计算总共有的参数组
 g_optimization.paramnum=length(g_optimization.paramname);
-g_optimization.valuenum=sum(l_len);
+g_optimization.valuenum=sum(l_len);    %这个数字不准确
 %disp(strcat('参数组合有：',num2str(g_optimization.valuenum),'组'));
 % if(g_optimization.valuenum>10000)
 %     disp('参数组合太多，目前限制为10000，如果确实需要，请修改ZR_OPTIMIZE_GridSearch中的限制！');
@@ -65,7 +65,7 @@ l_numberOfIteration = 3;
 
 %优先步骤搜索
 for l_iteration = 1 : l_numberOfIteration
-    
+   
     for l_paramid = 1 : g_optimization.paramnum
         
         for l_currentparam = g_optimization.range{l_paramid}
@@ -99,8 +99,10 @@ for l_iteration = 1 : l_numberOfIteration
             eval(l_commandstr);
         end
         
-        [l_temp ,l_index] = max(g_optimization.expectedvalue); 
-        
+        l_length1 = length(g_optimization.expectedvalue);
+        l_length2 = length(g_optimization.range{l_paramid});
+        [l_temp ,l_index] = max(g_optimization.expectedvalue(l_length1 - l_length2 + 1 : l_length1)); 
+        l_index = l_index + l_length1 - l_length2;
         l_bestparam = g_optimization.param{l_index};        
     end
     

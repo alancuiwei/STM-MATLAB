@@ -2,7 +2,6 @@ function ZR_CONFIG_G_ShowTestResults()
 % 记录测试结果展示参数
 global G_ShowTestResults;
 global g_XMLfile;
-global g_DBconfig;
 % 月收益表
 G_ShowTestResults.g_tables.returnrate.title={' ','一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月','年收益'};
 % 开仓记录表
@@ -17,9 +16,9 @@ G_ShowTestResults.g_tables.record.pos.margin.title='保证金';
 G_ShowTestResults.g_tables.record.pos.optradecharge.title='开仓手续费';
 G_ShowTestResults.g_tables.record.pos.cptradecharge.title='平仓手续费';
 G_ShowTestResults.g_tables.record.pos.profit.title='盈亏金额';
-G_ShowTestResults.g_tables.orderlist.pos.name.title='合约名称';
-G_ShowTestResults.g_tables.orderlist.pos.price.title='价格';
-G_ShowTestResults.g_tables.orderlist.pos.direction.title='交易方向';
+G_ShowTestResults.g_tables.orderlist.name.title='合约名称';
+G_ShowTestResults.g_tables.orderlist.price.title='价格';
+G_ShowTestResults.g_tables.orderlist.direction.title='交易方向';
 % % G_ShowTestResults.g_tables.record.pos.type.title='策略类型';
 % % G_ShowTestResults.g_tables.record.pos.optype.title='开仓类型';
 % % G_ShowTestResults.g_tables.record.pos.cptype.title='平仓类型';
@@ -40,6 +39,7 @@ G_ShowTestResults.g_tables.tabledata.sort=[];
 G_ShowTestResults.g_tables.tabledata.returnrate=[];
 G_ShowTestResults.g_tables.tabledata.record.pos=[];
 G_ShowTestResults.g_tables.tabledata.record.trade=[];
+G_ShowTestResults.g_tables.tabledata.orderlist=[];
 G_ShowTestResults.g_tables.outfiletype='xls';
 G_ShowTestResults.g_tables.outdir='TestResult/Tables';
 % 导出信息xls
@@ -50,13 +50,13 @@ G_ShowTestResults.g_tables.xls.returnrate.sheetname='returnrate';
 G_ShowTestResults.g_tables.xls.record.pos.sheetname='posrecord';
 G_ShowTestResults.g_tables.xls.record.trade.sheetname='traderecord';
 G_ShowTestResults.g_tables.xls.optimization.filename='Optim';
-G_ShowTestResults.g_tables.xls.orderlist.pos.sheetname='orderlist';
+G_ShowTestResults.g_tables.xls.orderlist.sheetname='orderlist';
 % 导出到xml
 G_ShowTestResults.g_tables.xml.record.pos.filename=strcat('posrecord-',num2str(g_XMLfile.userid));
 G_ShowTestResults.g_tables.xml.returnrate.filename=strcat('returnrate-',num2str(g_XMLfile.userid));
 G_ShowTestResults.g_tables.xml.reference.filename=strcat('reference-',num2str(g_XMLfile.userid));
 G_ShowTestResults.g_tables.xml.dailyinfo.filename=strcat('dailyinfo-',num2str(g_XMLfile.userid));
-G_ShowTestResults.g_tables.xml.orderlist.pos.filename=strcat('orderlist-',num2str(g_XMLfile.userid));
+G_ShowTestResults.g_tables.xml.orderlist.filename=strcat('orderlist-',num2str(g_XMLfile.userid));
 % 测评参数表
 G_ShowTestResults.g_tables.reference.name.title='合约名称';
 G_ShowTestResults.g_tables.reference.costinput.title='投入资金';
@@ -81,15 +81,26 @@ G_ShowTestResults.g_tables.reference.expectedvalue.title='期望值';
 G_ShowTestResults.g_tables.reference.maxdrawdown.title='最大资金回挫';
 G_ShowTestResults.g_tables.reference.maxdrawdownspread.title='最长衰退期';
 % 优化表
-G_ShowTestResults.g_tables.optimization.param.period.title='周期';
-G_ShowTestResults.g_tables.optimization.param.losses.title='止损参数';
-G_ShowTestResults.g_tables.optimization.param.wins.title='盈利参数';
+l_titlenames=fieldnames(g_XMLfile.g_strategyparams);
+l_commandstr='';
+if ~isempty(l_titlenames)
+    for l_titleid=1:length(l_titlenames)
+        l_commandstr=strcat(l_commandstr,...
+            sprintf('G_ShowTestResults.g_tables.optimization.param.%s.title=''%s'';',...
+            l_titlenames{l_titleid},l_titlenames{l_titleid})); 
+    end
+end
+eval(l_commandstr);  
+G_ShowTestResults.g_tables.optimization.expectedvalue.title='expected';
+% G_ShowTestResults.g_tables.optimization.param.period.title='周期';
+% G_ShowTestResults.g_tables.optimization.param.losses.title='止损参数';
+% G_ShowTestResults.g_tables.optimization.param.wins.title='盈利参数';
 % G_ShowTestResults.g_tables.optimization.param.countersofup.title='上升计数';
 % G_ShowTestResults.g_tables.optimization.param.countersofdown.title='下降计数';
 % G_ShowTestResults.g_tables.optimization.param.losses.title='止损参数';
 % G_ShowTestResults.g_tables.optimization.param.sharp.title='飙的幅度';
 % G_ShowTestResults.g_tables.optimization.param.sharpdays.title='飙的天数';
-G_ShowTestResults.g_tables.optimization.expectedvalue.title='最悲观期望值';
+% G_ShowTestResults.g_tables.optimization.expectedvalue.title='最悲观期望值';
 
 % 图形
 G_ShowTestResults.g_figure.savetradebar.outdir='TestResult/Figure';

@@ -11,18 +11,6 @@ l_tradeunit(1)=g_rawdata.commodity.info(1).tradeunit;
 l_margin(1)=g_rawdata.commodity.info(1).margin;
 % 交易手续费
 l_tradecharge(1)=g_rawdata.commodity.info(1).tradecharge;
-% price
-if ~isempty(g_orderlist.price)
-l_price(1)=g_orderlist.price(1);
-else
-    l_price(1)=0;
-end
-% direction
-if ~isempty(g_orderlist.direction)
-l_direction(1)=g_orderlist.direction(1);
-else
-    l_direction(1)=0;
-end
 % 记录交易情况
 l_posid=0;
 l_orderposid=0;
@@ -86,17 +74,17 @@ if (g_orderdata.num>0)
     for l_orderindex=1:g_orderdata.num
         l_orderposid=l_orderposid+1;
         %name
-        g_orderdata.pos.name(l_orderposid)=g_orderlist.name(l_orderindex);
+        g_orderdata.name(l_orderposid)=g_orderlist.name(l_orderindex);
         %price
-        g_orderdata.pos.price(l_orderposid)=g_orderlist.price(l_orderindex);
+        g_orderdata.price(l_orderposid)=g_orderlist.price(l_orderindex);
         %direction
-        g_orderdata.pos.direction(l_orderposid)=g_orderlist.direction(l_orderindex);
+        g_orderdata.direction(l_orderposid)=g_orderlist.direction(l_orderindex);
     end
-    g_orderdata.pos.num=l_orderposid;
+    g_orderdata.num=l_orderposid;
 else
-        g_orderdata.pos.name={};
-        g_orderdata.pos.price={};
-        g_orderdata.pos.direction={};
-        g_orderdata.pos.num=0;
+        g_orderdata.name={};
+        g_orderdata.price={};
+        g_orderdata.direction={};
+        g_orderdata.num=0;
         
 end

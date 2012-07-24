@@ -2,8 +2,6 @@ function ZR_PROCESS_ShowReport()
 %%%%%%%% 显示报告过程
 global g_tables;
 global g_method;
-global g_orderlist;
-global g_orderreport;
 % 开仓记录
 g_tables.tabledata.record.pos=ZR_FUN_GetTableByItems('pos');
 % 交易记录       
@@ -15,7 +13,7 @@ g_tables.tabledata.reference=ZR_FUN_GetTableByItems('reference');
 % 排序报告
 g_tables.tabledata.sort=ZR_FUN_GetTableByItems('sort'); 
 %price
-g_tables.tabledata.orderlist.pos=ZR_FUN_GetTableByItems('g_orderreport.orderlist.pos');
+g_tables.tabledata.orderlist=ZR_FUN_GetTableByItems('orderlist');
 % 报告的输出类型
 switch g_tables.outfiletype
     case 'xls'
@@ -36,7 +34,7 @@ switch g_tables.outfiletype
             xlswrite(l_filename,g_tables.tabledata.returnrate,g_tables.xls.returnrate.sheetname, 'A1');
             xlswrite(l_filename,g_tables.tabledata.reference,g_tables.xls.reference.sheetname, 'A1'); 
             xlswrite(l_filename,g_tables.tabledata.sort,g_tables.xls.sort.sheetname, 'A1'); 
-            xlswrite(l_filename,g_tables.tabledata.orderlist.pos,g_tables.xls.orderlist.pos.sheetname, 'A1'); 
+            xlswrite(l_filename,g_tables.tabledata.orderlist,g_tables.xls.orderlist.sheetname, 'A1'); 
         catch
         end
     case 'database'  
@@ -46,7 +44,7 @@ switch g_tables.outfiletype
         ZR_PROCESS_SaveDailyInfoToDB();
     case 'xml'
         xml_write(strcat(g_tables.outdir,'/',g_tables.xml.record.pos.filename,'.xml'),g_tables.tabledata.record.pos);
-        xml_write(strcat(g_tables.outdir,'/',g_tables.xml.orderlist.pos.filename,'.xml'),g_tables.tabledata.orderlist.pos);
+        xml_write(strcat(g_tables.outdir,'/',g_tables.xml.orderlist.filename,'.xml'),g_tables.tabledata.orderlist);
         ZR_PROCESS_SaveReturnrateToXML();
         ZR_PROCESS_SaveReferenceToXML();
         ZR_PROCESS_SaveDailyInfoToXML();

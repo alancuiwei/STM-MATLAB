@@ -4,7 +4,6 @@ function ZR_CONFIG_ShowTestResults()
 global g_tables;
 global g_figure;
 global g_XMLfile;
-global g_DBconfig;
 % 月收益表
 g_tables.returnrate.title={' ','一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月','年收益'};
 % 开仓记录表
@@ -19,6 +18,9 @@ g_tables.record.pos.margin.title='保证金';
 g_tables.record.pos.optradecharge.title='开仓手续费';
 g_tables.record.pos.cptradecharge.title='平仓手续费';
 g_tables.record.pos.profit.title='盈亏金额';
+g_tables.orderlist.name='合约名称';
+g_tables.orderlist.price='价格';
+g_tables.orderlist.direction='交易方向';
 % % g_tables.record.pos.type.title='策略类型';
 % % g_tables.record.pos.optype.title='开仓类型';
 % % g_tables.record.pos.cptype.title='平仓类型';
@@ -39,6 +41,7 @@ g_tables.tabledata.sort=[];
 g_tables.tabledata.returnrate=[];
 g_tables.tabledata.record.pos=[];
 g_tables.tabledata.record.trade=[];
+g_tables.tabledata.orderlist=[];
 g_tables.outfiletype='xls';
 g_tables.outdir='TestResult/Tables';
 % 导出信息xls
@@ -48,6 +51,7 @@ g_tables.xls.sort.sheetname='sort';
 g_tables.xls.returnrate.sheetname='returnrate';
 g_tables.xls.record.pos.sheetname='posrecord';
 g_tables.xls.record.trade.sheetname='traderecord';
+g_tables.xls.orderlist.sheetname='orderlist';
 g_tables.xls.optimization.filename='Optim';
 % 导出到xml
 g_tables.xml.record.pos.filename=strcat('posrecord-',num2str(g_XMLfile.userid));

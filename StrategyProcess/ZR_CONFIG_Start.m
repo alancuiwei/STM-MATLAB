@@ -1,18 +1,18 @@
 function ZR_CONFIG_Start(varargin)
 % 清空命令行参数和所有变量
 clear global;
-global G_Start;
-global G_ExtractHistoryDataFromMySQL;
-global G_RunSpecialTestCase;
-global G_ShowTestResults;
-global G_RunOptimization;
-% global G_ConfigFile;
-global g_XMLfile;
-G_Start=[];
-G_ExtractHistoryDataFromMySQL=[];
-G_RunSpecialTestCase=[];
-G_ShowTestResults=[];
-G_RunOptimization=[];
+% global G_Start;
+% global G_ExtractHistoryDataFromMySQL;
+% global G_RunSpecialTestCase;
+% global G_ShowTestResults;
+% global G_RunOptimization;
+% % global G_ConfigFile;
+% global g_XMLfile;
+% G_Start=[];
+% G_ExtractHistoryDataFromMySQL=[];
+% G_RunSpecialTestCase=[];
+% G_ShowTestResults=[];
+% G_RunOptimization=[];
 
 % 载入mat数据
 if exist('./Data/DATABASE_History.mat','file')

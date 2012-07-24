@@ -4,11 +4,10 @@ global g_DBconfig;
 global g_XMLfile;
 global G_Start;
 
-in_strategyid=g_XMLfile.strategyid;
 % 如果输入参数中包含'g_DBconfigXXXX.xml'文件，则从文件中获取参数，DB不必更新
 if nargin>2 && ~isempty(strfind(varargin{3},'.xml'))
         if exist(varargin{3})
-            g_DBconfig=xml_read(strcat(g_XMLfile.strategypath,'/','g_DBconfig',in_strategyid,'.xml'));
+            g_DBconfig=xml_read(strcat(g_XMLfile.strategypath,'/','g_DBconfig',g_XMLfile.strategyid,'.xml'));
             % 从xml_read中读出的g_DBconfig，其中的成员变量需要做转置操作
 %           g_DBconfig.allcommoditynames = g_DBconfig.allcommoditynames';
 %           g_DBconfig.allcontractnames = g_DBconfig.allcontractnames';
@@ -39,8 +38,8 @@ if nargin>2 && ~isempty(strfind(varargin{3},'.xml'))
         end
 end
 
-g_DBconfig.strategyid=in_strategyid;        
-l_strategyinfo=ZR_FUN_QueryArbitrageInfo(in_strategyid);
+g_DBconfig.strategyid=g_XMLfile.strategyid;        
+l_strategyinfo=ZR_FUN_QueryArbitrageInfo(g_XMLfile.strategyid);
 g_DBconfig.allcommoditynames=unique(cat(1,l_strategyinfo.firstcommodityid,l_strategyinfo.secondcommodityid));
 g_DBconfig.g_commoditynames=strcat(l_strategyinfo.firstcommodityid,'-',l_strategyinfo.secondcommodityid);           %包含'-'说明是套利对
 g_DBconfig.g_rightid=l_strategyinfo.rightid;
@@ -82,7 +81,8 @@ if nargin > 2
     switch varargin{3}                 
         case 'new'
         % 写入xml文件
-        xml_write(strcat(G_Start.currentpath,'/','g_DBconfig',in_strategyid,'.xml'),g_DBconfig);    
+        xml_write(strcat(G_Start.currentpath,'/','g_DBconfig',g_XMLfile.strategyid,'.xml'),g_DBconfig);
+        exit;
         otherwise        
     end
 end

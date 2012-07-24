@@ -6,7 +6,8 @@ global g_XMLfile;
 % 优化过程
 % G_RunOptimization=read_xml('OPTIMIZE_GridSearch_01061.xml');
 % G_RunOptimization.g_method.runopimization=@ZR_OPTIMIZE_GridSearch;
-G_RunOptimization.g_method.runopimization=@ZR_OPTIMIZE_PrioritizedStepSearch;
+% G_RunOptimization.g_method.runopimization=@ZR_OPTIMIZE_PrioritizedStepSearch;
+G_RunOptimization.g_method.runopimization=@ZR_OPTIMIZE_MultipointHillClimbingSearch;
 switch g_XMLfile.strategyid(1:2)      %套利类型
     case '01'           %跨期套利
         G_RunOptimization.g_method.runstrategy.fun=@ZR_STRATEGY_PAIR;

@@ -17,5 +17,5 @@
 <userid>52</userid>
 <ordernum>1</ordernum>
    <objecttype>future</objecttype>
-   <resulttype>xls</resulttype> 
+   <resulttype>xml</resulttype> 
 </g_XMLfile>

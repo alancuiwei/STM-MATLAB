@@ -1,39 +1,38 @@
 function ZR_PROCESS_OrderlistReportPerCommodity(in_cmid)
 %%%%%%%% 计算每一个品种的报告信息
 global g_orderdata;
-global g_orderlist;
-global g_orderreport;
+global g_report;
 global g_rawdata;
 % 遍历该品种所有的套利对
 l_pairnum=length(g_orderdata);
 l_orderid=0;
 l_orderposid=0;
-g_orderreport.orderlist.pos=g_orderdata.pos;
-g_orderreport.commodity(in_cmid).name=g_rawdata.commodity.name;
-g_orderreport.commodity(in_cmid).orderlist.pos.num=0;
+g_report.orderlist=g_orderdata;
+g_report.commodity(in_cmid).name=g_rawdata.commodity.name;
+g_report.commodity(in_cmid).orderlist.num=0;
 for l_pairid=1:l_pairnum
 %     if(isempty(g_orderdata(l_pairid).pos.num))
 % %         fprintf('%s:无交易\n',cell2mat(g_tradedata(l_pairid).pos.name));
 %         continue;
 %     end        
-  l_titlenames=fieldnames(g_orderreport.orderlist.pos);
+  l_titlenames=fieldnames(g_report.orderlist);
     l_commandstr='';
     if ~isempty(l_titlenames)
-        for l_titleid=length(l_titlenames):(-1):1
+        for l_titleid=1:length(l_titlenames)
             l_judge=sprintf('strcmp(''%s'',''num'')',l_titlenames{l_titleid});
             if eval(l_judge)
                 l_commandstr=strcat(l_commandstr,...
-                    sprintf('g_orderreport.commodity(in_cmid).orderlist.pos.%s=l_orderposid+g_orderdata(l_pairid).pos.%s;',...
+                    sprintf('g_report.commodity(in_cmid).orderlist.%s=l_orderposid+g_orderdata(l_pairid).%s;',...
                     l_titlenames{l_titleid},l_titlenames{l_titleid}));
             else
                 l_commandstr=strcat(l_commandstr,...
-                    sprintf('g_orderreport.commodity(in_cmid).orderlist.pos.%s((l_orderposid+1):g_orderreport.commodity(in_cmid).orderlist.pos.num)',...
-                    l_titlenames{l_titleid}),sprintf('=g_orderdata(l_pairid).pos.%s;',l_titlenames{l_titleid}));            
+                    sprintf('g_report.commodity(in_cmid).orderlist.%s((l_orderposid+1):g_report.commodity(in_cmid).orderlist.num)',...
+                    l_titlenames{l_titleid}),sprintf('=g_orderdata(l_pairid).%s;',l_titlenames{l_titleid}));            
             end     
         end
     end
     eval(l_commandstr);  
-    l_orderposid=g_orderreport.commodity(in_cmid).orderlist.pos.num;
+    l_orderposid=g_report.commodity(in_cmid).orderlist.num;
 end
 % try
 %     l_startdatenum=datenum(g_rawdata.contract(1).mkdata.date{1},'yyyy-mm-dd');
