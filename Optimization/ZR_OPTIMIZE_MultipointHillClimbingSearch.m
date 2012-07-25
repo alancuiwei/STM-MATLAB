@@ -60,9 +60,9 @@ l_numberOfStartingpoints = 3;
 
 %初始化
 l_LocalStartingpoints = cell(l_numberOfStartingpoints);     %初始点
-l_OldLocalBestprofits = zeros(l_numberOfStartingpoints);    %旧的局部最优收益
-l_NewLocalBestprofits = zeros(l_numberOfStartingpoints);    %新的局部最优收益
-l_size = zeros(g_optimization.paramnum);
+l_OldLocalBestprofits = zeros(1,l_numberOfStartingpoints);    %旧的局部最优收益
+l_NewLocalBestprofits = zeros(1,l_numberOfStartingpoints);    %新的局部最优收益
+l_size = zeros(1,g_optimization.paramnum);
 
 %检查参数变化范围
 for l_paramid = 1 : g_optimization.paramnum
@@ -134,57 +134,105 @@ for l_point = 1 : l_numberOfStartingpoints
         end
         
         %计算邻域点的收益
+        l_numberofpointscalculated = 0;
+        
         for l_paramid = 1 : g_optimization.paramnum
             
-            l_parmstr = [];
+            l_verified1 = 0;
             
-            for l_i = 1 : g_optimization.paramnum
+            l_verified2 = 0;
+            
+            l_lengthofparam = length(g_optimization.param);
+            
+            for l_i = 1 : l_lengthofparam
                 
-                l_parmstr =strcat(l_parmstr,'''',g_optimization.paramname{l_i},'''',',',num2str(l_testpoints{1,l_paramid}(l_i)));
-                
-                if l_i < g_optimization.paramnum
-                    l_parmstr = strcat(l_parmstr, ',');
+                if g_optimization.param{l_i} == l_testpoints{1,l_paramid}
+                    
+                   l_verified1 = 1;
+                   break;
+                   
                 end
                 
             end
+                    
+           for l_i = 1 : l_lengthofparam
+               
+                if g_optimization.param{l_i} == l_testpoints{2,l_paramid}
+                    
+                   l_verified2 = 1;
+                   break;
+                   
+                end
+                
+           end     
             
-            disp(l_parmstr);
+            if l_verified1 == 0
+                
+                l_parmstr = [];
+                
+                for l_i = 1 : g_optimization.paramnum
+                
+                    l_parmstr =strcat(l_parmstr,'''',g_optimization.paramname{l_i},'''',',',num2str(l_testpoints{1,l_paramid}(l_i)));
+                
+                    if l_i < g_optimization.paramnum
+                        l_parmstr = strcat(l_parmstr, ',');
+                    end
+                
+                end
+            
+                disp(l_parmstr);
              
-            l_commandstr=strcat(' ZR_PROCESS_RecordOptimization(',l_parmstr,'); ');
+                l_commandstr=strcat(' ZR_PROCESS_RecordOptimization(',l_parmstr,'); ');
             
-            eval(l_commandstr);
-            
-            l_parmstr = [];
-            
-            for l_i = 1 : g_optimization.paramnum
+                eval(l_commandstr);
                 
-                l_parmstr =strcat(l_parmstr,'''',g_optimization.paramname{l_i},'''',',',num2str(l_testpoints{2,l_paramid}(l_i)));
-                
-                if l_i < g_optimization.paramnum
-                    l_parmstr = strcat(l_parmstr, ',');
-                end
+                l_numberofpointscalculated = l_numberofpointscalculated + 1;
             end
             
-            disp(l_parmstr);
+            if l_verified2 ==0
+                
+                l_parmstr = [];
             
-            l_commandstr=strcat(' ZR_PROCESS_RecordOptimization(',l_parmstr,'); ');
+                for l_i = 1 : g_optimization.paramnum
+                
+                    l_parmstr =strcat(l_parmstr,'''',g_optimization.paramname{l_i},'''',',',num2str(l_testpoints{2,l_paramid}(l_i)));
+                
+                    if l_i < g_optimization.paramnum
+                        l_parmstr = strcat(l_parmstr, ',');
+                    end
+                    
+                end
             
-            eval(l_commandstr);
+                disp(l_parmstr);
+            
+                l_commandstr=strcat(' ZR_PROCESS_RecordOptimization(',l_parmstr,'); ');
+            
+                eval(l_commandstr);
+                
+                l_numberofpointscalculated = l_numberofpointscalculated + 1;
+                
+           end
             
         end
         
         %找出最佳邻点
-        l_length1 = length(g_optimization.expectedvalue);
-        [l_NewLocalBestprofits(l_point), l_index] = max(g_optimization.expectedvalue(l_length1 - 2 * g_optimization.paramnum + 1 : l_length1));
-        l_index = l_index + l_length1 - 2 * g_optimization.paramnum;
+         if l_numberofpointscalculated >= 1
+            l_length1 = length(g_optimization.expectedvalue);
+            [l_NewLocalBestprofits(l_point), l_index] = max(g_optimization.expectedvalue(l_length1 - l_numberofpointscalculated + 1 : l_length1));        
+            l_index = l_index + l_length1 - l_numberofpointscalculated;
         
-        %判断是否局部最优，是则停止搜索，不是则继续搜索
-        if l_NewLocalBestprofits(l_point) <= l_OldLocalBestprofits(l_point)
-            break;
+            %判断是否局部最优，是则停止搜索，不是则继续搜索
+            if l_NewLocalBestprofits(l_point) <= l_OldLocalBestprofits(l_point)
+                break;
+            end
+       
+            l_OldLocalBestprofits(l_point) = l_NewLocalBestprofits(l_point);
+            l_LocalStartingpoints{l_point} = g_optimization.param{l_index};
         end
         
-        l_OldLocalBestprofits(l_point) = l_NewLocalBestprofits(l_point);
-        l_LocalStartingpoints{l_point} = g_optimization.param{l_index};
+        if l_numberofpointscalculated ==0
+            break;
+        end
             
     end
     
@@ -194,5 +242,6 @@ end
 [l_temp, l_index2] = max(l_OldLocalBestprofits);
 disp(' 最优参数组合为：')
 disp(l_LocalStartingpoints{l_index2});
-
+disp('最大收益为：')
+disp(num2str(l_temp));
 end

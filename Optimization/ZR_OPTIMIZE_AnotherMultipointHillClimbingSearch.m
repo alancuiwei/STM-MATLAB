@@ -215,7 +215,7 @@ for l_point = 1 : l_numberOfStartingpoints
         end
         
         %找出最佳邻点        
-        if l_numberofpointcalculated > 1
+        if l_numberofpointcalculated >= 1
             l_length1 = length(g_optimization.expectedvalue);
             [l_NewLocalBestprofits(l_point), l_index] = max(g_optimization.expectedvalue(l_length1 - l_numberofpointcalculated + 1 : l_length1));        
             l_index = l_index + l_length1 - l_numberofpointcalculated;
@@ -241,5 +241,7 @@ end
 [l_temp, l_index2] = max(l_OldLocalBestprofits);
 disp(' 最优参数组合为：')
 disp(l_LocalStartingpoints{l_index2});
+disp('最大收益为：')
+disp(num2str(l_temp));
 
 end
