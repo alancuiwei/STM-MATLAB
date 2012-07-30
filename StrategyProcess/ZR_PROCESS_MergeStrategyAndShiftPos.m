@@ -64,9 +64,15 @@ if ~isequal(l_idxtemp,zeros(1,numel(inputdata_move.record.opdate)))
 end
 %==========================================================================
 %合并交易记录
-outputdata.orderlist.price=inputdata_strategy.orderlist.price;
-outputdata.orderlist.direction=inputdata_strategy.orderlist.direction;
-outputdata.orderlist.name=inputdata_strategy.orderlist.name;
+if ~isempty(inputdata_strategy.orderlist.name)
+    outputdata.orderlist.price=inputdata_strategy.orderlist.price;
+    outputdata.orderlist.direction=inputdata_strategy.orderlist.direction;
+    outputdata.orderlist.name=inputdata_strategy.orderlist.name;
+elseif ~isempty(inputdata_move.orderlist.name)
+    outputdata.orderlist.price=inputdata_move.orderlist.price;
+    outputdata.orderlist.direction=inputdata_strategy.record.direction(end); %移仓操作中orderlist的方向取决于之前策略算出的交易方向
+    outputdata.orderlist.name=inputdata_move.orderlist.name;
+end
 %合并开仓日期，并根据开仓日期的顺序进行排序
 outputdata.record.opdate=unique([inputdata_strategy.record.opdate,inputdata_move.record.opdate]); 
 for l_id = 1:numel(outputdata.record.opdate)

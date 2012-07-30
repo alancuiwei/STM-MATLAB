@@ -34,33 +34,38 @@ l_forceday=unique(l_posday); %单个合约的最后一天
 %填入开仓日期、开仓价格、平仓价格以及主力合约名
 for i=1:numel(l_forceday)
     if(l_forceday(i)+2>numel(g_rawdata.commodity.serialmkdata.date)) %假如交点为今天和昨天之间，则更新outputdata.orderlist向量
-            outputdata.orderlist.direction=1;
-            outputdata.orderlist.price=0;
-            outputdata.orderlist.name=g_rawdata.commodity.serialmkdata.ctname(l_forceday(i)+1);
+        outputdata.orderlist.direction=[];
+        outputdata.orderlist.price=0;
+        outputdata.orderlist.name=g_rawdata.commodity.serialmkdata.ctname(l_forceday(i)+1);
     else
-            l_contractname=g_rawdata.commodity.serialmkdata.ctname(l_forceday(i)+1);
-            l_datenum=g_rawdata.commodity.serialmkdata.date(l_forceday(i)+2);
-            l_contractid=find(ismember(g_rawdata.contractname,l_contractname)==1);
-            l_dateid=find(ismember(g_rawdata.contract(1,l_contractid).mkdata.date,l_datenum)==1);
-            outputdata.record.opdateprice(i)=g_rawdata.contract(1,l_contractid).mkdata.op(l_dateid);
-            outputdata.record.opdate(i)=g_rawdata.commodity.serialmkdata.date(l_forceday(i)+2);
-            
-            l_datetmp = char(g_rawdata.commodity.serialmkdata.date(l_forceday(i)));
-            l_islastday = judgeIsLastDay(l_datetmp);
-            if (l_islastday)%l_islastday 表示交割月前仍未平仓的标志
-                %这段的处理------
+        l_contractname=g_rawdata.commodity.serialmkdata.ctname(l_forceday(i)+1);
+        l_datenum=g_rawdata.commodity.serialmkdata.date(l_forceday(i)+2);
+        l_contractid=find(ismember(g_rawdata.contractname,l_contractname)==1);
+        l_dateid=find(ismember(g_rawdata.contract(1,l_contractid).mkdata.date,l_datenum)==1);
+        outputdata.record.opdateprice(i)=g_rawdata.contract(1,l_contractid).mkdata.op(l_dateid);
+        outputdata.record.opdate(i)=g_rawdata.commodity.serialmkdata.date(l_forceday(i)+2);
+
+        l_datetmp = char(g_rawdata.commodity.serialmkdata.date(l_forceday(i)));
+        l_islastday = judgeIsLastDay(l_datetmp);
+        if (l_islastday)%l_islastday 表示交割月前仍未平仓的标志
+            %这段的处理------
+            l_ctname=g_rawdata.commodity.serialmkdata.ctname(l_forceday(i));
+%             l_yeartmp=l_ctname(end-3:end-2);    % 如果发生在不同年份，但相同月份，该如何处理？(概率极小)
+            l_monthtmp=l_ctname(end-1:end);
+            if l_datetmp(end-1:end)==l_monthtmp
                 l_contractname=g_rawdata.commodity.serialmkdata.ctname(l_forceday(i));
                 l_datenum=g_rawdata.commodity.serialmkdata.date(l_forceday(i));
                 l_contractid=find(ismember(g_rawdata.contractname,l_contractname)==1);
                 l_dateid=find(ismember(g_rawdata.contract(1,l_contractid).mkdata.date,l_datenum)==1);
                 outputdata.record.cpdateprice(i)=g_rawdata.contract(1,l_contractid).mkdata.op(l_dateid);
-            else
-                l_contractname=g_rawdata.commodity.serialmkdata.ctname(l_forceday(i));
-                l_datenum=g_rawdata.commodity.serialmkdata.date(l_forceday(i)+2);
-                l_contractid=find(ismember(g_rawdata.contractname,l_contractname)==1);
-                l_dateid=find(ismember(g_rawdata.contract(1,l_contractid).mkdata.date,l_datenum)==1);
-                outputdata.record.cpdateprice(i)=g_rawdata.contract(1,l_contractid).mkdata.op(l_dateid);
             end
+        else
+            l_contractname=g_rawdata.commodity.serialmkdata.ctname(l_forceday(i));
+            l_datenum=g_rawdata.commodity.serialmkdata.date(l_forceday(i)+2);
+            l_contractid=find(ismember(g_rawdata.contractname,l_contractname)==1);
+            l_dateid=find(ismember(g_rawdata.contract(1,l_contractid).mkdata.date,l_datenum)==1);
+            outputdata.record.cpdateprice(i)=g_rawdata.contract(1,l_contractid).mkdata.op(l_dateid);
+        end
     end
     outputdata.record.ctname(i)=g_rawdata.commodity.serialmkdata.ctname(l_forceday(i)+1);
 end

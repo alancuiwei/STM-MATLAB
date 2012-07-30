@@ -165,12 +165,12 @@ if isequal(zeros(numel(inputdata.commodity.dailyinfo.trend),1),inputdata.commodi
     %======================================================================
     %填入dailyinfo信息
     outputdata.dailyinfo.date=inputdata.commodity.serialmkdata.date;
-    outputdata.dailyinfo.trend=-Inf*ones(1,numel(inputdata.commodity.serialmkdata.date));
+    outputdata.dailyinfo.trend=-Inf*ones(numel(inputdata.commodity.serialmkdata.date),1);
     for i = 1:numel(outputdata.record.direction)
         if outputdata.record.direction(i)==1
-            outputdata.dailyinfo.trend(l_realtradeday(i))=2;    %做多
+            outputdata.dailyinfo.trend(l_realtradeday(i)+1)=2;    %做多
         elseif outputdata.record.direction(i)==-1
-            outputdata.dailyinfo.trend(l_realtradeday(i))=1;    %做空
+            outputdata.dailyinfo.trend(l_realtradeday(i)+1)=1;    %做空
         end
     end
     if ~isempty(outputdata.orderlist)   %就交点在昨天和今天之间

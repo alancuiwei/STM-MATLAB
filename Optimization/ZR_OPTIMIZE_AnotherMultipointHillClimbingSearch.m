@@ -59,7 +59,9 @@ g_optimization.valuenum=sum(l_len);               %这个数字不准确
 l_numberOfStartingpoints = 3;
 
 %初始化
-l_LocalStartingpoints = cell(l_numberOfStartingpoints,1);     %初始点
+l_LocalStartingpoints = cell(l_numberOfStartingpoints);     %初始点
+l_OldLocalBestprofits = zeros(1,l_numberOfStartingpoints);    %旧的局部最优收益
+l_NewLocalBestprofits = zeros(1,l_numberOfStartingpoints);    %新的局部最优收益
 l_size = zeros(1,g_optimization.paramnum);
 
 %检查参数变化范围
@@ -168,10 +170,26 @@ for l_point = 1 : l_numberOfStartingpoints
             
             l_tp = l_testpoints{l_i};
             
-            l_nonverified = isempty(find(cell2mat(cellfun(@(x) (isequal(x,l_tp)), g_optimization.param, 'UniformOutput', false)), 1));
+            l_verified = 0;
             
-            if l_nonverified == 0;
-                continue;
+            l_numerator3 = length(g_optimization.param);
+            
+            for l_j = 1 : l_numerator3
+                
+                l_temp = g_optimization.param{l_j};
+                
+               if l_temp == l_tp   
+                   
+                   l_verified = 1;
+                   
+                   break;
+                   
+               end 
+               
+            end
+            
+            if l_verified == 1;
+                break;
             end
             
             l_parmstr = [];

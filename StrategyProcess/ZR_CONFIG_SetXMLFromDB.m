@@ -61,6 +61,7 @@ if ~isempty(l_split)    %说明是策略组合
                 error(strcat('没有策略信息:',l_strategy{l_strategyid}));
             else
                 for l_id=1:length(l_subdata(:,1))
+%                     l_index=strcmp(l_data(:,1),l_subdata(l_id,1),l_id);
                     l_index=find(ismember(l_data(:,1),l_subdata(l_id,1)),1,'first');
                     if isempty(l_index)
                         sprintf('缺少策略%s的参数：',l_strategy{l_strategyid});

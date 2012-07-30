@@ -5,10 +5,7 @@ global g_report;
 global g_rawdata;
 % 遍历该品种所有的套利对
 l_pairnum=length(g_orderdata);
-l_orderid=0;
 l_orderposid=0;
-% g_report.orderlist=g_orderdata;
-% g_report.commodity(in_cmid).orderlist=g_orderdata;
 g_report.commodity(in_cmid).name=g_rawdata.commodity.name;
 g_report.commodity(in_cmid).orderlist.num=0;
 for l_pairid=1:l_pairnum

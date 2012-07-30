@@ -27,10 +27,11 @@ l_price(1,:)=l_mean5buff(1:numel(inputdata.commodity.serialmkdata.cp));
 l_price(2,:)=l_mean10buff(1:numel(inputdata.commodity.serialmkdata.cp));
 l_price(:,1:inputdata.strategyparams.ma2-1)=Inf;%整理平均数计算结果放入数组Price中
 %==========================================================================
-% figure('Name',cell2mat(inputdata.commodity.name));
-% plot(l_price(1,:),'b');
+% figure('Name',strcat('040704',cell2mat(inputdata.commodity.name)));
+% plot(l_price(1,:),'-b*');
 % hold on;
-% plot(l_price(2,:),'r')
+% plot(l_price(2,:),'-r+')
+% legend('MA5','MA10',2);
 % hold off;
 %==========================================================================
 %以异号为原则寻找交叉点，并将寻找到的异号点存入数组PositionTrade中
@@ -156,12 +157,12 @@ if isequal(zeros(numel(inputdata.commodity.dailyinfo.trend),1),inputdata.commodi
     %======================================================================
     %填入dailyinfo信息
     outputdata.dailyinfo.date=inputdata.commodity.serialmkdata.date;
-    outputdata.dailyinfo.trend=-Inf*ones(1,numel(inputdata.commodity.serialmkdata.date));
+    outputdata.dailyinfo.trend=-Inf*ones(numel(inputdata.commodity.serialmkdata.date),1);
     for i = 1:numel(outputdata.record.direction)
         if outputdata.record.direction(i)==1
-            outputdata.dailyinfo.trend(l_realtradeday(i))=2;    %做多
+            outputdata.dailyinfo.trend(l_realtradeday(i)+1)=2;    %做多
         elseif outputdata.record.direction(i)==-1
-            outputdata.dailyinfo.trend(l_realtradeday(i))=1;    %做空
+            outputdata.dailyinfo.trend(l_realtradeday(i)+1)=1;    %做空
         end
     end
     if ~isempty(outputdata.orderlist)   %就交点在昨天和今天之间

@@ -3,8 +3,6 @@ function ZR_PROCESS_TradeDataPerSerialContract( )
 global g_traderecord;
 global g_rawdata;
 global g_tradedata;
-global g_orderlist;
-global g_orderdata;
 % 交易单位
 l_tradeunit(1)=g_rawdata.commodity.info(1).tradeunit;
 % 保证金比例
@@ -13,7 +11,6 @@ l_margin(1)=g_rawdata.commodity.info(1).margin;
 l_tradecharge(1)=g_rawdata.commodity.info(1).tradecharge;
 % 记录交易情况
 l_posid=0;
-l_orderposid=0;
 % 后续程序根据num值判断是否有开仓
 g_tradedata.pos.num=[];
 if ~isfield(g_traderecord,'direction')
@@ -68,23 +65,23 @@ end
 % if ~isfield(g_orderlist,'price')
 %     g_orderdata.num=0;
 % else
-    g_orderdata.num=length(g_orderlist.price);
+%     g_orderdata.num=length(g_orderlist.price);
+% % end
+% if (g_orderdata.num>0)
+%     for l_orderindex=1:g_orderdata.num
+%         l_orderposid=l_orderposid+1;
+%         %name
+%         g_orderdata.name(l_orderposid)=g_orderlist.name(l_orderindex);
+%         %price
+%         g_orderdata.price(l_orderposid)=g_orderlist.price(l_orderindex);
+%         %direction
+%         g_orderdata.direction(l_orderposid)=g_orderlist.direction(l_orderindex);
+%     end
+%     g_orderdata.num=l_orderposid;
+% else
+%         g_orderdata.name={};
+%         g_orderdata.price=[];
+%         g_orderdata.direction=[];
+%         g_orderdata.num=0;
+%         
 % end
-if (g_orderdata.num>0)
-    for l_orderindex=1:g_orderdata.num
-        l_orderposid=l_orderposid+1;
-        %name
-        g_orderdata.name(l_orderposid)=g_orderlist.name(l_orderindex);
-        %price
-        g_orderdata.price(l_orderposid)=g_orderlist.price(l_orderindex);
-        %direction
-        g_orderdata.direction(l_orderposid)=g_orderlist.direction(l_orderindex);
-    end
-    g_orderdata.num=l_orderposid;
-else
-        g_orderdata.name={};
-        g_orderdata.price=[];
-        g_orderdata.direction=[];
-        g_orderdata.num=0;
-        
-end
