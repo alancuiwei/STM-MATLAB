@@ -25,7 +25,7 @@ end
 
 switch varargin{1}
     case 'xml'
-        ZR_CONFIG_SetXMLFromFile(varargin{2});    
+        ZR_CONFIG_SetXMLFromFile(varargin{:});    
     case 'database'
         ZR_CONFIG_SetXMLFromDB(varargin{2},varargin{3},varargin{4});
     otherwise

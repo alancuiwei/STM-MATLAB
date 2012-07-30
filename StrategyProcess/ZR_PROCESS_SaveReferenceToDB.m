@@ -20,8 +20,8 @@ l_colnames={'rightid';'minmarginaccount';'totalnetprofit';'grossprofit';'grosslo
     'numwintrades';'numlosstrades';'percentprofitable';'largestwintrade';'largestlosstrade';'avewintrade';'avelosstrade';'avetrade';'expectvalue';'maxdrawdown';...
     'maxdrawdowndays';'strategyid';'userid';'ordernum'};
 l_strategyid=repmat({g_tables.strategyid},1,length(l_rightid));
-l_userid=repmat({str2double(g_tables.userid)},1,length(l_rightid));
-l_ordernum=repmat({str2double(g_tables.ordernum)},1,length(l_rightid));
+l_userid=repmat({g_tables.userid},1,length(l_rightid));
+l_ordernum=repmat({g_tables.ordernum},1,length(l_rightid));
 l_exdata=g_tables.tabledata.reference([2,4:end],2:end);
 l_exdata=cat(1,l_rightid,l_exdata,l_strategyid,l_userid,l_ordernum);
 insert(l_conn, 'strategyreference_t', l_colnames, l_exdata')

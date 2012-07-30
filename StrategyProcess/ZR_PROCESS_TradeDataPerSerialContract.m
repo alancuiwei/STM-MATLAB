@@ -64,12 +64,12 @@ if(g_traderecord.num>0)
     end
     g_tradedata.pos.num=l_posid;
 end
-g_orderdata.num=[];
-if ~isfield(g_orderlist,'price')
-    g_orderdata.num=0;
-else
+% g_orderdata.num=[];
+% if ~isfield(g_orderlist,'price')
+%     g_orderdata.num=0;
+% else
     g_orderdata.num=length(g_orderlist.price);
-end
+% end
 if (g_orderdata.num>0)
     for l_orderindex=1:g_orderdata.num
         l_orderposid=l_orderposid+1;
@@ -83,8 +83,8 @@ if (g_orderdata.num>0)
     g_orderdata.num=l_orderposid;
 else
         g_orderdata.name={};
-        g_orderdata.price={};
-        g_orderdata.direction={};
+        g_orderdata.price=[];
+        g_orderdata.direction=[];
         g_orderdata.num=0;
         
 end

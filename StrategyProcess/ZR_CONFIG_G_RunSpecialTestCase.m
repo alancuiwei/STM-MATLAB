@@ -4,7 +4,14 @@ global G_RunSpecialTestCase;
 global g_XMLfile;
 global g_DBconfig;
 
-switch g_XMLfile.strategyid(1:2)      %套利类型
+if iscell(g_XMLfile)
+    l_XMLfile=g_XMLfile{1};
+else
+    l_XMLfile=g_XMLfile;
+end
+
+l_strategyid=ZR_FUN_GetStrategyidFromXMLfile(l_XMLfile);
+switch l_strategyid(1:2)      %套利类型
     case '01'       %跨期套利
         G_RunSpecialTestCase.coredata.type='pair';
         G_RunSpecialTestCase.g_method.runstrategy.fun=@ZR_STRATEGY_PAIR;    
@@ -15,7 +22,7 @@ switch g_XMLfile.strategyid(1:2)      %套利类型
         G_RunSpecialTestCase.g_method.rundataprocess=@ZR_DATAPROCESS;
     case '10'       %？？？？？
 end
-% l_cmdstr=strcat('G_RunSpecialTestCase.g_method.rundataprocess=@ZR_DATAPROCESS_',g_XMLfile.strategyid,';');
+% l_cmdstr=strcat('G_RunSpecialTestCase.g_method.rundataprocess=@ZR_DATAPROCESS_',l_strategyid,';');
 % eval(l_cmdstr);
 
 % G_RunSpecialTestCase.g_method.runstrategy.fun=@ZR_STRATEGY_SERIAL;
@@ -26,17 +33,33 @@ end
 G_RunSpecialTestCase.coredata.needupdate=1;
 G_RunSpecialTestCase.issetbyXML=1;
 % 如果有xml的设定就用xml
-if G_RunSpecialTestCase.issetbyXML&&~g_XMLfile.isupdated
-    G_RunSpecialTestCase.strategyid=g_XMLfile.strategyid;
-    G_RunSpecialTestCase.coredata.startdate=g_XMLfile.coredata.startdate;
-    G_RunSpecialTestCase.coredata.enddate=g_XMLfile.coredata.enddate;
+if G_RunSpecialTestCase.issetbyXML&&~l_XMLfile.isupdated
+    G_RunSpecialTestCase.strategyid=l_XMLfile.strategyid;
+    G_RunSpecialTestCase.coredata.startdate=l_XMLfile.coredata.startdate;
+    G_RunSpecialTestCase.coredata.enddate=l_XMLfile.coredata.enddate;
     % 没有选择品种就用默认的所有品种
-    if isempty(g_XMLfile.g_commoditynames)
+    l_commoditynames=l_XMLfile.g_commoditynames;
+    if ~isempty(l_commoditynames)
+        for l_stid=2:numel(g_XMLfile)
+            if isempty(g_XMLfile{l_stid}.g_commoditynames)
+                l_commoditynames={};
+                break;
+            end
+            l_idx=ismember(l_commoditynames,g_XMLfile{l_stid}.g_commoditynames);
+            if isempty(find(l_idx,1))
+                l_commoditynames={};
+                break;
+            end
+            l_commoditynames=l_commoditynames(l_idx);
+        end
+    end
+    
+    if isempty(l_commoditynames)
         G_RunSpecialTestCase.g_commoditynames=g_DBconfig.g_commoditynames;
         G_RunSpecialTestCase.g_pairnames=g_DBconfig.g_pairnames;
         G_RunSpecialTestCase.g_contractnames=g_DBconfig.allcontractnames;
     else
-        G_RunSpecialTestCase.g_commoditynames=g_XMLfile.g_commoditynames;
+        G_RunSpecialTestCase.g_commoditynames=l_commoditynames;
         G_RunSpecialTestCase.g_pairnames=g_DBconfig.g_pairnames;   
         G_RunSpecialTestCase.g_contractnames=g_DBconfig.allcontractnames;
     end
@@ -45,7 +68,18 @@ if G_RunSpecialTestCase.issetbyXML&&~g_XMLfile.isupdated
 %     else
 %         G_RunSpecialTestCase.g_pairnames=g_DBconfig.g_pairnames; 
 %     end
-    %  
+    % 
+    
+%     l_titlenames=fieldnames(l_XMLfile.g_strategyparams);
+%     l_commandstr='';
+%     if ~isempty(l_titlenames)
+%         for l_titleid=1:length(l_titlenames)
+%             l_commandstr=strcat(l_commandstr,...
+%                 sprintf('G_RunSpecialTestCase.g_strategyparams.%s=g_XMLfile.g_strategyparams.%s*%s',...
+%                 l_titlenames{l_titleid},l_titlenames{l_titleid},'ones(length(G_RunSpecialTestCase.g_commoditynames),1);')); 
+%         end
+%     end
+%     eval(l_commandstr);  
 else
     G_RunSpecialTestCase.coredata.startdate='nolimit';
     G_RunSpecialTestCase.coredata.enddate='nolimit';
@@ -54,6 +88,16 @@ else
     G_RunSpecialTestCase.g_pairnames=g_DBconfig.g_pairnames;
     G_RunSpecialTestCase.g_contractnames=g_DBconfig.allcontractnames;
     
+%     l_titlenames=fieldnames(l_XMLfile.g_strategyparams);
+%     l_commandstr='';
+%     if ~isempty(l_titlenames)
+%         for l_titleid=1:length(l_titlenames)
+%             l_commandstr=strcat(l_commandstr,...
+%                 sprintf('G_RunSpecialTestCase.g_strategyparams.%s=g_XMLfile.g_strategyparams.%s*%s',...
+%                 l_titlenames{l_titleid},l_titlenames{l_titleid},'ones(length(G_RunSpecialTestCase.g_commoditynames),1);')); 
+%         end
+%     end
+%     eval(l_commandstr);  
 %     G_RunSpecialTestCase.g_contractnames={'',''};
 %     G_RunSpecialTestCase.g_strategyparams(1).period=4*ones(100,1);
 %     G_RunSpecialTestCase.g_strategyparams(1).losses=0*ones(100,1);
@@ -62,18 +106,35 @@ else
 end
 
 % 策略参数设定
-l_titlenames=fieldnames(g_XMLfile.g_strategyparams);
-l_commandstr='';
-if ~isempty(l_titlenames)
-    for l_titleid=1:length(l_titlenames)
-        l_commandstr=strcat(l_commandstr,...
-            sprintf('G_RunSpecialTestCase.g_strategyparams.%s=g_XMLfile.g_strategyparams.%s*%s',...
-            l_titlenames{l_titleid},l_titlenames{l_titleid},'ones(length(G_RunSpecialTestCase.g_commoditynames),1);')); 
+if iscell(g_XMLfile)
+    for l_xmlid = 1:numel(g_XMLfile)
+        l_titlenames=fieldnames(g_XMLfile{l_xmlid}.g_strategyparams);
+        l_commandstr='';
+        if ~isempty(l_titlenames)
+            for l_titleid=1:length(l_titlenames)
+                l_commandstr=strcat(l_commandstr,...
+                    sprintf('G_RunSpecialTestCase.g_strategyparams%s.%s=g_XMLfile%s.g_strategyparams.%s*%s',...
+                    strcat('{',num2str(l_xmlid),'}'),l_titlenames{l_titleid},...
+                    strcat('{',num2str(l_xmlid),'}'),l_titlenames{l_titleid},'ones(length(G_RunSpecialTestCase.g_commoditynames),1);')); 
+            end
+        end
+        eval(l_commandstr);
+        G_RunSpecialTestCase.g_strategyparams{l_xmlid}.handnum=1*ones(length(G_RunSpecialTestCase.g_commoditynames),1);
     end
+else
+    l_titlenames=fieldnames(g_XMLfile.g_strategyparams);
+    l_commandstr='';
+    if ~isempty(l_titlenames)
+        for l_titleid=1:length(l_titlenames)
+            l_commandstr=strcat(l_commandstr,...
+                sprintf('G_RunSpecialTestCase.g_strategyparams.%s=g_XMLfile.g_strategyparams.%s*%s',...
+                l_titlenames{l_titleid},l_titlenames{l_titleid},'ones(length(G_RunSpecialTestCase.g_commoditynames),1);')); 
+        end
+    end
+    eval(l_commandstr);  
+    G_RunSpecialTestCase.g_strategyparams(1).handnum=1*ones(length(G_RunSpecialTestCase.g_commoditynames),1);    
 end
-eval(l_commandstr);  
-G_RunSpecialTestCase.g_strategyparams(1).handnum=1*ones(length(G_RunSpecialTestCase.g_commoditynames),1);   
-
+    
 
 % 策略运行时需要的数据
 G_RunSpecialTestCase.g_tradedata.pos.num=0;
@@ -88,6 +149,10 @@ G_RunSpecialTestCase.g_tradedata.pos.margin=[];
 G_RunSpecialTestCase.g_tradedata.pos.optradecharge=[];
 G_RunSpecialTestCase.g_tradedata.pos.cptradecharge=[];
 G_RunSpecialTestCase.g_tradedata.pos.profit=[];
+G_RunSpecialTestCase.g_orderlist.price=[];
+G_RunSpecialTestCase.g_orderlist.direction=[];
+G_RunSpecialTestCase.g_orderlist.name={};
+G_RunSpecialTestCase.g_orderlist.num=[];
 % % G_RunSpecialTestCase.g_tradedata.pos.type=[];
 % % G_RunSpecialTestCase.g_tradedata.pos.optype=[];
 % % G_RunSpecialTestCase.g_tradedata.pos.cptype=[];
@@ -131,6 +196,10 @@ G_RunSpecialTestCase.g_report.commodity.record.pos.profit=[];
 % % G_RunSpecialTestCase.g_report.commodity.record.trade.opdate={};
 % % G_RunSpecialTestCase.g_report.commodity.record.trade.cpdate={};
 % % G_RunSpecialTestCase.g_report.commodity.record.trade.profit=[];
+G_RunSpecialTestCase.g_report.commodity.orderlist.num=0;
+G_RunSpecialTestCase.g_report.commodity.orderlist.price=[];
+G_RunSpecialTestCase.g_report.commodity.orderlist.direction=[];
+G_RunSpecialTestCase.g_report.commodity.orderlist.name={};
 
 G_RunSpecialTestCase.g_report.startdatenum=[];
 G_RunSpecialTestCase.g_report.enddatenum=[];
@@ -154,7 +223,10 @@ G_RunSpecialTestCase.g_report.record.pos.profit=[];
 % % G_RunSpecialTestCase.g_report.record.pos.opgapvl2=[];
 % % G_RunSpecialTestCase.g_report.record.pos.cpgapvl1=[];
 % % G_RunSpecialTestCase.g_report.record.pos.cpgapvl2=[];
-
+G_RunSpecialTestCase.g_report.orderlist.price=[];
+G_RunSpecialTestCase.g_report.orderlist.direction=[];
+G_RunSpecialTestCase.g_report.orderlist.name={};
+G_RunSpecialTestCase.g_report.orderlist.num=[];
 % % % trade
 % % G_RunSpecialTestCase.g_report.record.trade.num=0;
 % % G_RunSpecialTestCase.g_report.record.trade.name={};

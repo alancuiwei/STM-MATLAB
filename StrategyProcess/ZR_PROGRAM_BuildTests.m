@@ -12,6 +12,7 @@ function ZR_PROGRAM_BuildTests(varargin)
 % |     'xml'     |  'g_XMLfileXXXX.xml'  |   
 % |     'xml'     |  'g_XMLfileXXXX.xml'  |       'new'               |
 % |     'xml'     |  'g_XMLfileXXXX.xml'  |   'g_DBconfigXXXX.xml'    |
+% |     'xml'     |  'g_XMLfileXXXX1.xml' |   'g_XMLfileXXXX2.xml'    |
 % |   'database'  |   strategyid          |       userid              |   ordernum   |
 
 % ¼ÓÔØËÑË÷Â·¾¶

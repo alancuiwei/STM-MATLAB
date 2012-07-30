@@ -7,7 +7,8 @@ global g_rawdata;
 l_pairnum=length(g_orderdata);
 l_orderid=0;
 l_orderposid=0;
-g_report.orderlist=g_orderdata;
+% g_report.orderlist=g_orderdata;
+% g_report.commodity(in_cmid).orderlist=g_orderdata;
 g_report.commodity(in_cmid).name=g_rawdata.commodity.name;
 g_report.commodity(in_cmid).orderlist.num=0;
 for l_pairid=1:l_pairnum
@@ -21,9 +22,10 @@ for l_pairid=1:l_pairnum
         for l_titleid=1:length(l_titlenames)
             l_judge=sprintf('strcmp(''%s'',''num'')',l_titlenames{l_titleid});
             if eval(l_judge)
-                l_commandstr=strcat(l_commandstr,...
-                    sprintf('g_report.commodity(in_cmid).orderlist.%s=l_orderposid+g_orderdata(l_pairid).%s;',...
-                    l_titlenames{l_titleid},l_titlenames{l_titleid}));
+%                 l_commandstr=strcat(l_commandstr,...
+%                     sprintf('g_report.commodity(in_cmid).orderlist.%s=l_orderposid+g_orderdata(l_pairid).%s;',...
+%                     l_titlenames{l_titleid},l_titlenames{l_titleid}));
+                eval('g_report.commodity(in_cmid).orderlist.num=l_orderposid+g_orderdata(l_pairid).num;');
             else
                 l_commandstr=strcat(l_commandstr,...
                     sprintf('g_report.commodity(in_cmid).orderlist.%s((l_orderposid+1):g_report.commodity(in_cmid).orderlist.num)',...

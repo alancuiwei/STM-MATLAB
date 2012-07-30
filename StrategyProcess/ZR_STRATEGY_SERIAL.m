@@ -1,5 +1,5 @@
 function ZR_STRATEGY_SERIAL(varargin)
-% 羽根英树的策略:010601
+% 连续合约的处理
 
 % 用到的全局变量
 global g_commoditynames;
@@ -9,6 +9,7 @@ global g_traderecord;
 global g_commodityparams;
 global g_rightid;
 global g_orderlist;
+global g_XMLfile;
 
 % 设置策略参数
 % ZR_FUN_SetStrategyParams(varargin{:});
@@ -28,7 +29,7 @@ for l_cmid=1:l_cmnum
     % 根据每一个品种设置策略参数
     ZR_FUN_SetParamsPerCommodity(l_cmid);
     l_inputdata=g_rawdata;
-    l_inputdata.strategyparams=g_commodityparams;
+%     l_inputdata.strategyparams=g_commodityparams;
     % 调入第三方函数
 %     eval(strcat('[l_stoutput,TradeDay]=ZR_STRATEGY_',g_rawdata.rightid{1}(1:6),'(l_inputdata);'));
 %     l_output=ZR_FUN_MoveToStoreHouse(l_inputdata,l_stoutput,TradeDay);
@@ -39,14 +40,41 @@ for l_cmid=1:l_cmnum
 %     prerecord=ZR_STRATEGY_SERIAL_PROCESS('040709','040706',l_inputdata);
 %     l_output=ZR_FUN_MoveToStoreHousePerSerial(l_inputdata,prerecord);
 %   
-    %执行策略函数
-    eval(strcat('l_output_strategy=ZR_STRATEGY_S',g_rawdata.rightid{1}(1:6),'(l_inputdata);'));
-    %执行移仓操作
+    % 为每一个品种初始化dailyinfo信息
+    l_inputdata=ZR_FUN_AddDailyInfoPerCommodity(l_inputdata);
+    
+    if numel(g_XMLfile)>1
+        % 执行策略组合
+        for l_xmlid=1:numel(g_XMLfile)
+            l_strategyid=ZR_FUN_GetStrategyidFromXMLfile(g_XMLfile{l_xmlid});
+            l_inputdata.strategyparams=g_commodityparams{l_xmlid};
+            eval(strcat('l_output_strategy=ZR_STRATEGY_SS',l_strategyid,'(l_inputdata);'));
+            l_inputdata.commodity.dailyinfo=l_output_strategy.dailyinfo;
+        end
+    else
+        % 执行单个策略
+        l_inputdata.strategyparams=g_commodityparams;
+        eval(strcat('l_output_strategy=ZR_STRATEGY_SS',g_rawdata.rightid{1}(1:6),'(l_inputdata);'));
+    end
+    
+%     if numel(g_XMLfile.strategyid)>1
+%         l_minor_strategyid=ZR_FUN_GetMinorStrategyid(); % 找到次策略id
+%         % 执行策略组合
+%         eval(strcat('l_output_strategy1=ZR_STRATEGY_SS',g_rawdata.rightid{1}(1:6),'(l_inputdata);'));
+% %         l_inputdata=ZR_FUN_SetDailyinfoForMinorStrategy(l_inputdata,l_output_strategy1);
+%         l_inputdata.commodity.dailyinfo=l_output_strategy1.dailyinfo; %修改dailyinfo信息
+%         eval(strcat('l_output_strategy=ZR_STRATEGY_SS',l_minor_strategyid,'(l_inputdata);'));
+%     else
+%         % 执行单个策略函数
+%         eval(strcat('l_output_strategy=ZR_STRATEGY_SS',g_rawdata.rightid{1}(1:6),'(l_inputdata);'));
+%     end
+    
+    % 执行移仓操作
     l_output_move=ZR_PROCESS_ShiftPositionPerSerial();
-    %融合策略与移仓的交易记录
+    % 融合策略与移仓的交易记录
     l_output=ZR_PROCESS_MergeStrategyAndShiftPos(l_output_strategy,l_output_move);
- 
-    g_traderecord=l_output.record;    
+
+    g_traderecord=l_output.record;
     g_orderlist=l_output.orderlist;
     ZR_PROCESS_TradeDataPerSerialContract();
     % 计算报告数据

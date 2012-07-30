@@ -8,7 +8,7 @@ global g_coredata;
 global g_traderecord;
 global g_commodityparams;
 global g_rightid;
-global g_strategyid;
+global g_orderlist;
 
 % 设置策略参数
 % ZR_FUN_SetStrategyParams(varargin{:});
@@ -36,17 +36,22 @@ for l_cmid=1:l_cmnum
         % 单个套利对的数据
         l_inputdata.pair=g_rawdata.pair(l_pairid);
         % 计算合约的指标
-        eval(strcat('g_traderecord=ZR_STRATEGY_',g_rawdata.rightid{1}(1:6),'(l_inputdata);'));
+        l_output=[];
+        eval(strcat('l_output=ZR_STRATEGY_',g_rawdata.rightid{1}(1:6),'(l_inputdata);'));
+        g_orderlist=l_output.orderlist;
+        g_traderecord=l_output.record;
 %         switch g_strategyid
 %             case '010603'
 %                 g_traderecord=ZR_STRATEGY_010603(l_inputdata);
 %         end
         % 计算交易记录
         ZR_PROCESS_TradeDataPerPair(l_pairid);
+        ZR_PROCESS_OrderDataPerPair(l_pairid);
         % 计算交易记录，交易记录可能来自第三方     
     end
     % 计算报告数据
     ZR_PROCESS_RecordReportPerCommodity(l_cmid);
+    ZR_PROCESS_OrderlistReportPerCommodity(l_cmid);
     % 保存交易的图表
     ZR_FUN_SaveTradeBarPerCommodity('pair');
 end

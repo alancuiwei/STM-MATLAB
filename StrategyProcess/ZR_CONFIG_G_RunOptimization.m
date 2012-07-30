@@ -3,12 +3,16 @@ function ZR_CONFIG_G_RunOptimization()
 global G_RunOptimization;
 global G_RunSpecialTestCase;
 global g_XMLfile;
+l_XMLfile=g_XMLfile;
+if iscell(g_XMLfile)
+    l_XMLfile=g_XMLfile{1};
+end
 % 优化过程
 % G_RunOptimization=read_xml('OPTIMIZE_GridSearch_01061.xml');
 % G_RunOptimization.g_method.runopimization=@ZR_OPTIMIZE_GridSearch;
 % G_RunOptimization.g_method.runopimization=@ZR_OPTIMIZE_PrioritizedStepSearch;
 G_RunOptimization.g_method.runopimization=@ZR_OPTIMIZE_MultipointHillClimbingSearch;
-switch g_XMLfile.strategyid(1:2)      %套利类型
+switch l_XMLfile.strategyid(1:2)      %套利类型
     case '01'           %跨期套利
         G_RunOptimization.g_method.runstrategy.fun=@ZR_STRATEGY_PAIR;
         G_RunOptimization.coredata.type='pair';
@@ -24,9 +28,9 @@ G_RunOptimization.coredata.needupdate=1;
 % G_RunOptimization.coredata.startdate='nolimit';
 % G_RunOptimization.coredata.enddate='2011-12-01';
 
-G_RunOptimization.strategyid=g_XMLfile.strategyid;
-G_RunOptimization.coredata.startdate=g_XMLfile.coredata.startdate;
-G_RunOptimization.coredata.enddate=g_XMLfile.coredata.enddate;
+G_RunOptimization.strategyid=l_XMLfile.strategyid;
+G_RunOptimization.coredata.startdate=l_XMLfile.coredata.startdate;
+G_RunOptimization.coredata.enddate=l_XMLfile.coredata.enddate;
 
 G_RunOptimization.g_commoditynames=G_RunSpecialTestCase.g_commoditynames;
 G_RunOptimization.g_pairnames=G_RunSpecialTestCase.g_pairnames;

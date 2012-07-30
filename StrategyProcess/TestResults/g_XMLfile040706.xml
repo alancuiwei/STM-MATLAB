@@ -15,8 +15,9 @@
    <strategyid>040706</strategyid>
    <path>./040706</path>
    <strategypath>./</strategypath>
-   <isupdated>1</isupdated>
-   <userid/>
+   <isupdated>0</isupdated>
+   <userid>52</userid>
+   <ordernum>1</ordernum>
    <objecttype>future</objecttype>
    <resulttype>xls</resulttype> 
 </g_XMLfile>

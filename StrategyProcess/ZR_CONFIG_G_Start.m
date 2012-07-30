@@ -7,9 +7,15 @@ G_Start.progress=[];
 G_Start.starttime=[];
 G_Start.remaintime=[];
 G_Start.endtime=[];
-if isempty(g_XMLfile.strategypath)
+if iscell(g_XMLfile)
+    l_XMLfile=g_XMLfile{1};
+else
+    l_XMLfile=g_XMLfile;
+end
+if isempty(l_XMLfile.strategypath)
     G_Start.currentpath=pwd;
 else
-    G_Start.currentpath=g_XMLfile.strategypath;
+    G_Start.currentpath=l_XMLfile.strategypath;
 end
+
 end

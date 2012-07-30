@@ -161,7 +161,10 @@ for l_caculationid=1:g_tradecaculation.caculationnum
         end
     end
 end
-out_traderecord=l_traderecord;
+out_traderecord.record=l_traderecord;
+out_traderecord.orderlist.price=[];
+out_traderecord.orderlist.direction=[];
+out_traderecord.orderlist.name={};
 
 function SUB_TradeCalculationPeriodly(in_inputdata,in_calulationid,in_strategytype)
 %%%%%%%% 交易演算,交易有周期限制

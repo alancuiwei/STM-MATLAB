@@ -128,6 +128,6 @@ for l_id = 1:numel(outputdata.record.opdate)
 end
 %==========================================================================
 %修正交易记录中orderlist对应的合约名
-if ~isempty(outputdata.orderlist)
+if ~isempty(outputdata.orderlist.direction)
     outputdata.record.ctname(end+1)=inputdata_strategy.record.ctname(end);
 end

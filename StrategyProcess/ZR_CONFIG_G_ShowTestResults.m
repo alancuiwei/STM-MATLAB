@@ -2,6 +2,13 @@ function ZR_CONFIG_G_ShowTestResults()
 % 记录测试结果展示参数
 global G_ShowTestResults;
 global g_XMLfile;
+
+if iscell(g_XMLfile)
+    l_XMLfile=g_XMLfile{1};
+else
+    l_XMLfile=g_XMLfile;
+end
+
 % 月收益表
 G_ShowTestResults.g_tables.returnrate.title={' ','一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月','年收益'};
 % 开仓记录表
@@ -52,11 +59,11 @@ G_ShowTestResults.g_tables.xls.record.trade.sheetname='traderecord';
 G_ShowTestResults.g_tables.xls.optimization.filename='Optim';
 G_ShowTestResults.g_tables.xls.orderlist.sheetname='orderlist';
 % 导出到xml
-G_ShowTestResults.g_tables.xml.record.pos.filename=strcat('posrecord-',num2str(g_XMLfile.userid));
-G_ShowTestResults.g_tables.xml.returnrate.filename=strcat('returnrate-',num2str(g_XMLfile.userid));
-G_ShowTestResults.g_tables.xml.reference.filename=strcat('reference-',num2str(g_XMLfile.userid));
-G_ShowTestResults.g_tables.xml.dailyinfo.filename=strcat('dailyinfo-',num2str(g_XMLfile.userid));
-G_ShowTestResults.g_tables.xml.orderlist.filename=strcat('orderlist-',num2str(g_XMLfile.userid));
+G_ShowTestResults.g_tables.xml.record.pos.filename=strcat('posrecord-',num2str(l_XMLfile.userid));
+G_ShowTestResults.g_tables.xml.returnrate.filename=strcat('returnrate-',num2str(l_XMLfile.userid));
+G_ShowTestResults.g_tables.xml.reference.filename=strcat('reference-',num2str(l_XMLfile.userid));
+G_ShowTestResults.g_tables.xml.dailyinfo.filename=strcat('dailyinfo-',num2str(l_XMLfile.userid));
+G_ShowTestResults.g_tables.xml.orderlist.filename=strcat('orderlist-',num2str(l_XMLfile.userid));
 % 测评参数表
 G_ShowTestResults.g_tables.reference.name.title='合约名称';
 G_ShowTestResults.g_tables.reference.costinput.title='投入资金';
@@ -81,16 +88,33 @@ G_ShowTestResults.g_tables.reference.expectedvalue.title='期望值';
 G_ShowTestResults.g_tables.reference.maxdrawdown.title='最大资金回挫';
 G_ShowTestResults.g_tables.reference.maxdrawdownspread.title='最长衰退期';
 % 优化表
-l_titlenames=fieldnames(g_XMLfile.g_strategyparams);
-l_commandstr='';
-if ~isempty(l_titlenames)
-    for l_titleid=1:length(l_titlenames)
-        l_commandstr=strcat(l_commandstr,...
-            sprintf('G_ShowTestResults.g_tables.optimization.param.%s.title=''%s'';',...
-            l_titlenames{l_titleid},l_titlenames{l_titleid})); 
+if iscell(g_XMLfile)
+    for l_id=1:numel(g_XMLfile)
+        l_titlenames=fieldnames(g_XMLfile{l_id}.g_strategyparams);
+        l_commandstr='';
+        if ~isempty(l_titlenames)
+            for l_titleid=1:length(l_titlenames)
+                l_commandstr=strcat(l_commandstr,...
+                    sprintf('G_ShowTestResults.g_tables.optimization.param.%s.title=''%s'';',...
+                    l_titlenames{l_titleid},l_titlenames{l_titleid})); 
+            end
+        end
+        eval(l_commandstr);
     end
+else
+    l_titlenames=fieldnames(l_XMLfile.g_strategyparams);
+        l_commandstr='';
+        if ~isempty(l_titlenames)
+            for l_titleid=1:length(l_titlenames)
+                l_commandstr=strcat(l_commandstr,...
+                    sprintf('G_ShowTestResults.g_tables.optimization.param.%s.title=''%s'';',...
+                    l_titlenames{l_titleid},l_titlenames{l_titleid})); 
+            end
+        end
+        eval(l_commandstr);
 end
-eval(l_commandstr);  
+
+  
 G_ShowTestResults.g_tables.optimization.expectedvalue.title='expected';
 % G_ShowTestResults.g_tables.optimization.param.period.title='周期';
 % G_ShowTestResults.g_tables.optimization.param.losses.title='止损参数';
@@ -108,26 +132,26 @@ G_ShowTestResults.g_figure.savetradebar.outfiletype='-djpeg';
 G_ShowTestResults.g_figure.savetradebar.issaved=0;
 
 % 显示报告
-G_ShowTestResults.g_tables.strategyid=g_XMLfile.strategyid;
-G_ShowTestResults.g_tables.outdir=g_XMLfile.path;
-G_ShowTestResults.g_figure.savetradebar.outdir=g_XMLfile.path;    
-switch g_XMLfile.resulttype
+G_ShowTestResults.g_tables.strategyid=l_XMLfile.strategyid;
+G_ShowTestResults.g_tables.outdir=l_XMLfile.path;
+G_ShowTestResults.g_figure.savetradebar.outdir=l_XMLfile.path;    
+switch l_XMLfile.resulttype
     case 'xml'
         G_ShowTestResults.g_tables.outfiletype='xml';    
     case 'database'
         G_ShowTestResults.g_tables.outfiletype='database';     
-        G_ShowTestResults.g_tables.userid=g_XMLfile.userid; 
-        G_ShowTestResults.g_tables.ordernum=g_XMLfile.ordernum; 
-        G_ShowTestResults.g_tables.strategyid=g_XMLfile.strategyid; 
+        G_ShowTestResults.g_tables.userid=l_XMLfile.userid; 
+        G_ShowTestResults.g_tables.ordernum=l_XMLfile.ordernum; 
+        G_ShowTestResults.g_tables.strategyid=l_XMLfile.strategyid; 
     case 'xls'  
         G_ShowTestResults.g_tables.outfiletype='xls';
 end
 
 
-% if ~g_XMLfile.isupdated
+% if ~l_XMLfile.isupdated
 %     G_ShowTestResults.g_tables.outfiletype='xml';
-%     G_ShowTestResults.g_tables.outdir=g_XMLfile.path;
-%     G_ShowTestResults.g_figure.savetradebar.outdir=g_XMLfile.path;
+%     G_ShowTestResults.g_tables.outdir=l_XMLfile.path;
+%     G_ShowTestResults.g_figure.savetradebar.outdir=l_XMLfile.path;
 % elseif g_DBconfig.isupdated
 %     G_ShowTestResults.g_tables.outfiletype='database';
 % end

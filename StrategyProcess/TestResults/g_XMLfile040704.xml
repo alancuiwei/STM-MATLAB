@@ -5,7 +5,8 @@
       <enddate>2010-12-31</enddate>
    </coredata>
    <g_strategyparams>
-       <ma1>5</ma1> <ma2>10</ma2>       
+       <ma1>5</ma1>
+       <ma2>10</ma2> 
    </g_strategyparams>
    <g_commoditynames/>
    <g_pairnames/>
@@ -15,7 +16,7 @@
    <strategypath>./</strategypath>
    <isupdated>1</isupdated>
 <userid>52</userid>
-<ordernum>1</ordernum>
+<ordernum>0</ordernum>
    <objecttype>future</objecttype>
-   <resulttype>xml</resulttype> 
+   <resulttype>xls</resulttype> 
 </g_XMLfile>
