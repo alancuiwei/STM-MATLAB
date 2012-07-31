@@ -59,9 +59,7 @@ g_optimization.valuenum=sum(l_len);               %这个数字不准确
 l_numberOfStartingpoints = 3;
 
 %初始化
-l_LocalStartingpoints = cell(l_numberOfStartingpoints);     %初始点
-l_OldLocalBestprofits = zeros(1,l_numberOfStartingpoints);    %旧的局部最优收益
-l_NewLocalBestprofits = zeros(1,l_numberOfStartingpoints);    %新的局部最优收益
+l_LocalStartingpoints = cell(l_numberOfStartingpoints,1);     %初始点
 l_size = zeros(1,g_optimization.paramnum);
 
 %检查参数变化范围
