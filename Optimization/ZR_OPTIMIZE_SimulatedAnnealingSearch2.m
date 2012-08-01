@@ -1,4 +1,4 @@
-function ZR_OPTIMIZE_SimulatedAnnealingSearch(varargin)
+function ZR_OPTIMIZE_SimulatedAnnealingSearch2(varargin)
 % 网格计算，参数配对
 % param1代表第一个参数（商品周期），param2代表第二个参数（止损点）
 % 计算的网格存放在g_paramgrid里
@@ -58,7 +58,8 @@ g_optimization.valuenum=sum(l_len);               %这个数字不准确
 l_Currentpoint = zeros(1, g_optimization.paramnum);       %记录当前点各参数的值
 l_size = zeros(1, g_optimization.paramnum);               %用于记录每个参数有多少种可能性
 l_position = zeros(1, g_optimization.paramnum);           %记录当前点各参数的位置
-l_kmax = 50;                                              %搜索次数
+l_Temperature = 20;                                        %初始温度
+l_TemperatureStep = l_Temperature / 50;
 
 %检查每个参数的可能性个数&随机选择初始点
 for l_paramid = 1 : g_optimization.paramnum
@@ -94,10 +95,8 @@ l_GlobalBestParam = g_optimization.param{1};               %用于记录已找到的最优
 l_profit = g_optimization.expectedvalue(1);                %当前点的收益
 
 l_constant = [-1,0,1];   %用于生成邻域点
- 
-l_k = 0;
-
-while l_k < l_kmax
+    
+while l_Temperature > 0
 
     %随机选择邻域点
     l_neighbour = zeros(1, g_optimization.paramnum);
@@ -119,9 +118,12 @@ while l_k < l_kmax
         l_nonverified = isempty(find(cell2mat(cellfun(@(x) (isequal(x,l_neighbour)), g_optimization.param, 'UniformOutput', false)), 1));
         
         if l_nonverified == 1
-           l_k = l_k + 1;
+           l_Temperature = l_Temperature - l_TemperatureStep;
+           %disp(['现在温度：', num2str(l_Temperature)]);
            break;
         end  
+        
+        disp(['现在温度：', num2str(l_Temperature)]);
         
         l_loopnumber = l_loopnumber + 1;
         
@@ -130,7 +132,7 @@ while l_k < l_kmax
                 l_newposition(l_paramid) = min(max(1, ceil(rand()*l_size(l_paramid))), l_size(l_paramid));
                 l_neighbour(l_paramid) = g_optimization.range{l_paramid}(l_newposition(l_paramid));                
             end
-            l_k = l_k + 1;
+            l_Temperature = l_Temperature - l_TemperatureStep;
             break;
         end
         
@@ -158,9 +160,7 @@ while l_k < l_kmax
     
     
     l_neighbourprofit = g_optimization.expectedvalue(end);
-    
-    l_Temperature = exp((l_kmax - l_k)^3*0.0001) - 1;
-    
+        
     if l_Proba(l_profit, l_neighbourprofit, l_Temperature) >= rand()
         
         if l_neighbourprofit > l_GlobalBestProfit
