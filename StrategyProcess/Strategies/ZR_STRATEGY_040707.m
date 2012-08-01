@@ -1,4 +1,4 @@
-function outputdata=ZR_STRATEGY_SS040707(inputdata)
+function outputdata=ZR_STRATEGY_040707(inputdata)
 % D值（KDJ）策略
 % l_temp=load('G:\lm\STM-MATLAB-0710\StrategyProcess\MA60_l_inputdata.mat');
 % inputdata=l_temp.l_inputdata;
@@ -205,6 +205,8 @@ if isequal(zeros(numel(inputdata.commodity.dailyinfo.trend),1),inputdata.commodi
             end
         end
     end
+    %对于D值（KDJ）策略而言，中间存在不做的趋势，在此修正
+    outputdata.dailyinfo.trend(l_price(3,:)<80 & l_price(3,:)>20)=4;
     %======================================================================
 else                %否则作为次策略，决定真正交易日期
     %在不考虑强制平仓的情况下寻找出需要交易的点
@@ -249,6 +251,10 @@ else                %否则作为次策略，决定真正交易日期
     l_tradeday(l_tradeday==0)=[];
     l_direction(l_direction==0)=[];
     %去除连续做多或做空的交易日期
+    if isempty(l_direction)
+        sprintf('策略算法无交易记录输出');
+        return;
+    end
     l_directionkey=l_direction(1);
     for l_id = 2:numel(l_tradeday)
         if l_direction(l_id)==l_directionkey

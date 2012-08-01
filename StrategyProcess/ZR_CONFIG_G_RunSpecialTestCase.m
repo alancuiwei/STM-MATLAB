@@ -10,7 +10,7 @@ else
     l_XMLfile=g_XMLfile;
 end
 
-l_strategyid=ZR_FUN_GetStrategyidFromXMLfile(l_XMLfile);
+l_strategyid=l_XMLfile.strategyid;
 switch l_strategyid(1:2)      %套利类型
     case '01'       %跨期套利
         G_RunSpecialTestCase.coredata.type='pair';

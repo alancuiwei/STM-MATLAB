@@ -1,4 +1,4 @@
-function outputdata=ZR_STRATEGY_SS040708(inputdata)
+function outputdata=ZR_STRATEGY_040708(inputdata)
 % RSI策略
 % l_temp=load('G:\lm\STM-MATLAB-0710\StrategyProcess\MA60_l_inputdata.mat');
 % inputdata=l_temp.l_inputdata;
@@ -244,6 +244,9 @@ else                %否则作为次策略，决定真正交易日期
     l_tradeday(l_tradeday==0)=[];
     l_direction(l_direction==0)=[];
     %去除连续做多或做空的交易日期
+    if isempty(l_direction)
+        return;
+    end
     l_directionkey=l_direction(1);
     for l_id = 2:numel(l_tradeday)
         if l_direction(l_id)==l_directionkey

@@ -62,12 +62,16 @@ if ~isempty(l_split)    %说明是策略组合
             else
                 for l_id=1:length(l_subdata(:,1))
 %                     l_index=strcmp(l_data(:,1),l_subdata(l_id,1),l_id);
-                    l_index=find(ismember(l_data(:,1),l_subdata(l_id,1)),1,'first');
+                    l_index=find(strcmp(l_data(:,1),l_subdata(l_id,1))==1);
                     if isempty(l_index)
                         sprintf('缺少策略%s的参数：',l_strategy{l_strategyid});
                         return;
                     end
-                    l_cmdstr=strcat('g_XMLfile{l_strategyid}.g_strategyparams.',l_data{l_index,1},'=',num2str(l_data{l_index,2}),';');
+                    if numel(l_index)>1
+                        l_cmdstr=strcat('g_XMLfile{l_strategyid}.g_strategyparams.',l_data{l_index(l_strategyid),1},'=',num2str(l_data{l_index(l_strategyid),2}),';');
+                    else
+                        l_cmdstr=strcat('g_XMLfile{l_strategyid}.g_strategyparams.',l_data{l_index,1},'=',num2str(l_data{l_index,2}),';');
+                    end
                     eval(l_cmdstr);
                 end
             end

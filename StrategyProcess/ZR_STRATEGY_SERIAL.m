@@ -34,19 +34,28 @@ for l_cmid=1:l_cmnum
     % 调入第三方函数
    
     % 为每一个品种初始化dailyinfo信息
-    l_inputdata=ZR_FUN_AddDailyInfoPerCommodity(l_inputdata);
+    l_inputdata.commodity.dailyinfo.date=l_inputdata.commodity.serialmkdata.date;
+    l_inputdata.commodity.dailyinfo.trend=zeros(numel(l_inputdata.commodity.serialmkdata.date),1);
     if numel(g_XMLfile)>1
         % 执行策略组合
         for l_xmlid=1:numel(g_XMLfile)
             l_inputdata.strategyparams=g_commodityparams{l_xmlid};
-            eval(strcat('l_output_strategy=ZR_STRATEGY_SS',g_XMLfile{l_xmlid}.strategyid,'(l_inputdata);'));
+            eval(strcat('l_output_strategy=ZR_STRATEGY_',g_XMLfile{l_xmlid}.strategyid,'(l_inputdata);'));
+            if isempty(l_output_strategy.record.opdate)
+                sprintf('组合策略中策略:%s对于品种:%s没有策略输出信息',g_XMLfile{l_xmlid}.strategyid,g_commoditynames{l_cmid})
+                break;
+            end
+            % 测试第一个策略算法处理报告
             g_temprecord=cat(2,g_temprecord,l_output_strategy);
             l_inputdata.commodity.dailyinfo=l_output_strategy.dailyinfo;
         end
     else
         % 执行单个策略
         l_inputdata.strategyparams=g_commodityparams;
-        eval(strcat('l_output_strategy=ZR_STRATEGY_SS',g_rawdata.rightid{1}(1:6),'(l_inputdata);'));
+        eval(strcat('l_output_strategy=ZR_STRATEGY_',g_rawdata.rightid{1}(1:6),'(l_inputdata);'));
+        if isempty(l_output_strategy.record.opdate)
+            sprintf('策略:%s对于品种%s没有策略输出信息',g_rawdata.rightid{1}(1:6),g_commoditynames{l_cmid})
+        end
     end
     
     % 执行移仓操作
