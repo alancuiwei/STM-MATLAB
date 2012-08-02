@@ -3,19 +3,22 @@
    <coredata>
       <startdate>2010-01-01</startdate>
       <enddate>2010-12-31</enddate>
-   </coredata>     
+   </coredata>
    <g_strategyparams>
-   <ma1>5</ma1> <ma2>10</ma2>
+    <ma>60</ma>
    </g_strategyparams>
-   <g_commoditynames/>
+   <g_commoditynames>
+	  <item>l</item>
+	  <item>p</item> 
+   </g_commoditynames>
    <g_pairnames/>
    <g_contractnames/>
-   <strategyid>040710</strategyid>
-   <path>./040710</path>
-   <strategypath>./</strategypath>
-   <isupdated>1</isupdated>
-<userid>52</userid>
-<ordernum>1</ordernum>
+   <strategyid>040709</strategyid>
+   <path>./Strategies/TestResults/040709</path>
+   <strategypath>./Strategies/XMLfiles</strategypath>
+   <isupdated>0</isupdated>
+<userid/>
+<ordernum/>
    <objecttype>future</objecttype>
    <resulttype>xls</resulttype> 
 </g_XMLfile>

@@ -24,12 +24,12 @@ l_mean60buff=conv(inputdata.commodity.serialmkdata.cp,l_day60)/inputdata.strateg
 l_price(1,:)=inputdata.commodity.serialmkdata.cp;
 l_price(2,:)=l_mean60buff(1:numel(inputdata.commodity.serialmkdata.cp));
 %==========================================================================
-% figure('Name',strcat('040709',cell2mat(inputdata.commodity.name)));
-% plot(l_price(1,:),'-r*');
-% hold on;
-% plot(l_price(2,:),'-b+');
-% legend('Cp','MA60',2);
-% hold off;
+figure('Name',strcat('040709',cell2mat(inputdata.commodity.name)));
+plot(l_price(1,:),'-r*');
+hold on;
+plot(l_price(2,:),'-b+');
+legend('Cp','MA60',2);
+hold off;
 %==========================================================================
 %以异号为原则寻找交叉点，并将寻找到的异号点存入数组PositionTrade中
 l_diffprice=l_price(2,:)-l_price(1,:);                                    
@@ -199,14 +199,14 @@ else                %否则作为次策略，决定真正交易日期
         if(l_signprice(l_postrade(l_posid))~=0) %判断此交点位置是否刚好为整数
             if(l_price(2,l_postrade(l_posid)+1)>l_price(2,l_postrade(l_posid)) &&...   %MA均线上升
                     l_price(1,l_postrade(l_posid)+1)>l_price(2,l_postrade(l_posid)+1) && l_price(1,l_postrade(l_posid))<l_price(2,l_postrade(l_posid))) %cp向上突破MA
-                if inputdata.commodity.dailyinfo.trend(l_postrade(l_posid)-1)==2
+                if inputdata.commodity.dailyinfo.trend(l_postrade(l_posid))==2
                     l_tradeday(l_cnt)=l_postrade(l_posid);
                     l_direction(l_cnt)=1;
                     l_cnt=l_cnt+1;
                 end
             elseif(l_price(2,l_postrade(l_posid))>l_price(2,l_postrade(l_posid)+1) &&...    %MA均线下降
                     l_price(1,l_postrade(l_posid))>l_price(2,l_postrade(l_posid)) && l_price(1,l_postrade(l_posid)+1)<l_price(2,l_postrade(l_posid)+1)) %cp向下突破MA
-                if inputdata.commodity.dailyinfo.trend(l_postrade(l_posid)-1)==1
+                if inputdata.commodity.dailyinfo.trend(l_postrade(l_posid))==1
                     l_tradeday(l_cnt)=l_postrade(l_posid);
                     l_direction(l_cnt)=-1;
                     l_cnt=l_cnt+1;
@@ -215,14 +215,14 @@ else                %否则作为次策略，决定真正交易日期
         else %当交点位置刚好为整数时
             if(l_price(2,l_postrade(l_posid)+1)>l_price(2,l_postrade(l_posid)-1) &&...   %MA均线上升
                     l_price(1,l_postrade(l_posid)+1)>l_price(2,l_postrade(l_posid)+1) && l_price(1,l_postrade(l_posid)-1)<l_price(2,l_postrade(l_posid)-1)) %cp向上突破MA
-                if inputdata.commodity.dailyinfo.trend(l_postrade(l_posid)-1)==2
+                if inputdata.commodity.dailyinfo.trend(l_postrade(l_posid))==2
                     l_tradeday(l_cnt)=l_postrade(l_posid);
                     l_direction(l_cnt)=1;
                     l_cnt=l_cnt+1;
                 end
             elseif(l_price(2,l_postrade(l_posid)-1)>l_price(2,l_postrade(l_posid)+1) &&...    %MA均线下降
                     l_price(1,l_postrade(l_posid)-1)>l_price(2,l_postrade(l_posid)-1) && l_price(1,l_postrade(l_posid)+1)<l_price(2,l_postrade(l_posid)+1)) %cp向下突破MA
-                if inputdata.commodity.dailyinfo.trend(l_postrade(l_posid)-1)==1
+                if inputdata.commodity.dailyinfo.trend(l_postrade(l_posid))==1
                     l_tradeday(l_cnt)=l_postrade(l_posid);
                     l_direction(l_cnt)=-1;
                     l_cnt=l_cnt+1;

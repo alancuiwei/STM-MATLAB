@@ -5,18 +5,19 @@
       <enddate>2010-12-31</enddate>
    </coredata>
    <g_strategyparams>
-       <ma1>5</ma1>
-       <ma2>10</ma2> 
+    <K>9</K> <D>3</D> <J>3</J>
    </g_strategyparams>
-   <g_commoditynames/>
+   <g_commoditynames>
+	  <item>l</item>
+	  <item>p</item> 
+   </g_commoditynames>
    <g_pairnames/>
    <g_contractnames/>
-   <strategyid>040704</strategyid>
-   <path>./040704</path>
-   <strategypath>./</strategypath>
-   <isupdated>1</isupdated>
-<userid>52</userid>
-<ordernum>0</ordernum>
+   <strategyid>040705</strategyid>
+   <path>./Strategies/TestResults/040705</path>
+   <strategypath>./Strategies/XMLfiles/</strategypath>
+   <isupdated>0</isupdated>
+<userid/>
    <objecttype>future</objecttype>
    <resulttype>xls</resulttype> 
 </g_XMLfile>

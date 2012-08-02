@@ -5,6 +5,10 @@ global g_XMLfile;
 
 if iscell(g_XMLfile)
     l_XMLfile=g_XMLfile{1};
+    G_ShowTestResults.g_tables.strategyid=l_XMLfile.strategyid;
+    for l_id=2:length(g_XMLfile)
+        G_ShowTestResults.g_tables.strategyid=strcat(G_ShowTestResults.g_tables.strategyid,'-',g_XMLfile{l_id}.strategyid);
+    end
 else
     l_XMLfile=g_XMLfile;
 end
@@ -132,7 +136,7 @@ G_ShowTestResults.g_figure.savetradebar.outfiletype='-djpeg';
 G_ShowTestResults.g_figure.savetradebar.issaved=0;
 
 % œ‘ æ±®∏Ê
-G_ShowTestResults.g_tables.strategyid=l_XMLfile.strategyid;
+% G_ShowTestResults.g_tables.strategyid=l_XMLfile.strategyid;
 G_ShowTestResults.g_tables.outdir=l_XMLfile.path;
 G_ShowTestResults.g_figure.savetradebar.outdir=l_XMLfile.path;    
 switch l_XMLfile.resulttype
@@ -142,7 +146,7 @@ switch l_XMLfile.resulttype
         G_ShowTestResults.g_tables.outfiletype='database';     
         G_ShowTestResults.g_tables.userid=l_XMLfile.userid; 
         G_ShowTestResults.g_tables.ordernum=l_XMLfile.ordernum; 
-        G_ShowTestResults.g_tables.strategyid=l_XMLfile.strategyid; 
+%         G_ShowTestResults.g_tables.strategyid=l_XMLfile.strategyid; 
     case 'xls'  
         G_ShowTestResults.g_tables.outfiletype='xls';
 end

@@ -30,21 +30,30 @@ for l_id=1:numel(l_dayhighprice)
         l_lowprice(l_id)=min(l_daylowprice(l_id-20:l_id-1));
     end
 end
-
+%==========================================================================
+figure('Name',strcat('040710',cell2mat(inputdata.commodity.name)));
+plot(l_highprice,'-r*');
+hold on;
+plot(l_lowprice,'-g*');
+hold on;
+plot(l_closeprice,'-k+');
+legend('H_4_w_e_e_k','L_4_w_e_e_k','Cp',2);
+hold off;
+%==========================================================================
 l_diffprice1=l_highprice-l_closeprice';
-l_signprice1=l_diffprice1(22:numel(l_diffprice1)).*l_diffprice1(21:numel(l_diffprice1)-1);
+l_signprice1=l_diffprice1(2:numel(l_diffprice1)).*l_diffprice1(1:numel(l_diffprice1)-1);
 l_pos1=find(l_signprice1<0);%计算收盘价大于四周最高价的点的位置
 l_posinter1=find(l_diffprice1==0);
 l_postrade1=unique([l_pos1,l_posinter1]);
 
 l_diffprice2=l_closeprice'-l_lowprice;
-l_signprice2=l_diffprice2(22:numel(l_diffprice2)).*l_diffprice2(21:numel(l_diffprice2)-1);
+l_signprice2=l_diffprice2(2:numel(l_diffprice2)).*l_diffprice2(1:numel(l_diffprice2)-1);
 l_pos2=find(l_signprice2<0);%计算收盘价低于四周最低价的点的位置
 l_posinter2=find(l_diffprice2==0);
 l_postrade2=unique([l_pos2,l_posinter2]);
 
 l_signprice=[l_signprice1,l_signprice2];
-l_postrade=unique([l_postrade1,l_postrade2]);                                   
+l_postrade=unique([l_postrade1,l_postrade2]);           
 %==========================================================================         
 
 if isequal(zeros(numel(inputdata.commodity.dailyinfo.trend),1),inputdata.commodity.dailyinfo.trend) %判断是否作为主策略或单一策略
@@ -209,14 +218,14 @@ else        %否则作为次策略，决定真正交易日期
         if(l_signprice(l_postrade(l_posid))~=0) %判断此交点位置是否刚好为整数
             if(l_closeprice(l_postrade(l_posid)+1)>l_closeprice(l_postrade(l_posid))...
                     && l_closeprice(l_postrade(l_posid)+1)>l_highprice(l_postrade(l_posid)+1)) %向上突破的条件判断
-                if inputdata.commodity.dailyinfo.trend(l_postrade(l_posid)-1)==2
+                if inputdata.commodity.dailyinfo.trend(l_postrade(l_posid))==2
                     l_tradeday(l_cnt)=l_postrade(l_posid);
                     l_direction(l_cnt)=1;
                     l_cnt=l_cnt+1;
                 end
             elseif(l_closeprice(l_postrade(l_posid)+1)<l_closeprice(l_postrade(l_posid))...
                     && l_closeprice(l_postrade(l_posid)+1)<l_lowprice(l_postrade(l_posid)+1)) %向下突破的条件判断
-                if inputdata.commodity.dailyinfo.trend(l_postrade(l_posid)-1)==1
+                if inputdata.commodity.dailyinfo.trend(l_postrade(l_posid))==1
                     l_tradeday(l_cnt)=l_postrade(l_posid);
                     l_direction(l_cnt)=-1;
                     l_cnt=l_cnt+1;
@@ -226,7 +235,7 @@ else        %否则作为次策略，决定真正交易日期
             if(l_closeprice(l_postrade(l_posid)+1)>l_closeprice(l_postrade(l_posid)-1)...
                     && l_closeprice(l_postrade(l_posid)-1)<l_highprice(l_postrade(l_posid)-1)...
                     && l_closeprice(l_postrade(l_posid)+1)>l_highprice(l_postrade(l_posid)+1)) %向上突破的条件判断
-                if inputdata.commodity.dailyinfo.trend(l_postrade(l_posid)-1)==2
+                if inputdata.commodity.dailyinfo.trend(l_postrade(l_posid))==2
                     l_tradeday(l_cnt)=l_postrade(l_posid);
                     l_direction(l_cnt)=1;
                     l_cnt=l_cnt+1;
@@ -234,7 +243,7 @@ else        %否则作为次策略，决定真正交易日期
             elseif(l_closeprice(l_postrade(l_posid)+1)<l_closeprice(l_postrade(l_posid))...
                     && l_closeprice(l_postrade(l_posid)-1)>l_lowprice(l_postrade(l_posid)-1)...
                     && l_closeprice(l_postrade(l_posid)+1)<l_lowprice(l_postrade(l_posid)+1)) %向下突破的条件判断
-                if inputdata.commodity.dailyinfo.trend(l_postrade(l_posid)-1)==1
+                if inputdata.commodity.dailyinfo.trend(l_postrade(l_posid))==1
                     l_tradeday(l_cnt)=l_postrade(l_posid);
                     l_direction(l_cnt)=-1;
                     l_cnt=l_cnt+1;

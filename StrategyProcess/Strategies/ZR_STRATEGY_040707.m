@@ -26,14 +26,14 @@ l_price(2,:)=ones(size(inputdata.commodity.serialmkdata.cp)).*20;
 l_price(3,:)=outSlowD;%整理平均数计算结果放入数组Price中
 l_price(l_price==0)=Inf;
 %==========================================================================
-% figure('Name',strcat('040707',cell2mat(inputdata.commodity.name)));
-% plot(l_price(1,:),'-b');
-% hold on;
-% plot(l_price(2,:),'-g');
-% hold on;
-% plot(l_price(3,:),'-r*');
-% legend('80H','20L','D',2);
-% hold off;
+figure('Name',strcat('040707',cell2mat(inputdata.commodity.name)));
+plot(l_price(1,:),'-b');
+hold on;
+plot(l_price(2,:),'-g');
+hold on;
+plot(l_price(3,:),'-r*');
+legend('80H','20L','D',2);
+hold off;
 %==========================================================================
 %以异号为原则寻找交叉点，并将寻找到的异号点存入数组PositionTrade中
 l_lowdiffprice=l_price(2,:)-l_price(3,:);
@@ -217,14 +217,14 @@ else                %否则作为次策略，决定真正交易日期
         if l_signprice(l_postrade(l_posid)~=0) %判断此交点位置是否刚好为整数
             if(l_price(3,l_postrade(l_posid)+1)>l_price(3,l_postrade(l_posid))...
                     && l_price(3,l_postrade(l_posid)+1)>l_price(1,l_postrade(l_posid)+1)) %向上突破的条件判断
-                if inputdata.commodity.dailyinfo.trend(l_postrade(l_posid)-1)==2
+                if inputdata.commodity.dailyinfo.trend(l_postrade(l_posid))==2
                     l_tradeday(l_cnt)=l_postrade(l_posid);
                     l_direction(l_cnt)=1;
                     l_cnt=l_cnt+1;
                 end
             elseif(l_price(3,l_postrade(l_posid))>l_price(3,l_postrade(l_posid)+1)...
                     &&l_price(2,l_postrade(l_posid)+1)>l_price(3,l_postrade(l_posid)+1)) %向下突破的条件判断                        
-                if inputdata.commodity.dailyinfo.trend(l_postrade(l_posid)-1)==1
+                if inputdata.commodity.dailyinfo.trend(l_postrade(l_posid))==1
                     l_tradeday(l_cnt)=l_postrade(l_posid);
                     l_direction(l_cnt)=-1;
                     l_cnt=l_cnt+1;
@@ -233,14 +233,14 @@ else                %否则作为次策略，决定真正交易日期
         else %当交点位置刚好为整数时
             if(l_price(3,l_postrade(l_posid)+1)>l_price(3,l_postrade(l_posid)-1)...
                     && l_price(3,l_postrade(l_posid)-1)<l_price(1,l_postrade(l_posid)-1) && l_price(3,l_postrade(l_posid)+1)>l_price(1,l_postrade(l_posid)+1)) %向上突破的条件判断
-                if inputdata.commodity.dailyinfo.trend(l_postrade(l_posid)-1)==2
+                if inputdata.commodity.dailyinfo.trend(l_postrade(l_posid))==2
                     l_tradeday(l_cnt)=l_postrade(l_posid);
                     l_direction(l_cnt)=1;
                     l_cnt=l_cnt+1;
                 end
             elseif(l_price(3,l_postrade(l_posid))>l_price(3,l_postrade(l_posid)+1)...
                     && l_price(2,l_postrade(l_posid)-1)<l_price(3,l_postrade(l_posid)-1) && l_price(2,l_postrade(l_posid)+1)>l_price(3,l_postrade(l_posid)+1)) %向下突破的条件判断                        
-                if inputdata.commodity.dailyinfo.trend(l_postrade(l_posid)-1)==1
+                if inputdata.commodity.dailyinfo.trend(l_postrade(l_posid))==1
                     l_tradeday(l_cnt)=l_postrade(l_posid);
                     l_direction(l_cnt)=-1;
                     l_cnt=l_cnt+1;

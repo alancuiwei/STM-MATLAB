@@ -107,16 +107,7 @@ end
 % 3.合并开仓日期、开仓价格、交易方向以及合约名称，并根据开仓日期的顺序进行排序
 outputdata.record.opdate=unique([inputdata_strategy.record.opdate,inputdata_move.record.opdate]); 
 for l_id = 1:numel(outputdata.record.opdate)
-    if ismember(outputdata.record.opdate(l_id),inputdata_move.record.opdate)
-        l_idx=find(ismember(inputdata_move.record.opdate,outputdata.record.opdate(l_id))==1);
-        outputdata.record.opdateprice(l_id)=inputdata_move.record.opdateprice(l_idx);
-%         outputdata.record.cpdate(l_id)=inputdata_move.record.cpdate(l_idx);
-%         outputdata.record.cpdateprice(l_id)=inputdata_move.record.cpdateprice(l_idx);
-%         outputdata.record.isclosepos(l_id)=inputdata_move.record.isclosepos(l_idx);
-        outputdata.record.direction(l_id)=inputdata_move.record.direction(l_idx);
-        outputdata.record.ctname(l_id)=inputdata_move.record.ctname(l_idx);
-        
-    elseif ismember(outputdata.record.opdate(l_id),inputdata_strategy.record.opdate)
+    if ismember(outputdata.record.opdate(l_id),inputdata_strategy.record.opdate)
         l_idx=find(ismember(inputdata_strategy.record.opdate,outputdata.record.opdate(l_id))==1);
         outputdata.record.opdateprice(l_id)=inputdata_strategy.record.opdateprice(l_idx);
 %         outputdata.record.cpdate(i)=inputdata_strategy.record.cpdate(l_idx);
@@ -124,6 +115,14 @@ for l_id = 1:numel(outputdata.record.opdate)
 %         outputdata.record.isclosepos(l_id)=inputdata_strategy.record.isclosepos(l_idx);
         outputdata.record.direction(l_id)=inputdata_strategy.record.direction(l_idx);
         outputdata.record.ctname(l_id)=inputdata_strategy.record.ctname(l_idx);
+    elseif ismember(outputdata.record.opdate(l_id),inputdata_move.record.opdate)
+        l_idx=find(ismember(inputdata_move.record.opdate,outputdata.record.opdate(l_id))==1);
+        outputdata.record.opdateprice(l_id)=inputdata_move.record.opdateprice(l_idx);
+%         outputdata.record.cpdate(l_id)=inputdata_move.record.cpdate(l_idx);
+%         outputdata.record.cpdateprice(l_id)=inputdata_move.record.cpdateprice(l_idx);
+%         outputdata.record.isclosepos(l_id)=inputdata_move.record.isclosepos(l_idx);
+        outputdata.record.direction(l_id)=inputdata_move.record.direction(l_idx);
+        outputdata.record.ctname(l_id)=inputdata_move.record.ctname(l_idx);
     end
 end
 
