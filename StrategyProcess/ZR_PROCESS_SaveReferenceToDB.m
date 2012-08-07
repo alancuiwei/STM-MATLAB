@@ -10,7 +10,8 @@ l_rightid=cell(1,length(g_reportset.commodity));
 for l_id=1:length(g_reportset.commodity)
     l_rightid(l_id)=g_reportset.commodity(l_id).record.pos.rightid(1);
 end
-l_strategyid=strcat(g_tables.strategyid,'000000');
+l_split=strfind(g_tables.strategyid,'-');
+l_strategyid=strcat(g_tables.strategyid(1:l_split-1),'000000-',g_tables.strategyid(l_split+1:end),'000000');
 l_rightid(end+1)={l_strategyid};
 % 连接数据库
 % l_conn=database('webfuturetest_101','root','123456');

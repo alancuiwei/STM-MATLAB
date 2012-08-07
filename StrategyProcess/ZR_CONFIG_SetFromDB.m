@@ -18,35 +18,35 @@ if iscell(g_XMLfile)    %多个g_XMLfileXXXX.xml文件组合
 %         l_strategyid=ZR_FUN_GetStrategyidFromXMLfile(g_XMLfile{l_xmlid});
         l_strategyid=g_XMLfile{l_xmlid}.strategyid;
         if find(cellfun(@isempty,strfind(varargin,strcat('g_DBconfig',l_strategyid,'.xml')))==0)     %从xml文件读取DBconfig信息
-            l_DBconfig(l_xmlid)=xml_read(strcat(g_XMLfile{l_xmlid}.strategypath,'/','g_DBconfig',l_strategyid,'.xml'));
-            if ~iscell(l_DBconfig(l_xmlid).allcommoditynames)
-                    l_DBconfig(l_xmlid).allcommoditynames = {l_DBconfig(l_xmlid).allcommoditynames};
+            l_DBconfig{l_xmlid}=xml_read(strcat(g_XMLfile{l_xmlid}.strategypath,'/','g_DBconfig',l_strategyid,'.xml'));
+            if ~iscell(l_DBconfig{l_xmlid}.allcommoditynames)
+                    l_DBconfig{l_xmlid}.allcommoditynames = {l_DBconfig{l_xmlid}.allcommoditynames};
             end
-            if ~iscell(l_DBconfig(l_xmlid).g_commoditynames)
-                    l_DBconfig(l_xmlid).g_commoditynames = {l_DBconfig(l_xmlid).g_commoditynames};
+            if ~iscell(l_DBconfig{l_xmlid}.g_commoditynames)
+                    l_DBconfig{l_xmlid}.g_commoditynames = {l_DBconfig{l_xmlid}.g_commoditynames};
             end
-            if ~iscell(l_DBconfig(l_xmlid).g_rightid)
-                    l_DBconfig(l_xmlid).g_rightid = {l_DBconfig(l_xmlid).g_rightid};
+            if ~iscell(l_DBconfig{l_xmlid}.g_rightid)
+                    l_DBconfig{l_xmlid}.g_rightid = {l_DBconfig{l_xmlid}.g_rightid};
             end
                         % 对g_DBconfig中的g_rightid成员变量，需要做num2str操作
-            for l_id = 1:length(l_DBconfig(l_xmlid).g_rightid) 
-                l_DBconfig(l_xmlid).g_rightid{l_id} = num2str(l_DBconfig(l_xmlid).g_rightid{l_id});
-                if length(l_DBconfig(l_xmlid).g_rightid{l_id}) < 12
-                    l_DBconfig(l_xmlid).g_rightid{l_id} = strcat('0',l_DBconfig(l_xmlid).g_rightid{l_id});
+            for l_id = 1:length(l_DBconfig{l_xmlid}.g_rightid) 
+                l_DBconfig{l_xmlid}.g_rightid{l_id} = num2str(l_DBconfig{l_xmlid}.g_rightid{l_id});
+                if length(l_DBconfig{l_xmlid}.g_rightid{l_id}) < 12
+                    l_DBconfig{l_xmlid}.g_rightid{l_id} = strcat('0',l_DBconfig{l_xmlid}.g_rightid{l_id});
                 end
             end
-            l_DBconfig(l_xmlid).strategyid=l_strategyid;
-            l_DBconfig(l_xmlid).isupdated=0;
+            l_DBconfig{l_xmlid}.strategyid=l_strategyid;
+            l_DBconfig{l_xmlid}.isupdated=0;
         else                        %从数据库读取DBconfig信息
             l_strategyinfo(l_xmlid)=ZR_FUN_QueryArbitrageInfo(l_strategyid);
-            l_DBconfig(l_xmlid).allcommoditynames=unique(cat(1,l_strategyinfo(l_xmlid).firstcommodityid,l_strategyinfo(l_xmlid).secondcommodityid));
-            l_DBconfig(l_xmlid).g_commoditynames=strcat(l_strategyinfo(l_xmlid).firstcommodityid,'-',l_strategyinfo(l_xmlid).secondcommodityid);           %包含'-'说明是套利对
-            l_DBconfig(l_xmlid).g_rightid=l_strategyinfo(l_xmlid).rightid;
-            l_DBconfig(l_xmlid).allcontractnames={};
-            l_DBconfig(l_xmlid).g_pairnames={};
-            l_DBconfig(l_xmlid).allpairs=[];
-            l_DBconfig(l_xmlid).currentdate=ZR_FUN_QueryMarketdataCurrentdate();
-            l_DBconfig(l_xmlid).isupdated=0;
+            l_DBconfig{l_xmlid}.allcommoditynames=unique(cat(1,l_strategyinfo(l_xmlid).firstcommodityid,l_strategyinfo(l_xmlid).secondcommodityid));
+            l_DBconfig{l_xmlid}.g_commoditynames=strcat(l_strategyinfo(l_xmlid).firstcommodityid,'-',l_strategyinfo(l_xmlid).secondcommodityid);           %包含'-'说明是套利对
+            l_DBconfig{l_xmlid}.g_rightid=l_strategyinfo(l_xmlid).rightid;
+            l_DBconfig{l_xmlid}.allcontractnames={};
+            l_DBconfig{l_xmlid}.g_pairnames={};
+            l_DBconfig{l_xmlid}.allpairs=[];
+            l_DBconfig{l_xmlid}.currentdate=ZR_FUN_QueryMarketdataCurrentdate();
+            l_DBconfig{l_xmlid}.isupdated=0;
             for l_id=1:length(l_strategyinfo(l_xmlid).rightid)
                 l_rightid=cell2mat(l_strategyinfo(l_xmlid).rightid(l_id));
                 switch(l_rightid(7:8))
@@ -56,10 +56,10 @@ if iscell(g_XMLfile)    %多个g_XMLfileXXXX.xml文件组合
                         l_months=ZR_FUN_QueryMasterMonths(l_strategyinfo(l_xmlid).firstcommodityid{l_id});   %查询该品种主力合约
                 end
                 l_contractnames=ZR_FUN_QueryContractnames(l_strategyinfo(l_xmlid).firstcommodityid{l_id},cell2mat(l_months));        %查询该品种所有合约名
-                l_DBconfig(l_xmlid).allcontractnames=cat(1,l_DBconfig(l_xmlid).allcontractnames,l_contractnames(:));
+                l_DBconfig{l_xmlid}.allcontractnames=cat(1,l_DBconfig{l_xmlid}.allcontractnames,l_contractnames(:));
                 switch l_rightid(1:2)       %套利类型
                     case '01'       %跨期套利
-%                         l_DBconfig(l_xmlid).g_commoditynames=strcat(l_strategyinfo(l_xmlid).firstcommodityid,'-',l_strategyinfo(l_xmlid).secondcommodityid);           %包含'-'说明是套利对
+%                         l_DBconfig{l_xmlid}.g_commoditynames=strcat(l_strategyinfo(l_xmlid).firstcommodityid,'-',l_strategyinfo(l_xmlid).secondcommodityid);           %包含'-'说明是套利对
 %                         l_allpairs=struct('ctname1',[],'ctunit1',[],'ctname2',[],'ctunit2',[],'rightid',l_rightid);
 %                         l_pairnames=cell((length(l_contractnames)-1),1);
 %                         for l_ctid=1:(length(l_contractnames)-1)
@@ -67,24 +67,24 @@ if iscell(g_XMLfile)    %多个g_XMLfileXXXX.xml文件组合
 %                             l_allpairs(l_ctid)=struct('ctname1',l_contractnames{l_ctid},'ctunit1',l_strategyinfo(l_xmlid).firstcommodityunit(l_id),...
 %                                 'ctname2',l_contractnames{l_ctid+1},'ctunit2',l_strategyinfo(l_xmlid).secondcommodityunit(l_id),'rightid',l_rightid);
 %                         end
-%                         l_DBconfig(l_xmlid).g_pairnames=cat(1,l_DBconfig(l_xmlid).g_pairnames,l_pairnames);
-%                         l_DBconfig(l_xmlid).allpairs=cat(2,l_DBconfig(l_xmlid).allpairs,l_allpairs);
+%                         l_DBconfig{l_xmlid}.g_pairnames=cat(1,l_DBconfig{l_xmlid}.g_pairnames,l_pairnames);
+%                         l_DBconfig{l_xmlid}.allpairs=cat(2,l_DBconfig{l_xmlid}.allpairs,l_allpairs);
                     case '02'       %跨产品套利
                     case '04'       %单边策略
-                        l_DBconfig(l_xmlid).g_commoditynames=l_strategyinfo(l_xmlid).firstcommodityid;           %单边策略，去掉'-'
+                        l_DBconfig{l_xmlid}.g_commoditynames=l_strategyinfo(l_xmlid).firstcommodityid;           %单边策略，去掉'-'
                     case '10'       %？？？？？
                 end
             end
         end
     end
     %取相同的品种品、合约名、套利对名和套利对
-    l_allcommoditynames=l_DBconfig(1).allcommoditynames;
-    l_commoditynames=l_DBconfig(1).g_commoditynames;
-    l_allcontractnames=l_DBconfig(1).allcontractnames;
+    l_allcommoditynames=l_DBconfig{1}.allcommoditynames;
+    l_commoditynames=l_DBconfig{1}.g_commoditynames;
+    l_allcontractnames=l_DBconfig{1}.allcontractnames;
     for l_dbid=2:numel(l_DBconfig)  
-        l_allcomidx=ismember(l_allcommoditynames,l_DBconfig(l_dbid).allcommoditynames);
-        l_comidx=ismember(l_commoditynames,l_DBconfig(l_dbid).g_commoditynames);
-        l_cntidx=ismember(l_allcontractnames,l_DBconfig(l_dbid).allcontractnames);
+        l_allcomidx=ismember(l_allcommoditynames,l_DBconfig{l_dbid}.allcommoditynames);
+        l_comidx=ismember(l_commoditynames,l_DBconfig{l_dbid}.g_commoditynames);
+        l_cntidx=ismember(l_allcontractnames,l_DBconfig{l_dbid}.allcontractnames);
         if isempty(find(l_allcomidx,1)) || isempty(find(l_comidx,1))
             error('没有共同的品种名!');
         end
@@ -100,17 +100,17 @@ if iscell(g_XMLfile)    %多个g_XMLfileXXXX.xml文件组合
     % g_DBconfig.g_pairnames=cat(1,g_DBconfig.g_pairnames,l_DBconfig(l_dbid).g_pairnames);
     % g_DBconfig.allpairs=cat(2,g_DBconfig.allpairs,l_DBconfig(l_dbid).allpairs);
 
-    g_DBconfig.currentdate=ZR_FUN_QueryMarketdataCurrentdate();
+    g_DBconfig.currentdate=l_DBconfig{1}.currentdate;
     %使用主策略id作为g_DBconfig的策略id 
     g_DBconfig.strategyid=g_XMLfile{1}.strategyid;
     %rightid处理方法一：'rightid1'-'rightid2'-...
     g_DBconfig.g_rightid={};
     for l_commodityid=1:numel(g_DBconfig.g_commoditynames)
         l_rightid='';
-        for l_stid=1:numel(l_DBconfig)-1
+        for l_dbid=1:numel(l_DBconfig)-1
 %             l_id=cell2mat(l_DBconfig(l_stid).rightid(1));
-            l_commodityindex=ismember(l_DBconfig(l_stid).g_commoditynames,g_DBconfig.g_commoditynames(l_commodityid));
-            l_rightid=strcat(l_rightid,l_DBconfig(l_stid).g_rightid(l_commodityindex),'-');
+            l_commodityindex=ismember(l_DBconfig{l_dbid}.g_commoditynames,g_DBconfig.g_commoditynames(l_commodityid));
+            l_rightid=strcat(l_rightid,l_DBconfig{l_dbid}.g_rightid(l_commodityindex),'-');
 %         end
 %             switch(l_id(1:2))
 %                 case '01'
@@ -121,8 +121,8 @@ if iscell(g_XMLfile)    %多个g_XMLfileXXXX.xml文件组合
 %                     l_rightid=strcat(l_rightid,l_strategyinfo(l_stid).rightid(l_commodityindex),'-');
 %             end
         end
-        l_commodityindex=ismember(l_DBconfig(end).g_commoditynames,g_DBconfig.g_commoditynames(l_commodityid));
-        l_rightid=strcat(l_rightid,l_DBconfig(end).g_rightid(l_commodityindex));
+        l_commodityindex=ismember(l_DBconfig{end}.g_commoditynames,g_DBconfig.g_commoditynames(l_commodityid));
+        l_rightid=strcat(l_rightid,l_DBconfig{end}.g_rightid(l_commodityindex));
 %         l_id=cell2mat(l_strategyinfo(end).rightid(1));
 %         switch(l_id(1:2))
 %             case '01'

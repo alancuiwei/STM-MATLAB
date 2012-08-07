@@ -17,6 +17,7 @@ g_tables.record.pos.cpdateprice.title='平仓价格（差）';
 g_tables.record.pos.margin.title='保证金';
 g_tables.record.pos.optradecharge.title='开仓手续费';
 g_tables.record.pos.cptradecharge.title='平仓手续费';
+g_tables.record.pos.direction.title='交易方向';
 g_tables.record.pos.profit.title='盈亏金额';
 g_tables.orderlist.name='合约名称';
 g_tables.orderlist.price='价格';

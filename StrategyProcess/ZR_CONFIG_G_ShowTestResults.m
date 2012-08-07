@@ -10,6 +10,7 @@ if iscell(g_XMLfile)
         G_ShowTestResults.g_tables.strategyid=strcat(G_ShowTestResults.g_tables.strategyid,'-',g_XMLfile{l_id}.strategyid);
     end
 else
+    G_ShowTestResults.g_tables.strategyid=g_XMLfile.strategyid;
     l_XMLfile=g_XMLfile;
 end
 
@@ -26,6 +27,7 @@ G_ShowTestResults.g_tables.record.pos.cpdateprice.title='平仓价格（差）';
 G_ShowTestResults.g_tables.record.pos.margin.title='保证金';
 G_ShowTestResults.g_tables.record.pos.optradecharge.title='开仓手续费';
 G_ShowTestResults.g_tables.record.pos.cptradecharge.title='平仓手续费';
+G_ShowTestResults.g_tables.record.pos.direction.title='交易方向';
 G_ShowTestResults.g_tables.record.pos.profit.title='盈亏金额';
 G_ShowTestResults.g_tables.orderlist.name.title='合约名称';
 G_ShowTestResults.g_tables.orderlist.price.title='价格';

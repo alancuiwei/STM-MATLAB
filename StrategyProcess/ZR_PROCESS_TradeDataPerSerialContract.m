@@ -52,6 +52,8 @@ if(g_traderecord.num>0)
             g_tradedata.pos.optradecharge(l_posid)=l_tradecharge(1);
             g_tradedata.pos.cptradecharge(l_posid)=l_tradecharge(1);
         end
+        % 交易方向
+        g_tradedata.pos.direction(l_posid)=g_traderecord.direction(l_index);
         % 收益
         g_tradedata.pos.profit(l_posid)=...
             ((g_tradedata.pos.cpdateprice(l_posid)...
