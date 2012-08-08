@@ -58,7 +58,7 @@ g_optimization.valuenum=sum(l_len);               %这个数字不准确
 l_Currentpoint = zeros(1, g_optimization.paramnum);       %记录当前点各参数的值
 l_size = zeros(1, g_optimization.paramnum);               %用于记录每个参数有多少种可能性
 l_position = zeros(1, g_optimization.paramnum);           %记录当前点各参数的位置
-l_kmax = 50;                                              %搜索次数
+l_kmax = 100;                                              %搜索次数
 
 %检查每个参数的可能性个数&随机选择初始点
 for l_paramid = 1 : g_optimization.paramnum

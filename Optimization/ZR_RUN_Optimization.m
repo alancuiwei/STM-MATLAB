@@ -39,6 +39,7 @@ g_method.rundataprocess();
 %     end
 % end
 g_method.runopimization(varargin{:});
-ZR_PROCESS_ShowOptimization();
+% ZR_PROCESS_ShowOptimization();
+ZR_PROCESS_ComputeEffect('valuelist_KDJ.mat');
 disp('”≈ªØ≤‚ ‘Ω· ¯');
 end

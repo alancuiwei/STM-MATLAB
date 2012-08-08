@@ -56,7 +56,7 @@ g_optimization.valuenum=sum(l_len);               %这个数字不准确
 
 
 %确定多点登山搜索的出发点数
-l_numberOfStartingpoints = 3;
+l_numberOfStartingpoints = 4;
 
 %初始化
 l_LocalStartingpoints = cell(l_numberOfStartingpoints,1);     %初始点
