@@ -9,15 +9,15 @@ currentpath = pwd;
 global g_database;
 g_database.currentdate={};
 g_database.commoditynames={};
-g_database.commodities={};
+g_database.commodities=[];
 g_database.contractnames={};
-g_database.contracts={};
+g_database.contracts=[];
 g_database.pairnames={};
-g_database.pairs={};
+g_database.pairs=[];
 if numinputs < 0
     error('需指定品种名称');
 end
-l_allpairs=[];
+
 switch varargin{1}
     case 'pair'
         % 行情数据更新日期
@@ -29,6 +29,8 @@ switch varargin{1}
         end   
         g_database.commoditynames=l_commoditynames;
         for l_cmid=1:length(g_database.commoditynames)
+            l_allpairs=[];
+            l_pairnames=[];
             l_rightid='1';      %策略名改为‘1’
             l_split=strfind(g_database.commoditynames{l_cmid},'-');
             l_cmnames1=g_database.commoditynames{l_cmid}(1:(l_split-1));
@@ -62,10 +64,10 @@ switch varargin{1}
 %                 l_allpairs(l_pairid).info.daystolasttradedate=min(g_database.contracts(l_allpairs(l_pairid).ctid1).info.daystolasttradedate...
 %                        ,g_database.contracts(l_allpairs(l_pairid).ctid2).info.daystolasttradedate);
                 l_allpairs(l_pairid).datalen=l_allpairs(l_pairid).mkdata.datalen;
-            end     
+            end   
+            g_database.pairnames=cat(2,g_database.pairnames,l_pairnames);
+            g_database.pairs=cat(2,g_database.pairs,l_allpairs);            
         end
-        g_database.pairnames=l_pairnames;
-        g_database.pairs=l_allpairs;
         disp('所有品种数据获取完毕！');
         disp('所有数据获取完毕！');           
             
