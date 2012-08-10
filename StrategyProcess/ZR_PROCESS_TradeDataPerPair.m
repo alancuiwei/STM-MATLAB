@@ -53,7 +53,9 @@ if(g_traderecord.num>0)
             *g_rawdata.pair(in_pairid).mkdata.cp(l_cpdateid,2));
         % 交易手续费
         g_tradedata(in_pairid).pos.optradecharge(l_posid)=0;
-        g_tradedata(in_pairid).pos.cptradecharge(l_posid)=0;            
+        g_tradedata(in_pairid).pos.cptradecharge(l_posid)=0; 
+        % 交易方向
+        g_tradedata(in_pairid).pos.direction(l_posid)=g_traderecord.direction(l_index);          
         for l_chargeid=1:length(l_tradecharge)
             if (l_tradecharge(l_chargeid)<1)
                 g_tradedata(in_pairid).pos.optradecharge(l_posid)=round(l_tradecharge(l_chargeid)*...

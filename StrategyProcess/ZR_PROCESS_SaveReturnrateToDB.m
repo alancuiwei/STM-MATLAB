@@ -28,7 +28,12 @@ for l_cmid=1:length(g_reference.commodity.monthreturnrate)
 end
 % 总体的收益率
 l_split=strfind(g_tables.strategyid,'-');
-l_strategyid=strcat(g_tables.strategyid(1:l_split-1),'000000-',g_tables.strategyid(l_split+1:end),'000000');
+if isempty(l_split)
+    l_strategyid=strcat(g_tables.strategyid,'000000');
+else
+    l_strategyid=strcat(g_tables.strategyid(1:l_split-1),'000000-',g_tables.strategyid(l_split+1:end),'000000');
+end
+
 l_rightid=repmat({l_strategyid},1,length(g_reference.monthreturnrate.data(:)));
 l_year=cell(1,length(g_reference.monthreturnrate.data(:)));
 l_month=cell(1,length(g_reference.monthreturnrate.data(:)));

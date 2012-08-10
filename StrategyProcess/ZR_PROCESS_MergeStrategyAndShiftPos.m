@@ -115,7 +115,7 @@ inputdata_move.record.isclosepos(l_delmoveidx)=[];
 inputdata_move.record.ctname(l_delmoveidx)=[];
 
 % 4.合并开仓日期、开仓价格、交易方向以及合约名称，并根据开仓日期的顺序进行排序
-outputdata.record.opdate=unique([inputdata_strategy.record.opdate,inputdata_move.record.opdate]); 
+outputdata.record.opdate=sort([inputdata_strategy.record.opdate,inputdata_move.record.opdate]); 
 for l_id = 1:numel(outputdata.record.opdate)
     if ismember(outputdata.record.opdate(l_id),inputdata_strategy.record.opdate)
         l_idx=find(ismember(inputdata_strategy.record.opdate,outputdata.record.opdate(l_id))==1);
@@ -144,7 +144,7 @@ for l_id = 1:numel(outputdata.record.opdate)
 end
 
 % 6.填入平仓日期和平仓价格
-outputdata.record.cpdate=unique([inputdata_strategy.record.cpdate,inputdata_move.record.cpdate]);
+outputdata.record.cpdate=sort([inputdata_strategy.record.cpdate,inputdata_move.record.cpdate]);
 for l_id = 1:numel(outputdata.record.cpdate)
     if ismember(outputdata.record.cpdate(l_id),inputdata_move.record.cpdate)
         l_idx=find(ismember(inputdata_move.record.cpdate,outputdata.record.cpdate(l_id)),1,'first');
