@@ -1,7 +1,8 @@
-function outputdata=ZR_STRATEGY_040706(inputdata)
-% MACD策略
-% l_temp=load('G:\lm\STM-MATLAB-0710\StrategyProcess\MA60_l_inputdata.mat');
-% inputdata=l_temp.l_inputdata;
+function outputdata=ZR_STRATEGY_040711(inputdata)
+% tmp=load('in.mat');
+% inputdata=tmp.l_inputdata;
+T=input('输入时间周期T=')
+t=input('算法参数t=')
 %==========================================================================
 %输出变量初始化操作
 outputdata.orderlist.price=[];
@@ -18,13 +19,25 @@ outputdata.record.ctname={};
 outputdata.dailyinfo.date={};
 outputdata.dailyinfo.trend=[];
 %==========================================================================
-%计算出MACD值
-[outMACD, outMACDSignal, outMACDHist]=TA_MACD(inputdata.commodity.serialmkdata.cp,inputdata.strategyparams.fa,inputdata.strategyparams.sl,inputdata.strategyparams.si);
-l_price(1,:)=outMACD;
-l_price(2,:)=zeros(size(inputdata.commodity.serialmkdata.cp));
-l_price(3,:)=outMACDSignal;
-l_price(4,:)=outMACDHist;
-% xlswrite('D:\zx\STM-MATLAB-0807\StrategyProcess\Strategies\TestResults\040704\TestResults_SERIAL',l_price(1,:)','Sheet1','G');
+%计算出EMA值
+if (T>1)
+data=FG(inputdata,T);
+outReal=TA_EMA(data.cp',t);
+cnt=1;
+EMA=zeros(numel(inputdata.commodity.serialmkdata.date),1);
+for i=1:numel(outReal)
+    EMA(cnt*T+1:(cnt+1)*T)=outReal(i);
+    cnt=cnt+1;
+end
+if numel(EMA)>numel(inputdata.commodity.serialmkdata.date)
+    EMA(numel(inputdata.commodity.serialmkdata.date)+1:end)=[];
+end
+Price(1,:)=EMA;
+else
+outReal=TA_EMA(inputdata.commodity.serialmkdata.cp,t);
+Price(1,:)=outReal;
+end
+% xlswrite('D:\zx\STM-MATLAB-0807\StrategyProcess\Strategies\TestResults\040706\TestResults_SERIAL',EMA,'Sheet1','F');
 %==========================================================================
 % figure('Name',strcat('040706',cell2mat(inputdata.commodity.name)));
 % plot(l_price(1,:),'-r*');
@@ -34,40 +47,28 @@ l_price(4,:)=outMACDHist;
 % hold off;
 %==========================================================================
 %以异号为原则寻找交叉点，并将寻找到的异号点存入数组PositionTrade中
-l_diffprice=l_price(1,:)-l_price(2,:);
-l_signprice=l_diffprice(2:numel(l_diffprice)).*l_diffprice(1:numel(l_diffprice)-1);
-l_pos=find(l_signprice<0);%交点位置记录为实际交点的前一个点,当前点
-l_posinter=find(l_diffprice==0);
-l_postrade=[l_pos,l_posinter];
-l_postrade=unique(sort(l_postrade));                                            
+l_signprice=Price(1,2:numel(Price(1,:)))-Price(1,1:numel(Price(1,:))-1);
+% l_pos=2:numel(Price)%交点位置记录为实际交点的前一个点,当前点
+% l_posinter=find(l_diffprice==0);
+% l_postrade=[l_pos,l_posinter];
+% l_postrade=unique(sort(l_postrade));                                            
+%==========================================================================                                          
 %==========================================================================         
 if isequal(zeros(numel(inputdata.commodity.dailyinfo.trend),1),inputdata.commodity.dailyinfo.trend) %判断是否作为主策略或单一策略
     %在不考虑强制平仓的情况下寻找出需要交易的点
     l_cnt=1;%计数变量
-    l_direction=zeros(1,numel(l_postrade));
-    l_tradeday=zeros(1,numel(l_postrade));
-    for l_posid=34:numel(l_postrade)
-        if(l_signprice(l_postrade(l_posid))~=0) %判断此交点位置是否刚好为整数
-            if(l_price(1,l_postrade(l_posid)+1)>l_price(1,l_postrade(l_posid)) && l_price(1,l_postrade(l_posid)+1)>l_price(2,l_postrade(l_posid)+1)) %向上突破的条件判断
-                    l_tradeday(l_cnt)=l_postrade(l_posid);
+    l_direction=zeros(1,numel(l_signprice));
+    l_tradeday=zeros(1,numel(l_signprice));
+    for l_posid=1:numel(l_signprice)
+            if(l_signprice(l_posid)>0) %递增
+                    l_tradeday(l_cnt)=l_posid;
                     l_direction(l_cnt)=1;
                     l_cnt=l_cnt+1;
-            elseif(l_price(1,l_postrade(l_posid))>l_price(1,l_postrade(l_posid)+1) && l_price(1,l_postrade(l_posid)+1)<l_price(2,l_postrade(l_posid)+1)) %向下突破的条件判断
-                        l_tradeday(l_cnt)=l_postrade(l_posid);
+            elseif(l_signprice(l_posid)) %递减
+                        l_tradeday(l_cnt)=l_posid;
                         l_direction(l_cnt)=-1;
                         l_cnt=l_cnt+1; 
             end
-        else %当交点位置刚好为整数时
-            if(l_price(1,l_postrade(l_posid)+1)>l_price(1,l_postrade(l_posid)) && l_price(1,l_postrade(l_posid)+1)>l_price(2,l_postrade(l_posid)+1)) %向上突破的条件判断
-                l_tradeday(l_cnt)=l_postrade(l_posid);
-                l_direction(l_cnt)=1;
-                l_cnt=l_cnt+1;
-            elseif(l_price(1,l_postrade(l_posid)+1)<l_price(1,l_postrade(l_posid)) && l_price(1,l_postrade(l_posid)+1)<l_price(2,l_postrade(l_posid))) %向下突破的条件判断
-                    l_tradeday(l_cnt)=l_postrade(l_posid);
-                    l_direction(l_cnt)=-1;
-                    l_cnt=l_cnt+1;
-            end
-        end   
     end
     l_tradeday(l_tradeday==0)=[];
     l_direction(l_direction==0)=[];
@@ -87,42 +88,29 @@ if isequal(zeros(numel(inputdata.commodity.dailyinfo.trend),1),inputdata.commodi
     l_realtradeday=unique(l_tradeday);
     %==========================================================================
     %更新record中的opdateprice,direction
-    for l_tradeid=1:numel(l_realtradeday)
-        if(l_signprice(l_realtradeday(l_tradeid))~=0) %判断此交点位置是否刚好为非整数
-            if(l_price(1,l_realtradeday(l_tradeid)+1)>l_price(1,l_realtradeday(l_tradeid)) && l_price(1,l_realtradeday(l_tradeid)+1)>l_price(2,l_realtradeday(l_tradeid)+1)) %向上突破的条件判断
-                if(l_realtradeday(l_tradeid)+2>numel(inputdata.commodity.serialmkdata.date)) %假如交点为今天和昨天之间，则更新outputdata.orderlist向量
+     for l_tradeid=1:(numel(l_realtradeday))
+            if(l_signprice(l_realtradeday(l_tradeid))>0) %递增
+                if(l_realtradeday(l_tradeid)+1>numel(inputdata.commodity.serialmkdata.date)) %假如交点为今天和昨天之间，则更新outputdata.orderlist向量
                     outputdata.orderlist.direction=1;
                     outputdata.orderlist.price=0;
-                    outputdata.orderlist.name=inputdata.commodity.serialmkdata.ctname(l_realtradeday(l_tradeid)+1);
+                    outputdata.orderlist.name=inputdata.commodity.serialmkdata.ctname(end);
                 else
-                    outputdata.record.opdate(l_tradeid)=inputdata.commodity.serialmkdata.date(l_realtradeday(l_tradeid)+2); %计算出交易记录
-                    outputdata.record.opdateprice(l_tradeid)=inputdata.commodity.serialmkdata.op(l_realtradeday(l_tradeid)+2)+inputdata.commodity.serialmkdata.gap(l_realtradeday(l_tradeid)+2);
+                    outputdata.record.opdate(l_tradeid)=inputdata.commodity.serialmkdata.date(l_realtradeday(l_tradeid)+1); %计算出交易记录
+                    outputdata.record.opdateprice(l_tradeid)=inputdata.commodity.serialmkdata.op(l_realtradeday(l_tradeid)+1)+inputdata.commodity.serialmkdata.gap(l_realtradeday(l_tradeid)+1);
                     outputdata.record.direction(l_tradeid)=1;
                 end
-            else if(l_price(1,l_realtradeday(l_tradeid))>l_price(1,l_realtradeday(l_tradeid)+1) && l_price(1,l_realtradeday(l_tradeid)+1)<l_price(2,l_realtradeday(l_tradeid)+1)) %向下突破的条件判断
-                    if(l_realtradeday(l_tradeid)+2>numel(inputdata.commodity.serialmkdata.date)) %假如交点为今天和昨天之间，则更行outputdata.orderlist向量
+            else if(l_signprice(l_realtradeday(l_tradeid))<0) %递减 
+                    if(l_realtradeday(l_tradeid)+1>numel(inputdata.commodity.serialmkdata.date)) %假如交点为今天和昨天之间，则更行outputdata.orderlist向量
                         outputdata.orderlist.direction=-1;
                         outputdata.orderlist.price=0;
-                        outputdata.orderlist.name=inputdata.commodity.serialmkdata.ctname(l_realtradeday(l_tradeid)+1);
+                        outputdata.orderlist.name=inputdata.commodity.serialmkdata.ctname(end);
                     else 
-                        outputdata.record.opdate(l_tradeid)=inputdata.commodity.serialmkdata.date(l_realtradeday(l_tradeid)+2); %计算出交易记录
-                        outputdata.record.opdateprice(l_tradeid)=inputdata.commodity.serialmkdata.op(l_realtradeday(l_tradeid)+2)+inputdata.commodity.serialmkdata.gap(l_realtradeday(l_tradeid)+2);
+                        outputdata.record.opdate(l_tradeid)=inputdata.commodity.serialmkdata.date(l_realtradeday(l_tradeid)+1); %计算出交易记录
+                        outputdata.record.opdateprice(l_tradeid)=inputdata.commodity.serialmkdata.op(l_realtradeday(l_tradeid)+1)+inputdata.commodity.serialmkdata.gap(l_realtradeday(l_tradeid)+1);
                         outputdata.record.direction(l_tradeid)=-1;
                     end
                 end
-            end
-        else %当交点位置刚好为整数时
-            if(l_price(1,l_realtradeday(l_tradeid)+1)>l_price(1,l_realtradeday(l_tradeid)-1) && l_price(1,l_realtradeday(l_tradeid)+1)>l_price(2,l_realtradeday(l_tradeid)+1)) %向上突破的条件判断
-                outputdata.record.opdate(l_tradeid)=inputdata.commodity.serialmkdata.date(l_realtradeday(l_tradeid)+1);
-                outputdata.record.opdateprice(l_tradeid)=inputdata.commodity.serialmkdata.op(l_realtradeday(l_tradeid)+1)+inputdata.commodity.serialmkdata.gap(l_realtradeday(l_tradeid)+1);
-                outputdata.record.direction(l_tradeid)=1;
-            else if(l_price(1,l_realtradeday(l_tradeid)+1)<l_price(1,l_realtradeday(l_tradeid)-1) && l_price(1,l_realtradeday(l_tradeid)+1)<l_price(2,l_realtradeday(l_tradeid)+1)) %向下突破的条件判断
-                    outputdata.record.opdate(l_tradeid)=inputdata.commodity.serialmkdata.date(l_realtradeday(l_tradeid)+1);
-                    outputdata.record.opdateprice(l_tradeid)=inputdata.commodity.serialmkdata.op(l_realtradeday(l_tradeid)+1)+inputdata.commodity.serialmkdata.gap(l_realtradeday(l_tradeid)+1);
-                    outputdata.record.direction(l_tradeid)=-1;
-                end
-            end
-        end   
+            end  
         outputdata.record.ctname(l_tradeid)=inputdata.commodity.serialmkdata.ctname(l_realtradeday(l_tradeid)+1);
     end
     %==========================================================================
@@ -185,117 +173,63 @@ if isequal(zeros(numel(inputdata.commodity.dailyinfo.trend),1),inputdata.commodi
     end
     %======================================================================
 else                %否则作为次策略，决定真正交易日期
-    % 1.根据策略算法与前向策略趋势（“与”关系），寻找出做多或做空的点
-    % 2.根据策略算法本身，寻找可能平仓的点
+    %在不考虑强制平仓的情况下寻找出需要交易的点
     l_opcnt=1;%计数变量
     l_cpcnt=1;
-    l_direction=zeros(1,numel(l_postrade));
-    l_optradeday=zeros(1,numel(l_postrade));
-    l_cptradeday=zeros(1,numel(l_postrade));
-    for l_posid=34:numel(l_postrade)
-        if(l_signprice(l_postrade(l_posid))~=0) %判断此交点位置是否刚好为整数
-            if(l_price(1,l_postrade(l_posid)+1)>l_price(1,l_postrade(l_posid)) && l_price(1,l_postrade(l_posid)+1)>l_price(2,l_postrade(l_posid)+1)) %向上突破的条件判断
-                if inputdata.commodity.dailyinfo.trend(l_postrade(l_posid)+1)==2
-                    l_optradeday(l_opcnt)=l_postrade(l_posid);
+    l_direction=zeros(1,numel(l_signprice));
+    l_optradeday=zeros(1,numel(l_signprice));
+    l_cptradeday=zeros(1,numel(l_signprice));
+    for l_posid=1:numel(l_signprice)
+            if(l_signprice(l_posid)>0) %递增
+                if (inputdata.commodity.dailyinfo.trend(l_posid)==2)
+                    l_optradeday(l_opcnt)=l_posid;
                     l_direction(l_opcnt)=1;
                     l_opcnt=l_opcnt+1;
                 end
-                l_cptradeday(l_cpcnt)=l_postrade(l_posid);
+                l_cptradeday(l_cpcnt)=l_posid;
                 l_cpcnt=l_cpcnt+1;
-            elseif(l_price(1,l_postrade(l_posid))>l_price(1,l_postrade(l_posid)+1) && l_price(1,l_postrade(l_posid)+1)<l_price(2,l_postrade(l_posid)+1)) %向下突破的条件判断
-                if inputdata.commodity.dailyinfo.trend(l_postrade(l_posid)+1)==1
-                    l_optradeday(l_opcnt)=l_postrade(l_posid);
+            elseif (l_signprice(l_posid)<0) %递减
+                if (inputdata.commodity.dailyinfo.trend(l_posid)==1)
+                    l_optradeday(l_opcnt)=l_posid;
                     l_direction(l_opcnt)=-1;
                     l_opcnt=l_opcnt+1;
                 end
-                l_cptradeday(l_cpcnt)=l_postrade(l_posid);
-                l_cpcnt=l_cpcnt+1;
-            end
-        else %当交点位置刚好为整数时
-            if(l_price(1,l_postrade(l_posid)+1)>l_price(1,l_postrade(l_posid)) && l_price(1,l_postrade(l_posid)+1)>l_price(2,l_postrade(l_posid)+1)) %向上突破的条件判断
-                if inputdata.commodity.dailyinfo.trend(l_postrade(l_posid))==2
-                    l_optradeday(l_opcnt)=l_postrade(l_posid);
-                    l_direction(l_opcnt)=1;
-                    l_opcnt=l_opcnt+1;
-                end
-                l_cptradeday(l_cpcnt)=l_postrade(l_posid);
-                l_cpcnt=l_cpcnt+1;
-            elseif(l_price(1,l_postrade(l_posid)+1)<l_price(1,l_postrade(l_posid)) && l_price(1,l_postrade(l_posid)+1)<l_price(2,l_postrade(l_posid))) %向下突破的条件判断
-                if inputdata.commodity.dailyinfo.trend(l_postrade(l_posid))==1
-                    l_optradeday(l_opcnt)=l_postrade(l_posid);
-                    l_direction(l_opcnt)=-1;
-                    l_opcnt=l_opcnt+1;
-                end
-                l_cptradeday(l_cpcnt)=l_postrade(l_posid);
+                l_cptradeday(l_cpcnt)=l_posid;
                 l_cpcnt=l_cpcnt+1;
             end
         end   
-    end
     l_optradeday(l_optradeday==0)=[];
     l_cptradeday(l_cptradeday==0)=[];
     if isempty(l_optradeday)
         return;
     end
-%     l_direction(l_direction==0)=[];
-%     %去除连续做多或做空的交易日期
-%     if isempty(l_direction)
-%         return;
-%     end
-%     l_directionkey=l_direction(1);
-%     for l_id = 2:numel(l_tradeday)
-%         if l_direction(l_id)==l_directionkey
-%             l_tradeday(l_id)=-1;
-%         else
-%             l_directionkey=l_direction(l_id);
-%         end
-%     end
-%     l_tradeday(l_tradeday==-1)=[];
     l_oprealtradeday=unique(l_optradeday);
     l_cprealtradeday=unique(l_cptradeday);
     %==========================================================================
-    %更新record中的opdate,opdateprice以及direction
-    for l_tradeid=1:numel(l_oprealtradeday)
-        if(l_signprice(l_oprealtradeday(l_tradeid))~=0) %判断此交点位置是否刚好为非整数
-            if(l_price(1,l_oprealtradeday(l_tradeid)+1)>l_price(1,l_oprealtradeday(l_tradeid)) && l_price(1,l_oprealtradeday(l_tradeid)+1)>l_price(2,l_oprealtradeday(l_tradeid)+1)) %向上突破的条件判断
-                if(l_oprealtradeday(l_tradeid)+2>numel(inputdata.commodity.serialmkdata.date)) %假如交点为今天和昨天之间，则更新outputdata.orderlist向量
+    %更新record中的opdateprice,direction
+     for l_tradeid=1:numel(l_oprealtradeday)
+            if(l_signprice(l_oprealtradeday(l_tradeid))>0) %递增
+                if(l_oprealtradeday(l_tradeid)+1>numel(inputdata.commodity.serialmkdata.date)) %假如交点为今天和昨天之间，则更新outputdata.orderlist向量
                     outputdata.orderlist.direction=1;
                     outputdata.orderlist.price=0;
-                    outputdata.orderlist.name=inputdata.commodity.serialmkdata.ctname(l_oprealtradeday(l_tradeid)+1);
+                    outputdata.orderlist.name=inputdata.commodity.serialmkdata.ctname(end);
                 else
-                    outputdata.record.opdate(l_tradeid)=inputdata.commodity.serialmkdata.date(l_oprealtradeday(l_tradeid)+2); %计算出交易记录
-                    outputdata.record.opdateprice(l_tradeid)=inputdata.commodity.serialmkdata.op(l_oprealtradeday(l_tradeid)+2)+inputdata.commodity.serialmkdata.gap(l_oprealtradeday(l_tradeid)+2);
+                    outputdata.record.opdate(l_tradeid)=inputdata.commodity.serialmkdata.date(l_oprealtradeday(l_tradeid)+1); %计算出交易记录
+                    outputdata.record.opdateprice(l_tradeid)=inputdata.commodity.serialmkdata.op(l_oprealtradeday(l_tradeid)+1)+inputdata.commodity.serialmkdata.gap(l_oprealtradeday(l_tradeid)+1);
                     outputdata.record.direction(l_tradeid)=1;
                 end
-%                 outputdata.record.opdate(l_tradeid)=inputdata.commodity.serialmkdata.date(l_oprealtradeday(l_tradeid)+2); %计算出交易记录
-%                 outputdata.record.opdateprice(l_tradeid)=inputdata.commodity.serialmkdata.op(l_oprealtradeday(l_tradeid)+2)+inputdata.commodity.serialmkdata.gap(l_oprealtradeday(l_tradeid)+2);
-%                 outputdata.record.direction(l_tradeid)=1;
-            else if(l_price(1,l_oprealtradeday(l_tradeid))>l_price(1,l_oprealtradeday(l_tradeid)+1) && l_price(1,l_oprealtradeday(l_tradeid)+1)<l_price(2,l_oprealtradeday(l_tradeid)+1)) %向下突破的条件判断
-                    if(l_oprealtradeday(l_tradeid)+2>numel(inputdata.commodity.serialmkdata.date)) %假如交点为今天和昨天之间，则更行outputdata.orderlist向量
+            else if(l_signprice(l_oprealtradeday(l_tradeid))<0) %递减 
+                    if(l_oprealtradeday(l_tradeid)+1>numel(inputdata.commodity.serialmkdata.date)) %假如交点为今天和昨天之间，则更行outputdata.orderlist向量
                         outputdata.orderlist.direction=-1;
                         outputdata.orderlist.price=0;
-                        outputdata.orderlist.name=inputdata.commodity.serialmkdata.ctname(l_oprealtradeday(l_tradeid)+1);
+                        outputdata.orderlist.name=inputdata.commodity.serialmkdata.ctname(end);
                     else 
-                        outputdata.record.opdate(l_tradeid)=inputdata.commodity.serialmkdata.date(l_oprealtradeday(l_tradeid)+2); %计算出交易记录
-                        outputdata.record.opdateprice(l_tradeid)=inputdata.commodity.serialmkdata.op(l_oprealtradeday(l_tradeid)+2)+inputdata.commodity.serialmkdata.gap(l_oprealtradeday(l_tradeid)+2);
+                        outputdata.record.opdate(l_tradeid)=inputdata.commodity.serialmkdata.date(l_oprealtradeday(l_tradeid)+1); %计算出交易记录
+                        outputdata.record.opdateprice(l_tradeid)=inputdata.commodity.serialmkdata.op(l_oprealtradeday(l_tradeid)+1)+inputdata.commodity.serialmkdata.gap(l_oprealtradeday(l_tradeid)+1);
                         outputdata.record.direction(l_tradeid)=-1;
                     end
-%                     outputdata.record.opdate(l_tradeid)=inputdata.commodity.serialmkdata.date(l_oprealtradeday(l_tradeid)+2); %计算出交易记录
-%                     outputdata.record.opdateprice(l_tradeid)=inputdata.commodity.serialmkdata.op(l_oprealtradeday(l_tradeid)+2)+inputdata.commodity.serialmkdata.gap(l_oprealtradeday(l_tradeid)+2);
-%                     outputdata.record.direction(l_tradeid)=-1;
                 end
-            end
-        else %当交点位置刚好为整数时
-            if(l_price(1,l_oprealtradeday(l_tradeid)+1)>l_price(1,l_oprealtradeday(l_tradeid)-1) && l_price(1,l_oprealtradeday(l_tradeid)+1)>l_price(2,l_oprealtradeday(l_tradeid)+1)) %向上突破的条件判断
-                outputdata.record.opdate(l_tradeid)=inputdata.commodity.serialmkdata.date(l_oprealtradeday(l_tradeid)+1);
-                outputdata.record.opdateprice(l_tradeid)=inputdata.commodity.serialmkdata.op(l_oprealtradeday(l_tradeid)+1)+inputdata.commodity.serialmkdata.gap(l_oprealtradeday(l_tradeid)+1);
-                outputdata.record.direction(l_tradeid)=1;
-            else if(l_price(1,l_oprealtradeday(l_tradeid)+1)<l_price(1,l_oprealtradeday(l_tradeid)-1) && l_price(1,l_oprealtradeday(l_tradeid)+1)<l_price(2,l_oprealtradeday(l_tradeid)+1)) %向下突破的条件判断
-                    outputdata.record.opdate(l_tradeid)=inputdata.commodity.serialmkdata.date(l_oprealtradeday(l_tradeid)+1);
-                    outputdata.record.opdateprice(l_tradeid)=inputdata.commodity.serialmkdata.op(l_oprealtradeday(l_tradeid)+1)+inputdata.commodity.serialmkdata.gap(l_oprealtradeday(l_tradeid)+1);
-                    outputdata.record.direction(l_tradeid)=-1;
-                end
-            end
-        end   
+            end  
         outputdata.record.ctname(l_tradeid)=inputdata.commodity.serialmkdata.ctname(l_oprealtradeday(l_tradeid)+1);
     end
     %==========================================================================
@@ -303,15 +237,9 @@ else                %否则作为次策略，决定真正交易日期
     l_tempcpdate=cell(1,numel(l_cprealtradeday));
      for l_tradeid=1:numel(l_cprealtradeday)
         if(l_signprice(l_cprealtradeday(l_tradeid))~=0) %判断此交点位置是否刚好为非整数
-            if(l_price(1,l_cprealtradeday(l_tradeid)+1)>l_price(1,l_cprealtradeday(l_tradeid)) && l_price(1,l_cprealtradeday(l_tradeid)+1)>l_price(2,l_cprealtradeday(l_tradeid)+1)) %向上突破的条件判断
-                l_tempcpdate(l_tradeid)=inputdata.commodity.serialmkdata.date(l_cprealtradeday(l_tradeid)+2);
-            elseif(l_price(1,l_cprealtradeday(l_tradeid))>l_price(1,l_cprealtradeday(l_tradeid)+1) && l_price(1,l_cprealtradeday(l_tradeid)+1)<l_price(2,l_cprealtradeday(l_tradeid)+1)) %向下突破的条件判断
-                l_tempcpdate(l_tradeid)=inputdata.commodity.serialmkdata.date(l_cprealtradeday(l_tradeid)+2);
-            end
-        else %当交点位置刚好为整数时
-            if(l_price(1,l_cprealtradeday(l_tradeid)+1)>l_price(1,l_cprealtradeday(l_tradeid)-1) && l_price(1,l_cprealtradeday(l_tradeid)+1)>l_price(2,l_cprealtradeday(l_tradeid)+1)) %向上突破的条件判断
+            if(l_signprice(l_cprealtradeday(l_tradeid))>0) %递增
                 l_tempcpdate(l_tradeid)=inputdata.commodity.serialmkdata.date(l_cprealtradeday(l_tradeid)+1);
-            elseif(l_price(1,l_cprealtradeday(l_tradeid)+1)<l_price(1,l_cprealtradeday(l_tradeid)-1) && l_price(1,l_cprealtradeday(l_tradeid)+1)<l_price(2,l_cprealtradeday(l_tradeid)+1)) %向下突破的条件判断
+            elseif(l_signprice(l_cprealtradeday(l_tradeid))<0) %递减
                 l_tempcpdate(l_tradeid)=inputdata.commodity.serialmkdata.date(l_cprealtradeday(l_tradeid)+1);
             end
         end   
@@ -323,14 +251,14 @@ else                %否则作为次策略，决定真正交易日期
     l_trendchangeday=unique(l_postrend);    % 趋势变化前的最后一天
     for i=1:numel(l_trendchangeday)
         if (l_trendchangeday(i)+2<=numel(inputdata.commodity.dailyinfo.date))
-            l_trendchangedate=inputdata.commodity.dailyinfo.date(l_trendchangeday(i)+2);
+            l_trendchangedate(i)=inputdata.commodity.dailyinfo.date(l_trendchangeday(i)+2);
         else
-            l_trendchangedate=inputdata.commodity.dailyinfo.date(end);
+            l_trendchangedate(i)=inputdata.commodity.dailyinfo.date(end);
         end
     end
 %     l_strategycpdate=outputdata.record.opdate(2:end); % 对于该策略，开仓时即平仓
     l_strategycpdate=l_tempcpdate;
-    l_cpdate=unique([l_trendchangedate',l_strategycpdate]);
+    l_cpdate=unique([l_trendchangedate,l_strategycpdate]);
     
     l_opdatenum=datenum(outputdata.record.opdate,'yyyy-mm-dd');
     l_cpdatenum=datenum(l_cpdate,'yyyy-mm-dd');
@@ -440,20 +368,3 @@ else                %否则作为次策略，决定真正交易日期
     outputdata.dailyinfo.date=inputdata.commodity.dailyinfo.date;
     outputdata.dailyinfo.trend=inputdata.commodity.dailyinfo.trend; % 待修改
 end
-
-
-%==========================================================================
-%填入连续的交易日期和趋势方向
-% outputdata.dailyinfo.date=inputdata.commodity.serialmkdata.date;
-% for i = 1:numel(outputdata.dailyinfo.date)
-%     DateID=find(ismember(outputdata.record.opdate,outputdata.dailyinfo.date(i))==1);
-%     if ~isempty(DateID)
-%         outputdata.dailyinfo.trend(i)=outputdata.record.direction(DateID);
-%     else
-%         outputdata.dailyinfo.trend(i)=0;
-%     end
-% end
-% outputdata.dailyinfo.trend=outputdata.dailyinfo.trend';
-
-
-
