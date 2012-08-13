@@ -4,7 +4,10 @@
       <startdate>2000-01-01</startdate>
       <enddate>2012-12-31</enddate>
    </coredata>
-   <g_strategyparams/>
+   <g_strategyparams>
+       <T>5</T>
+       <t>13</t> 
+   </g_strategyparams>
    <g_commoditynames/>
    <g_pairnames/>
    <g_contractnames/>

@@ -1,8 +1,9 @@
 function outputdata=ZR_STRATEGY_040711(inputdata)
 % tmp=load('in.mat');
 % inputdata=tmp.l_inputdata;
-T=input('输入时间周期T=')
-t=input('算法参数t=')
+% T=input('输入时间周期T=')
+% t=input('算法参数t=')
+period=input('输入时间周期period=');
 %==========================================================================
 %输出变量初始化操作
 outputdata.orderlist.price=[];
@@ -20,13 +21,14 @@ outputdata.dailyinfo.date={};
 outputdata.dailyinfo.trend=[];
 %==========================================================================
 %计算出EMA值
-if (T>1)
-data=FG(inputdata,T);
-outReal=TA_EMA(data.cp',t);
+input_mkdata=inputdata.commodity.serialmkdata;
+if (inputdata.strategyparams.T>1)
+out_periodmkdata=ZR_FUN_ComputePeriodMKdata(input_mkdata,period);
+outReal=TA_EMA(out_periodmkdata.cp',inputdata.strategyparams.t);
 cnt=1;
 EMA=zeros(numel(inputdata.commodity.serialmkdata.date),1);
 for i=1:numel(outReal)
-    EMA(cnt*T+1:(cnt+1)*T)=outReal(i);
+    EMA(cnt*inputdata.strategyparams.T+1:(cnt+1)*inputdata.strategyparams.T)=outReal(i);
     cnt=cnt+1;
 end
 if numel(EMA)>numel(inputdata.commodity.serialmkdata.date)
@@ -34,10 +36,15 @@ if numel(EMA)>numel(inputdata.commodity.serialmkdata.date)
 end
 Price(1,:)=EMA;
 else
-outReal=TA_EMA(inputdata.commodity.serialmkdata.cp,t);
+outReal=TA_EMA(inputdata.commodity.serialmkdata.cp,inputdata.strategyparams.t);
 Price(1,:)=outReal;
 end
-% xlswrite('D:\zx\STM-MATLAB-0807\StrategyProcess\Strategies\TestResults\040706\TestResults_SERIAL',EMA,'Sheet1','F');
+% xlswrite('D:\zx\STM-MATLAB-0807\StrategyProcess\Strategies\TestResults\040704\TestResults_SERIAL',Price(1,:)','Sheet1','F');
+% xlswrite('D:\zx\STM-MATLAB-0807\StrategyProcess\Strategies\TestResults\040704\TestResults_SERIAL',inputdata.commodity.serialmkdata.date,'Sheet1','A');
+% xlswrite('D:\zx\STM-MATLAB-0807\StrategyProcess\Strategies\TestResults\040704\TestResults_SERIAL',inputdata.commodity.serialmkdata.ctname,'Sheet1','B');
+% xlswrite('D:\zx\STM-MATLAB-0807\StrategyProcess\Strategies\TestResults\040704\TestResults_SERIAL',inputdata.commodity.serialmkdata.op,'Sheet1','C');
+% xlswrite('D:\zx\STM-MATLAB-0807\StrategyProcess\Strategies\TestResults\040704\TestResults_SERIAL',inputdata.commodity.serialmkdata.cp,'Sheet1','D');
+% xlswrite('D:\zx\STM-MATLAB-0807\StrategyProcess\Strategies\TestResults\040704\TestResults_SERIAL',inputdata.commodity.serialmkdata.gap,'Sheet1','E');
 %==========================================================================
 % figure('Name',strcat('040706',cell2mat(inputdata.commodity.name)));
 % plot(l_price(1,:),'-r*');
