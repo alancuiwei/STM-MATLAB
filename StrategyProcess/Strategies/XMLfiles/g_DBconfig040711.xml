@@ -10,11 +10,11 @@
    </allcommoditynames>
    <g_commoditynames>
       <item>a</item>
-      <item>RO</item>
       <item>y</item>
       <item>v</item>
       <item>p</item>
       <item>l</item>
+      <item>RO</item>
    </g_commoditynames>
    <allcontractnames>
       <item>a0305</item>
@@ -55,29 +55,6 @@
       <item>a1307</item>
       <item>a1309</item>
       <item>a1311</item>
-      <item>a1401</item>
-      <item>RO0709</item>
-      <item>RO0801</item>
-      <item>RO0805</item>
-      <item>RO0809</item>
-      <item>RO0901</item>
-      <item>RO0905</item>
-      <item>RO0909</item>
-      <item>RO001</item>
-      <item>RO005</item>
-      <item>RO009</item>
-      <item>RO101</item>
-      <item>RO105</item>
-      <item>RO109</item>
-      <item>RO201</item>
-      <item>RO203</item>
-      <item>RO205</item>
-      <item>RO207</item>
-      <item>RO209</item>
-      <item>RO211</item>
-      <item>RO301</item>
-      <item>RO303</item>
-      <item>RO305</item>
       <item>y0605</item>
       <item>y0609</item>
       <item>y0701</item>
@@ -107,7 +84,6 @@
       <item>y1301</item>
       <item>y1303</item>
       <item>y1305</item>
-      <item>y1307</item>
       <item>v0909</item>
       <item>v1001</item>
       <item>v1005</item>
@@ -133,8 +109,6 @@
       <item>v1303</item>
       <item>v1304</item>
       <item>v1305</item>
-      <item>v1306</item>
-      <item>v1307</item>
       <item>p0801</item>
       <item>p0805</item>
       <item>p0809</item>
@@ -165,8 +139,6 @@
       <item>p1303</item>
       <item>p1304</item>
       <item>p1305</item>
-      <item>p1306</item>
-      <item>p1307</item>
       <item>l0801</item>
       <item>l0805</item>
       <item>l0809</item>
@@ -197,22 +169,42 @@
       <item>l1303</item>
       <item>l1304</item>
       <item>l1305</item>
-      <item>l1306</item>
-      <item>l1307</item>
+      <item>RO0709</item>
+      <item>RO0801</item>
+      <item>RO0805</item>
+      <item>RO0809</item>
+      <item>RO0901</item>
+      <item>RO0905</item>
+      <item>RO0909</item>
+      <item>RO001</item>
+      <item>RO005</item>
+      <item>RO009</item>
+      <item>RO101</item>
+      <item>RO105</item>
+      <item>RO109</item>
+      <item>RO201</item>
+      <item>RO203</item>
+      <item>RO205</item>
+      <item>RO207</item>
+      <item>RO209</item>
+      <item>RO211</item>
+      <item>RO301</item>
+      <item>RO303</item>
+      <item>RO305</item>
    </allcontractnames>
    <g_pairnames/>
    <allpairs/>
-   <strategyid>040704</strategyid>
+   <strategyid>040711</strategyid>
    <g_rightid>
-      <item>040704010707</item>
-      <item>040704010505</item>
-      <item>040704011414</item>
-      <item>040704011313</item>
-      <item>040704011212</item>
-      <item>040704011010</item>
+      <item>040711010707</item>
+      <item>040711011414</item>
+      <item>040711011313</item>
+      <item>040711011212</item>
+      <item>040711011010</item>
+      <item>040711010505</item>
    </g_rightid>
    <currentdate>
-      <item>2012-08-01</item>
+      <item>2012-06-08</item>
    </currentdate>
    <isupdated>0</isupdated>
 </g_DBconfig>

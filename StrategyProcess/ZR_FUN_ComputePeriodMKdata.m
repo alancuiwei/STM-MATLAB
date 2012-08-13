@@ -1,22 +1,16 @@
 function out_periodmkdata=ZR_FUN_ComputePeriodMKdata(input_mkdata,period)
-% tmp=load('in.mat');
-% inputdata=tmp.l_inputdata;
 % period=input('输入时间周期period=');
-Price1=input_mkdata.hp;
-Price2=input_mkdata.lp;
-Price3=input_mkdata.cp;
-Price4=input_mkdata.op;
-cnt=1;
-for i=1:(numel(Price1)-period+1)
+l_cnt=1;
+for i=1:(numel(input_mkdata.hp)-period+1)
      if mod(i,period)==0
-        O(cnt)=Price4(i+1-period);
-        C(cnt)=Price3(i+1-period);
-        H(cnt)=max(Price1(i+1-period:i));
-        L(cnt)=min(Price2(i+1-period:i));
-        cnt=cnt+1;
+        l_period_op(l_cnt)=input_mkdata.op(i+1-period);
+        l_period_cp(l_cnt)=input_mkdata.cp(i+1-period);
+        l_period_hp(l_cnt)=max(input_mkdata.hp(i+1-period:i));
+        l_period_lp(l_cnt)=min(input_mkdata.lp(i+1-period:i));
+        l_cnt=l_cnt+1;
     end
 end
-out_periodmkdata.hp=H;
-out_periodmkdata.lp=L;
-out_periodmkdata.op=O;
-out_periodmkdata.cp=C;
+out_periodmkdata.hp=l_period_hp;
+out_periodmkdata.lp=l_period_lp;
+out_periodmkdata.op=l_period_op;
+out_periodmkdata.cp=l_period_cp;

@@ -3,7 +3,7 @@ function outputdata=ZR_STRATEGY_040711(inputdata)
 % inputdata=tmp.l_inputdata;
 % T=input('输入时间周期T=')
 % t=input('算法参数t=')
-period=input('输入时间周期period=');
+% period=input('输入时间周期period=');
 %==========================================================================
 %输出变量初始化操作
 outputdata.orderlist.price=[];
@@ -21,14 +21,13 @@ outputdata.dailyinfo.date={};
 outputdata.dailyinfo.trend=[];
 %==========================================================================
 %计算出EMA值
-input_mkdata=inputdata.commodity.serialmkdata;
-if (inputdata.strategyparams.T>1)
-out_periodmkdata=ZR_FUN_ComputePeriodMKdata(input_mkdata,period);
-outReal=TA_EMA(out_periodmkdata.cp',inputdata.strategyparams.t);
+if (inputdata.strategyparams.period>1)
+out_periodmkdata=ZR_FUN_ComputePeriodMKdata(inputdata.commodity.serialmkdata,inputdata.strategyparams.period);
+outReal=TA_EMA(out_periodmkdata.cp',inputdata.strategyparams.counter);
 cnt=1;
 EMA=zeros(numel(inputdata.commodity.serialmkdata.date),1);
 for i=1:numel(outReal)
-    EMA(cnt*inputdata.strategyparams.T+1:(cnt+1)*inputdata.strategyparams.T)=outReal(i);
+    EMA(cnt*inputdata.strategyparams.period+1:(cnt+1)*inputdata.strategyparams.period)=outReal(i);
     cnt=cnt+1;
 end
 if numel(EMA)>numel(inputdata.commodity.serialmkdata.date)
@@ -36,7 +35,7 @@ if numel(EMA)>numel(inputdata.commodity.serialmkdata.date)
 end
 Price(1,:)=EMA;
 else
-outReal=TA_EMA(inputdata.commodity.serialmkdata.cp,inputdata.strategyparams.t);
+outReal=TA_EMA(inputdata.commodity.serialmkdata.cp,inputdata.strategyparams.counter);
 Price(1,:)=outReal;
 end
 % xlswrite('D:\zx\STM-MATLAB-0807\StrategyProcess\Strategies\TestResults\040704\TestResults_SERIAL',Price(1,:)','Sheet1','F');
