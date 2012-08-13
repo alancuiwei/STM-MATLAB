@@ -2,8 +2,13 @@ function ZR_PROCESS_SaveReferenceToXML()
 % 将策略性能参数写入数据库
 global g_reference;
 global g_tables;
-
-l_referencexml.rightid=strcat(g_tables.strategyid,'000000');
+l_split=strfind(g_tables.strategyid,'-');
+if isempty(l_split)
+    l_rightid=strcat(g_tables.strategyid,'000000');
+else
+    l_rightid=strcat(g_tables.strategyid(1:l_split-1),'000000-',g_tables.strategyid(l_split+1:end),'000000');
+end
+l_referencexml.rightid=l_rightid;
 l_referencexml.minmarginaccount=g_reference.costinput;
 l_referencexml.totalnetprofit=g_reference.totalnetprofit;
 l_referencexml.grossprofit=g_reference.grossprofit;
