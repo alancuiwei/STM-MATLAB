@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<g_XMLfile>
+   <coredata>
+      <startdate></startdate>
+      <enddate></enddate>
+   </coredata>
+   <g_strategyparams>
+      <countersofdown>5</countersofdown>
+      <countersofup>7</countersofup>
+      <losses>2</losses>
+	  <sharp>40</sharp>
+	  <sharpdays>3</sharpdays>
+   </g_strategyparams>
+   <g_commoditynames/>
+   <g_pairnames/>
+   <g_contractnames/>
+   <strategyid>010605</strategyid>
+   <path>./Strategies/TestResults/010605</path>
+   <strategypath>./Strategies/XMLfiles</strategypath>
+   <isupdated>1</isupdated>
+   <userid/>
+   <objecttype>future</objecttype>
+   <resulttype>xls</resulttype>      
+</g_XMLfile>
