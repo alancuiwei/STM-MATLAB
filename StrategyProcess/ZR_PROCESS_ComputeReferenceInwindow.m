@@ -9,12 +9,12 @@ if nargin>0
         case 1
         case 2
             l_setwindow=1;
-            if strcmp(varargin{1},'nolimit')
+            if strcmp(varargin{1},'nolimit')||isempty(varargin{1})
                 l_startwindownum=1;
             else
                 l_startwindownum=datenum(varargin{1});
             end
-            if strcmp(varargin{2},'nolimit')
+            if strcmp(varargin{2},'nolimit')||isempty(varargin{2})
                 l_endwindownum=inf;
             else
                 l_endwindownum=datenum(varargin{2});
@@ -31,10 +31,11 @@ for l_cmid=1:length(g_reportset.commodity)
     l_startid=1;
     l_endid=g_reportset.commodity(l_cmid).enddatenum-g_reportset.commodity(l_cmid).startdatenum+1;
     if l_setwindow
-        if l_startwindownum>=g_reportset.commodity(l_cmid).startdatenum
-            l_startid=l_startwindownum-g_reportset.commodity(l_cmid).startdatenum+1;
+        l_cmstartwindownum=l_startwindownum;
+        if l_cmstartwindownum>=g_reportset.commodity(l_cmid).startdatenum
+            l_startid=l_cmstartwindownum-g_reportset.commodity(l_cmid).startdatenum+1;
         else
-            l_startwindownum=g_reportset.commodity(l_cmid).startdatenum;
+            l_cmstartwindownum=g_reportset.commodity(l_cmid).startdatenum;
         end
         if l_endwindownum<=g_reportset.commodity(l_cmid).enddatenum
             l_endid=l_endwindownum-g_reportset.commodity(l_cmid).startdatenum+1;
@@ -48,7 +49,7 @@ for l_cmid=1:length(g_reportset.commodity)
         l_startdatenum=g_reportset.commodity(l_cmid).startdatenum;
         l_enddatenum=g_reportset.commodity(l_cmid).enddatenum;
         % 日期向量
-        l_startdatevec=datevec(l_startwindownum);
+        l_startdatevec=datevec(l_cmstartwindownum);
         l_enddatevec=datevec(l_endwindownum);
         % 年份
         l_yearnum=l_enddatevec(1,1)-l_startdatevec(1,1);    
@@ -62,7 +63,7 @@ for l_cmid=1:length(g_reportset.commodity)
 %         l_tradeprofit=g_reportset.commodity(l_cmid).record.trade.profit(...
 %             (datenum(g_reportset.commodity(l_cmid).record.trade.cpdate)<=l_endwindownum)&(datenum(g_reportset.commodity(l_cmid).record.trade.opdate)>=l_startwindownum));
         l_posprofit=g_reportset.commodity(l_cmid).record.pos.profit(...
-            (datenum(g_reportset.commodity(l_cmid).record.pos.cpdate)<=l_endwindownum)&(datenum(g_reportset.commodity(l_cmid).record.pos.opdate)>=l_startwindownum));            
+            (datenum(g_reportset.commodity(l_cmid).record.pos.cpdate)<=l_endwindownum)&(datenum(g_reportset.commodity(l_cmid).record.pos.opdate)>=l_cmstartwindownum));            
         g_reference.commodity.totalnetprofit(l_cmid)=sum(l_posprofit);   
         % 毛盈利
         g_reference.commodity.grossprofit(l_cmid)=sum(l_posprofit(l_posprofit>0)); 
