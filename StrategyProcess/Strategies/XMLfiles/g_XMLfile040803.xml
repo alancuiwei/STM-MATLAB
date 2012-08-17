@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<g_XMLfile>
+   <coredata>
+      <startdate>2000-01-01</startdate>
+      <enddate>2012-12-31</enddate>
+   </coredata>
+   <g_strategyparams>
+       <selection_price>2</selection_price>
+       <period>1</period>
+       <counter>12</counter>
+   </g_strategyparams>
+   <g_commoditynames/>
+   <g_pairnames/>
+   <g_contractnames/>
+   <strategyid>040803</strategyid>
+   <path>./Strategies/TestResults/040803</path>
+   <strategypath>./Strategies/XMLfiles</strategypath>
+   <isupdated>0</isupdated>
+<userid>52</userid>
+<ordernum>0</ordernum>
+   <objecttype>future</objecttype>
+   <resulttype>xls</resulttype> 
+</g_XMLfile>
