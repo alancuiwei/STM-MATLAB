@@ -1,0 +1,2 @@
+CrossCommodityInTheSamePeriod with R2_test and F_test
+跨产品同期的统计套利研究，并有R2检验和F检验

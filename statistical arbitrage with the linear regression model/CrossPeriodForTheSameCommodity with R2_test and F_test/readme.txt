@@ -1,0 +1,2 @@
+CrossPeriodForTheSameCommodity with R2_test and F_test
+同产品跨期的统计套利研究，并有R2检验和F检验
