@@ -13,7 +13,9 @@ global g_XMLfile;
 global g_temprecord;
 
 % 设置策略参数
-% ZR_FUN_SetStrategyParams(varargin{:});
+if nargin>0
+    ZR_FUN_SetStrategyParams(varargin{:});
+end
 
 % 如果没有合约名集的信息，则用G_RunSpecialTestCase中的合约名集
 if isempty(g_commoditynames)
@@ -39,7 +41,11 @@ for l_cmid=1:l_cmnum
     if numel(g_XMLfile)>1
         % 执行策略组合
         for l_xmlid=1:numel(g_XMLfile)
-            l_inputdata.strategyparams=g_commodityparams{l_xmlid};
+            if  numel(g_commodityparams) > 1
+                l_inputdata.strategyparams=g_commodityparams{l_xmlid};
+            else
+                l_inputdata.strategyparams=g_commodityparams;                
+            end
             eval(strcat('l_output_strategy=ZR_STRATEGY_',g_XMLfile{l_xmlid}.strategyid,'(l_inputdata);'));
             if isempty(l_output_strategy.record.opdate)
                 sprintf('组合策略中策略:%s对于品种:%s没有策略输出信息',g_XMLfile{l_xmlid}.strategyid,g_commoditynames{l_cmid})

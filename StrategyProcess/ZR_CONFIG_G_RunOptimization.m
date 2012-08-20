@@ -3,18 +3,58 @@ function ZR_CONFIG_G_RunOptimization()
 global G_RunOptimization;
 global G_RunSpecialTestCase;
 global g_XMLfile;
-l_XMLfile=g_XMLfile;
+
 if iscell(g_XMLfile)
     l_XMLfile=g_XMLfile{1};
+    for l_id=2:length(g_XMLfile)
+        l_XMLfile.strategyid=strcat(l_XMLfile.strategyid,'-',g_XMLfile{l_id}.strategyid);
+    end
+    % 策略参数设定
+    l_paramid=0;
+    for l_id=1:length(g_XMLfile)
+        l_titlenames=fieldnames(g_XMLfile{l_id}.g_strategyparams);
+        l_commandstr='';
+        
+        if ~isempty(l_titlenames)
+            for l_titleid=1:length(l_titlenames)
+                l_paramid=l_paramid+1;
+                l_commandstr=strcat(l_commandstr,...
+                    sprintf('G_RunOptimization.g_optimization.adjustparams{%d}.data=eval(num2str(g_XMLfile{%d}.g_strategyparams.%s));',...
+                    l_paramid,l_id,l_titlenames{l_titleid})); 
+                l_commandstr=strcat(l_commandstr,...
+                    sprintf('G_RunOptimization.g_optimization.adjustparams{%d}.name={''%s''};',...
+                    l_paramid,l_titlenames{l_titleid}));              
+            end
+        end
+        eval(l_commandstr); 
+    end 
+else
+    l_XMLfile=g_XMLfile;
+    l_titlenames=fieldnames(g_XMLfile.g_strategyparams);
+    l_commandstr='';
+    l_paramid=0;
+    if ~isempty(l_titlenames)
+        for l_titleid=1:length(l_titlenames)
+            l_paramid=l_paramid+1;
+            l_commandstr=strcat(l_commandstr,...
+                sprintf('G_RunOptimization.g_optimization.adjustparams{%d}.data=eval(num2str(g_XMLfile.g_strategyparams.%s));',...
+                l_paramid,l_titlenames{l_titleid})); 
+            l_commandstr=strcat(l_commandstr,...
+                sprintf('G_RunOptimization.g_optimization.adjustparams{%d}.name={''%s''};',...
+                l_paramid,l_titlenames{l_titleid}));             
+        end
+    end
+    eval(l_commandstr); 
 end
 % 优化过程
 % G_RunOptimization=read_xml('OPTIMIZE_GridSearch_01061.xml');
 % G_RunOptimization.g_method.runopimization=@ZR_OPTIMIZE_GridSearch;
 % G_RunOptimization.g_method.runopimization=@ZR_OPTIMIZE_PrioritizedStepSearch;
-G_RunOptimization.g_method.runopimization=@ZR_OPTIMIZE_MultipointHillClimbingSearch;
+G_RunOptimization.g_method.runopimization=@ZR_OPTIMIZE_GeneticAlgorithmSearchV2;
+% G_RunOptimization.g_method.runopimization=@ZR_OPTIMIZE_GeneticAlgorithmSearchV2;
 switch l_XMLfile.strategyid(1:2)      %套利类型
     case '01'           %跨期套利
-        G_RunOptimization.g_method.runstrategy.fun=@ZR_STRATEGY_PAIR;
+        G_RunOptimization.g_method.runstrategy=@ZR_STRATEGY_PAIR;
         G_RunOptimization.coredata.type='pair';
     case '04'           %单边策略
         G_RunOptimization.g_method.runstrategy=@ZR_STRATEGY_SERIAL;  
@@ -37,17 +77,7 @@ G_RunOptimization.g_pairnames=G_RunSpecialTestCase.g_pairnames;
 G_RunOptimization.g_contractnames=G_RunSpecialTestCase.g_contractnames;
 G_RunOptimization.g_report=G_RunSpecialTestCase.g_report;
 
-% 策略参数设定
-% l_titlenames=fieldnames(g_XMLfile.g_strategyparams);
-% l_commandstr='';
-% if ~isempty(l_titlenames)
-%     for l_titleid=1:length(l_titlenames)
-%         l_commandstr=strcat(l_commandstr,...
-%             sprintf('G_RunOptimization.g_optimization.adjustparams.%s.data=eval(g_XMLfile.g_strategyparams.%s);',...
-%             l_titlenames{l_titleid},l_titlenames{l_titleid})); 
-%     end
-% end
-% eval(l_commandstr);  
+
 
 
 %G_RunOptimization.g_optimization.adjustparams.period.data=12:4:20;

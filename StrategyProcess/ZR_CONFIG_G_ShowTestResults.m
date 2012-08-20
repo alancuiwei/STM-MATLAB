@@ -94,15 +94,17 @@ G_ShowTestResults.g_tables.reference.expectedvalue.title='期望值';
 G_ShowTestResults.g_tables.reference.maxdrawdown.title='最大资金回挫';
 G_ShowTestResults.g_tables.reference.maxdrawdownspread.title='最长衰退期';
 % 优化表
+l_paramid=0;
 if iscell(g_XMLfile)
     for l_id=1:numel(g_XMLfile)
         l_titlenames=fieldnames(g_XMLfile{l_id}.g_strategyparams);
         l_commandstr='';
         if ~isempty(l_titlenames)
             for l_titleid=1:length(l_titlenames)
+                l_paramid=l_paramid+1;
                 l_commandstr=strcat(l_commandstr,...
-                    sprintf('G_ShowTestResults.g_tables.optimization.param.%s.title=''%s'';',...
-                    l_titlenames{l_titleid},l_titlenames{l_titleid})); 
+                    sprintf('G_ShowTestResults.g_tables.optimization.param{%d}.title=''%s'';',...
+                    l_paramid,l_titlenames{l_titleid})); 
             end
         end
         eval(l_commandstr);
@@ -112,9 +114,10 @@ else
         l_commandstr='';
         if ~isempty(l_titlenames)
             for l_titleid=1:length(l_titlenames)
+                l_paramid=l_paramid+1;
                 l_commandstr=strcat(l_commandstr,...
-                    sprintf('G_ShowTestResults.g_tables.optimization.param.%s.title=''%s'';',...
-                    l_titlenames{l_titleid},l_titlenames{l_titleid})); 
+                    sprintf('G_ShowTestResults.g_tables.optimization.param{%d}.title=''%s'';',...
+                    l_paramid,l_titlenames{l_titleid})); 
             end
         end
         eval(l_commandstr);
