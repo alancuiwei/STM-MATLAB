@@ -1,6 +1,6 @@
 function outputdata=ZR_STRATEGY_040712(inputdata)
-%Aroon indicator strategy
-%created on 21 August 2012 by Gang LIU
+%Commodity Chanel Index strategy
+%created on 22 August 2012 by Gang LIU
 %1st version
 %==========================================================================
 
