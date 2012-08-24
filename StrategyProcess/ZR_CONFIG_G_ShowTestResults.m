@@ -70,6 +70,7 @@ G_ShowTestResults.g_tables.xml.returnrate.filename=strcat('returnrate-',num2str(
 G_ShowTestResults.g_tables.xml.reference.filename=strcat('reference-',num2str(l_XMLfile.userid));
 G_ShowTestResults.g_tables.xml.dailyinfo.filename=strcat('dailyinfo-',num2str(l_XMLfile.userid));
 G_ShowTestResults.g_tables.xml.orderlist.filename=strcat('orderlist-',num2str(l_XMLfile.userid));
+G_ShowTestResults.g_tables.xml.optimization.filename=strcat('optimization-',num2str(l_XMLfile.userid));
 % 测评参数表
 G_ShowTestResults.g_tables.reference.name.title='合约名称';
 G_ShowTestResults.g_tables.reference.costinput.title='投入资金';

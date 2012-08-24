@@ -19,7 +19,7 @@ if iscell(g_XMLfile)
             for l_titleid=1:length(l_titlenames)
                 l_paramid=l_paramid+1;
                 l_commandstr=strcat(l_commandstr,...
-                    sprintf('G_RunOptimization.g_optimization.adjustparams{%d}.data=eval(num2str(g_XMLfile{%d}.g_strategyparams.%s));',...
+                    sprintf('G_RunOptimization.g_optimization.adjustparams{%d}.data=eval(num2str(g_XMLfile{%d}.adjustparams.%s));',...
                     l_paramid,l_id,l_titlenames{l_titleid})); 
                 l_commandstr=strcat(l_commandstr,...
                     sprintf('G_RunOptimization.g_optimization.adjustparams{%d}.name={''%s''};',...
@@ -37,7 +37,7 @@ else
         for l_titleid=1:length(l_titlenames)
             l_paramid=l_paramid+1;
             l_commandstr=strcat(l_commandstr,...
-                sprintf('G_RunOptimization.g_optimization.adjustparams{%d}.data=eval(num2str(g_XMLfile.g_strategyparams.%s));',...
+                sprintf('G_RunOptimization.g_optimization.adjustparams{%d}.data=eval(num2str(g_XMLfile.adjustparams.%s));',...
                 l_paramid,l_titlenames{l_titleid})); 
             l_commandstr=strcat(l_commandstr,...
                 sprintf('G_RunOptimization.g_optimization.adjustparams{%d}.name={''%s''};',...
@@ -47,10 +47,26 @@ else
     eval(l_commandstr); 
 end
 % 优化过程
+switch l_XMLfile.optimizedmethod
+    case 0
+        G_RunOptimization.g_method.runopimization=@ZR_OPTIMIZE_SimulatedAnnealingSearch;
+    case 1
+        G_RunOptimization.g_method.runopimization=@ZR_OPTIMIZE_MultipointHillClimbingSearch; 
+    case 2
+        G_RunOptimization.g_method.runopimization=@ZR_OPTIMIZE_AnotherMultipointHillClimbingSearch;
+    case 3
+        G_RunOptimization.g_method.runopimization=@ZR_OPTIMIZE_SimulatedAnnealingSearch;
+    case 4
+        G_RunOptimization.g_method.runopimization=@ZR_OPTIMIZE_SimulatedAnnealingSearch2;
+    case 5
+        G_RunOptimization.g_method.runopimization=@ZR_OPTIMIZE_GeneticAlgorithmSearchV2;
+    case 6
+        G_RunOptimization.g_method.runopimization=@ZR_OPTIMIZE_PrioritizedStepSearch;        
+end
 % G_RunOptimization=read_xml('OPTIMIZE_GridSearch_01061.xml');
 % G_RunOptimization.g_method.runopimization=@ZR_OPTIMIZE_GridSearch;
 % G_RunOptimization.g_method.runopimization=@ZR_OPTIMIZE_PrioritizedStepSearch;
-G_RunOptimization.g_method.runopimization=@ZR_OPTIMIZE_GeneticAlgorithmSearchV2;
+% G_RunOptimization.g_method.runopimization=@ZR_OPTIMIZE_GeneticAlgorithmSearchV2;
 % G_RunOptimization.g_method.runopimization=@ZR_OPTIMIZE_GeneticAlgorithmSearchV2;
 switch l_XMLfile.strategyid(1:2)      %套利类型
     case '01'           %跨期套利

@@ -9,6 +9,12 @@
       <losses>0</losses>
       <wins>-6</wins>
    </g_strategyparams>
+   <adjustparams>
+      <period>4:20</period>
+      <losses>0:40</losses>
+      <wins>-20:20</wins>
+   </adjustparams>    
+   <optimizedmethod>0</optimizedmethod>  
    <g_commoditynames/>
    <g_pairnames/>
    <g_contractnames/>

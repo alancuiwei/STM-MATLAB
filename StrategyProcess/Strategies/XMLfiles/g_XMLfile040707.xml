@@ -7,10 +7,13 @@
    <g_strategyparams>
     <K>9</K> <D>3</D> <J>3</J>
    </g_strategyparams>
-   <g_commoditynames>
-	  <item>l</item>
-	  <item>p</item> 
-   </g_commoditynames>
+   <adjustparams>
+	  <K>9:20</K>
+       <D>3:8</D> 
+	  <J>3:8</J> 	   
+   </adjustparams> 
+   <optimizedmethod>0</optimizedmethod>   
+   <g_commoditynames/>
    <g_pairnames/>
    <g_contractnames/>
    <strategyid>040707</strategyid>

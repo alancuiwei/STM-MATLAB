@@ -73,6 +73,6 @@ for l_cmid=1:l_cmnum
             g_coredata(l_cmid).pair=l_pair;
         end 
     end
-    fprintf('%s已经导入g_coredata!\n',cell2mat(g_coredata(l_cmid).commodity.name));
+    ZR_FUN_Disp(sprintf('%s已经导入g_coredata!',cell2mat(g_coredata(l_cmid).commodity.name)),sprintf('%s import g_coredata!',cell2mat(g_coredata(l_cmid).commodity.name)));
 end
 end

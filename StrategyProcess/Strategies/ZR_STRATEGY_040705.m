@@ -37,6 +37,7 @@ l_diffprice=l_price(1,:)-l_price(2,:);
 l_signprice=l_diffprice(2:numel(l_diffprice)).*l_diffprice(1:numel(l_diffprice)-1);
 l_pos=find(l_signprice<0);%交点位置记录为实际交点的前一个点,当前点
 l_posinter=find(l_diffprice==0);
+l_posinter(l_posinter==length(l_price(1,:)))=[];
 l_postrade=[l_pos,l_posinter];
 l_postrade=unique(sort(l_postrade));                                              
 %==========================================================================         
@@ -306,6 +307,13 @@ else                %否则作为次策略，决定真正交易日期
     %==========================================================================
     % 根据策略算法本身，寻找可能平仓的点
     l_tempcpdate=cell(1,numel(l_cprealtradeday));
+    if(l_cprealtradeday(end)+2>numel(inputdata.commodity.serialmkdata.date)) %假如交点为今天和昨天之间，则更新outputdata.orderlist向量
+        outputdata.orderlist.direction(end+1)=-outputdata.record.direction(end);
+        outputdata.orderlist.price(end+1)=0;
+        outputdata.orderlist.name(end+1)=inputdata.commodity.serialmkdata.ctname(end-2);
+        l_cprealtradeday(end)=[];
+        l_tempcpdate(end)=[];
+    end     
     for l_tradeid=1:numel(l_cprealtradeday)
         if(l_signprice(l_cprealtradeday(l_tradeid))~=0) %判断此交点位置是否刚好为非整数
             if(l_price(1,l_cprealtradeday(l_tradeid)+1)>l_price(1,l_cprealtradeday(l_tradeid)) && l_price(2,l_cprealtradeday(l_tradeid)+1)>l_price(2,l_cprealtradeday(l_tradeid)) ...
@@ -330,6 +338,12 @@ else                %否则作为次策略，决定真正交易日期
     l_difftrend=inputdata.commodity.dailyinfo.trend(2:end)-inputdata.commodity.dailyinfo.trend(1:end-1);
     l_postrend=find(l_difftrend~=0);
     l_trendchangeday=unique(l_postrend);    % 趋势变化前的最后一天
+    if(l_trendchangeday(end)+2>numel(inputdata.commodity.serialmkdata.date)) %假如交点为今天和昨天之间，则更新outputdata.orderlist向量
+        outputdata.orderlist.direction(end+1)=-outputdata.record.direction(end);
+        outputdata.orderlist.price(end+1)=0;
+        outputdata.orderlist.name(end+1)=inputdata.commodity.serialmkdata.ctname(end-2);
+        l_trendchangeday(end)=[];
+    end     
     l_trendchangedate=inputdata.commodity.dailyinfo.date(l_trendchangeday+2);
     
 %     l_strategycpdate=outputdata.record.opdate(2:end); % 对于该策略，开仓时即平仓 

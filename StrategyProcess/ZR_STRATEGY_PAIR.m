@@ -11,7 +11,9 @@ global g_rightid;
 global g_orderlist;
 
 % 设置策略参数
-ZR_FUN_SetStrategyParams(varargin{:});
+if nargin>0
+    ZR_FUN_SetStrategyParams(varargin{:});
+end
 
 % 如果没有合约名集的信息，则用G_RunSpecialTestCase中的合约名集
 if isempty(g_commoditynames)

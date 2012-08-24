@@ -41,11 +41,13 @@ l_diffprice1=l_price(2,:)-l_price(3,:);
 l_signprice1=l_diffprice1(2:numel(l_diffprice1)).*l_diffprice1(1:numel(l_diffprice1)-1);
 l_pos1=find(l_signprice1<0);%计算小于20的点的位置
 l_position1=find(l_diffprice1==0);
+l_position1(l_position1==length(l_price(1,:)))=[];
 l_posinter1=[l_pos1,l_position1];
 l_diffprice2=l_price(3,:)-l_price(1,:);
 l_signprice2=l_diffprice2(2:numel(l_diffprice2)).*l_diffprice2(1:numel(l_diffprice2)-1);
 l_pos2=find(l_signprice2<0);%计算大于80的点的位置
 l_position2=find(l_diffprice2==0);
+l_position2(l_position2==length(l_price(1,:)))=[];
 l_posinter2=[l_pos2,l_position2];
 % l_signprice=[l_signprice1,l_signprice2];
 % l_signprice=sort(l_signprice);
@@ -398,6 +400,13 @@ else                %否则作为次策略，决定真正交易日期
     %==========================================================================
     % 根据策略算法本身，寻找可能平仓的点
     l_tempcpdate=cell(1,numel(l_cprealtradeday));
+    if(l_cprealtradeday(end)+2>numel(inputdata.commodity.serialmkdata.date)) %假如交点为今天和昨天之间，则更新outputdata.orderlist向量
+        outputdata.orderlist.direction(end+1)=-outputdata.record.direction(end);
+        outputdata.orderlist.price(end+1)=0;
+        outputdata.orderlist.name(end+1)=inputdata.commodity.serialmkdata.ctname(end-2);
+        l_cprealtradeday(end)=[];
+        l_tempcpdate(end)=[];
+    end         
     l_tempcpdate=inputdata.commodity.serialmkdata.date(l_cprealtradeday+2);
 %      for l_tradeid=1:numel(l_cprealtradeday)
 %         if(l_signprice1(l_cprealtradeday(l_tradeid))~=0&&l_signprice2(l_cprealtradeday(l_tradeid))~=0) %判断此交点位置是否刚好为非整数
@@ -423,6 +432,12 @@ else                %否则作为次策略，决定真正交易日期
     l_difftrend=inputdata.commodity.dailyinfo.trend(2:end)-inputdata.commodity.dailyinfo.trend(1:end-1);
     l_postrend=find(l_difftrend~=0);
     l_trendchangeday=unique(l_postrend);    % 趋势变化前的最后一天
+    if(l_trendchangeday(end)+2>numel(inputdata.commodity.serialmkdata.date)) %假如交点为今天和昨天之间，则更新outputdata.orderlist向量
+        outputdata.orderlist.direction(end+1)=-outputdata.record.direction(end);
+        outputdata.orderlist.price(end+1)=0;
+        outputdata.orderlist.name(end+1)=inputdata.commodity.serialmkdata.ctname(end-2);
+        l_trendchangeday(end)=[];
+    end      
     for i=1:numel(l_trendchangeday)
         if (l_trendchangeday(i)+2<=numel(inputdata.commodity.dailyinfo.date))
             l_trendchangedate(i)=inputdata.commodity.dailyinfo.date(l_trendchangeday(i)+1);

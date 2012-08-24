@@ -5,8 +5,12 @@
       <enddate></enddate>
    </coredata>
    <g_strategyparams>
-       <period>20</period>
+       <period>14</period>
    </g_strategyparams>
+   <adjustparams>
+       <period>10:20</period>
+   </adjustparams> 
+   <optimizedmethod>0</optimizedmethod>      
    <g_commoditynames/>
    <g_pairnames/>
    <g_contractnames/>

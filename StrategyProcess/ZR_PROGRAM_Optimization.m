@@ -20,14 +20,14 @@ end
 
 switch varargin{1}
     case 'all'
-        ZR_FUN_Disp('获取数据库策略配置信息!','extract DB configuration info!');
-        l_strategydata=ZR_FUN_QueryWebstrategyConfigByDB();
-        for l_id=1:length(l_strategydata.strategyid)
-            disp(strcat('strategyid:',l_strategydata.strategyid{l_id},' userid:',num2str(l_strategydata.userid{l_id}),' ordernum:',num2str(l_strategydata.ordernum{l_id})));
-            ZR_CONFIG_Start('database',l_strategydata.strategyid{l_id},num2str(l_strategydata.userid{l_id}),num2str(l_strategydata.ordernum{l_id}));
-            ZR_RUN_Optimization();
-        end
-        ZR_FUN_Disp('所有策略执行完毕!','complete strategy running!'); 
+%         ZR_FUN_Disp('获取数据库策略配置信息!','extract DB configuration info!');
+%         l_strategydata=ZR_FUN_QueryWebstrategyConfigByDB();
+%         for l_id=1:length(l_strategydata.strategyid)
+%             disp(strcat('strategyid:',l_strategydata.strategyid{l_id},' userid:',num2str(l_strategydata.userid{l_id}),' ordernum:',num2str(l_strategydata.ordernum{l_id})));
+%             ZR_CONFIG_Start('database',l_strategydata.strategyid{l_id},num2str(l_strategydata.userid{l_id}),num2str(l_strategydata.ordernum{l_id}));
+%             ZR_RUN_Optimization();
+%         end
+%         ZR_FUN_Disp('所有策略执行完毕!','complete strategy running!'); 
     otherwise
         ZR_CONFIG_Start(varargin{:});
         ZR_RUN_Optimization();

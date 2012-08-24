@@ -10,6 +10,13 @@
        <counter>12</counter>
        <Penetration>0.1</Penetration>
    </g_strategyparams>
+   <adjustparams>
+       <selection_price>2</selection_price>
+       <period>[1,5]</period>
+       <counter>6:20</counter>
+	   <Penetration>0.1</Penetration>
+   </adjustparams> 
+   <optimizedmethod>0</optimizedmethod>      
    <g_commoditynames/>
    <g_pairnames/>
    <g_contractnames/>

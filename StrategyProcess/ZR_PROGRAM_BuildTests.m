@@ -20,9 +20,6 @@ if ~isdeployed
     addpath(strcat('./Strategies'));
 end
 
-% % 配置程序运行参数
-global G_Start;
-G_Start.runmode='BuildTests';
 
 % 检查输入参数
 switch varargin{1}

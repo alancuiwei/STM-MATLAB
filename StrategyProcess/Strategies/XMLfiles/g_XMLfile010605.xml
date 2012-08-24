@@ -11,6 +11,14 @@
 	  <sharp>40</sharp>
 	  <sharpdays>3</sharpdays>
    </g_strategyparams>
+   <adjustparams>
+      <countersofdown>3:15</countersofdown>
+      <countersofup>3:15</countersofup>
+      <losses>0:40</losses>
+	  <sharp>20:80</sharp>
+	  <sharpdays>2:5</sharpdays>
+   </adjustparams>    
+   <optimizedmethod>0</optimizedmethod>     
    <g_commoditynames/>
    <g_pairnames/>
    <g_contractnames/>
