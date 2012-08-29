@@ -5,7 +5,10 @@ global G_RunSpecialTestCase;
 global g_XMLfile;
 
 if iscell(g_XMLfile)
-    l_XMLfile=g_XMLfile{1};
+    if ~isfield(g_XMLfile{1}, 'adjustparams')
+        return;
+    end    
+    l_XMLfile=g_XMLfile{1};    
     for l_id=2:length(g_XMLfile)
         l_XMLfile.strategyid=strcat(l_XMLfile.strategyid,'-',g_XMLfile{l_id}.strategyid);
     end
@@ -29,6 +32,9 @@ if iscell(g_XMLfile)
         eval(l_commandstr); 
     end 
 else
+    if ~isfield(g_XMLfile, 'adjustparams')
+        return;
+    end      
     l_XMLfile=g_XMLfile;
     l_titlenames=fieldnames(g_XMLfile.g_strategyparams);
     l_commandstr='';
