@@ -8,6 +8,10 @@
        <period>14</period> 
    </g_strategyparams>
    <g_commoditynames/>
+   <adjustparams>
+       <period>[14,16,20]</period>
+   </adjustparams> 
+   <optimizedmethod>0</optimizedmethod>   
    <g_pairnames/>
    <g_contractnames/>
    <strategyid>040712</strategyid>

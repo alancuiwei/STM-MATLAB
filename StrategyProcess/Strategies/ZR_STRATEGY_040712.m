@@ -28,13 +28,13 @@ l_cp = inputdata.commodity.serialmkdata.cp;
 
 l_CCI = TA_CCI(l_hp, l_lp, l_cp, inputdata.strategyparams.period);
 
-figure('Name',strcat('040714',cell2mat(inputdata.commodity.name)));
-plot(l_CCI, '-b');
-hold on
-plot(100*ones(1,l_datalen));
-hold on
-plot (-100*ones(1,l_datalen));
-hold off
+% figure('Name',strcat('040714',cell2mat(inputdata.commodity.name)));
+% plot(l_CCI, '-b');
+% hold on
+% plot(100*ones(1,l_datalen));
+% hold on
+% plot (-100*ones(1,l_datalen));
+% hold off
 
 l_CCI1 = l_CCI(1:end-1);
 l_CCI2 = l_CCI(2:end);
@@ -302,7 +302,7 @@ end
 
 
 
-disp('finished');
+% disp('finished');
 
 
 end
