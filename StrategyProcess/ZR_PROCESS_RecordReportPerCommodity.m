@@ -57,7 +57,8 @@ end
 % ÈÕÆÚÊı×Ö
 % l_startdatenum=min(l_opdatenums);
 try
-    l_startdatenum=datenum(g_rawdata.contract(1).mkdata.date{1},'yyyy-mm-dd');
+%     l_startdatenum=datenum(g_rawdata.contract(1).mkdata.date{1},'yyyy-mm-dd');
+    l_startdatenum=datenum(g_rawdata.commodity.serialmkdata.date{1},'yyyy-mm-dd');
 catch
     l_startdatenum=datenum(g_rawdata.pair(1).mkdata.date{1},'yyyy-mm-dd');
 end
@@ -67,7 +68,8 @@ l_startdatenum=datenum([l_startdatevec(1),1,1,0,0,0]);
 g_report.commodity(in_cmid).startdatenum=l_startdatenum;
 % l_enddatenum=max(l_cpdatenums);
 try
-    l_enddatenum=datenum(g_rawdata.contract(end).mkdata.date{end},'yyyy-mm-dd');    
+%     l_enddatenum=datenum(g_rawdata.contract(end).mkdata.date{end},'yyyy-mm-dd');    
+    l_enddatenum=datenum(g_rawdata.commodity.serialmkdata.date{end},'yyyy-mm-dd'); 
 catch
     l_enddatenum=datenum(g_rawdata.pair(end).mkdata.date{end},'yyyy-mm-dd');
 end

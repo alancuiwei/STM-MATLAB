@@ -35,8 +35,16 @@ G_RunSpecialTestCase.issetbyXML=1;
 % 如果有xml的设定就用xml
 if G_RunSpecialTestCase.issetbyXML&&~l_XMLfile.isupdated
     G_RunSpecialTestCase.strategyid=l_XMLfile.strategyid;
-    G_RunSpecialTestCase.coredata.startdate=l_XMLfile.coredata.startdate;
-    G_RunSpecialTestCase.coredata.enddate=l_XMLfile.coredata.enddate;
+    if ~isempty(l_XMLfile.coredata.startdate)
+        G_RunSpecialTestCase.coredata.startdate=l_XMLfile.coredata.startdate;
+    else
+        G_RunSpecialTestCase.coredata.startdate='nolimit';        
+    end
+    if ~isempty(l_XMLfile.coredata.enddate)
+        G_RunSpecialTestCase.coredata.enddate=l_XMLfile.coredata.enddate;
+    else
+        G_RunSpecialTestCase.coredata.enddate='nolimit';        
+    end    
     % 没有选择品种就用默认的所有品种
     l_commoditynames=l_XMLfile.g_commoditynames;
     if ~isempty(l_commoditynames)
