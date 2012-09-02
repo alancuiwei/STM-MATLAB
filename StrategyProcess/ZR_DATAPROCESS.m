@@ -2,6 +2,7 @@ function ZR_DATAPROCESS()
 % 针对g_rawdata数据的预处理
 
 % 声明全局变量
+global G_RunSpecialTestCase;
 global g_database;
 global g_contractnames;
 global g_commoditynames;
@@ -23,7 +24,7 @@ if l_cmnum>1
             % 不包含‘-’说明是单边
             l_realcmid=strcmp(g_database.commoditynames,l_cmname);
             g_coredata(l_cmid).commodity.info=g_database.commodities(l_realcmid).info;
-            g_coredata(l_cmid).commodity.serialmkdata=g_database.commodities(l_realcmid).serialmkdata;
+%             g_coredata(l_cmid).commodity.serialmkdata=g_database.commodities(l_realcmid).serialmkdata;
             % 根据选择的合约，筛选
             l_realctid=strncmp(g_database.contractnames,g_commoditynames{l_cmid},length(g_commoditynames{l_cmid}));
             if isempty(find(l_realctid, 1))
@@ -43,6 +44,44 @@ if l_cmnum>1
                     l_ctnum=l_ctnum+1;
                 end
             end
+            % 根据限制的时间，筛选
+            if (strcmp(G_RunSpecialTestCase.coredata.startdate,'nolimit')...
+                &&strcmp(G_RunSpecialTestCase.coredata.enddate,'nolimit'))
+                % 没有限制
+                g_coredata(l_cmid).commodity.serialmkdata=g_database.commodities(l_realcmid).serialmkdata;
+            else
+                l_startdatenum=0;
+                l_enddatenum=inf;
+                if ~strcmp(G_RunSpecialTestCase.coredata.enddate,'nolimit')
+                    % 结束日期有限制
+                    % 日期数字
+                    l_enddatenum=datenum(G_RunSpecialTestCase.coredata.enddate,'yyyy-mm-dd');            
+                end
+                if ~strcmp(G_RunSpecialTestCase.coredata.startdate,'nolimit')
+                    % 开始日期有限制
+                    % 日期数字
+                    l_startdatenum=datenum(G_RunSpecialTestCase.coredata.startdate,'yyyy-mm-dd');            
+                end
+                % 计算合约的起始id
+                l_startid=find(datenum(g_database.commodities(l_realcmid).serialmkdata.date)>=l_startdatenum,1,'first');
+                l_endid=find(datenum(g_database.commodities(l_realcmid).serialmkdata.date)<=l_enddatenum,1,'last');
+                if isempty(l_startid)||isempty(l_endid)
+                    continue;   
+                end
+                % 连续合约数据
+                g_coredata(l_cmid).commodity.serialmkdata.date=g_database.commodities(l_realcmid).serialmkdata.date(l_startid:l_endid);
+                g_coredata(l_cmid).commodity.serialmkdata.op=g_database.commodities(l_realcmid).serialmkdata.op(l_startid:l_endid);
+                g_coredata(l_cmid).commodity.serialmkdata.hp=g_database.commodities(l_realcmid).serialmkdata.hp(l_startid:l_endid);
+                g_coredata(l_cmid).commodity.serialmkdata.lp=g_database.commodities(l_realcmid).serialmkdata.lp(l_startid:l_endid);
+                g_coredata(l_cmid).commodity.serialmkdata.cp=g_database.commodities(l_realcmid).serialmkdata.cp(l_startid:l_endid);
+                g_coredata(l_cmid).commodity.serialmkdata.vl=g_database.commodities(l_realcmid).serialmkdata.vl(l_startid:l_endid);
+                g_coredata(l_cmid).commodity.serialmkdata.oi=g_database.commodities(l_realcmid).serialmkdata.oi(l_startid:l_endid);
+                g_coredata(l_cmid).commodity.serialmkdata.gap=g_database.commodities(l_realcmid).serialmkdata.gap(l_startid:l_endid);
+                g_coredata(l_cmid).commodity.serialmkdata.ctname=g_database.commodities(l_realcmid).serialmkdata.ctname(l_startid:l_endid);
+                g_coredata(l_cmid).commodity.serialmkdata.datalen=l_endid-l_startid+1;    
+                g_coredata(l_cmid).currentdate=g_coredata(l_cmid).commodity.serialmkdata.date(end);
+            end
+  
             % 导入合约和套利对的数据
             if l_ctid
                 g_coredata(l_cmid).contract=l_contract;
@@ -110,6 +149,42 @@ else
             end
         end
         % 导入合约和套利对的数据
+        % 根据限制的时间，筛选
+        if (strcmp(G_RunSpecialTestCase.coredata.startdate,'nolimit')...
+            &&strcmp(G_RunSpecialTestCase.coredata.enddate,'nolimit'))
+            % 没有限制
+            g_coredata.commodity.serialmkdata=g_database.commodities(l_realcmid).serialmkdata;
+        else
+            l_startdatenum=0;
+            l_enddatenum=inf;
+            if ~strcmp(G_RunSpecialTestCase.coredata.enddate,'nolimit')
+                % 结束日期有限制
+                % 日期数字
+                l_enddatenum=datenum(G_RunSpecialTestCase.coredata.enddate,'yyyy-mm-dd');            
+            end
+            if ~strcmp(G_RunSpecialTestCase.coredata.startdate,'nolimit')
+                % 开始日期有限制
+                % 日期数字
+                l_startdatenum=datenum(G_RunSpecialTestCase.coredata.startdate,'yyyy-mm-dd');            
+            end
+            % 计算合约的起始id
+            l_startid=find(datenum(g_database.commodities(l_realcmid).serialmkdata.date)>=l_startdatenum,1,'first');
+            l_endid=find(datenum(g_database.commodities(l_realcmid).serialmkdata.date)<=l_enddatenum,1,'last');
+            if ~isempty(l_startid)&&~isempty(l_endid)
+                % 连续合约数据
+                g_coredata.commodity.serialmkdata.date=g_database.commodities(l_realcmid).serialmkdata.date(l_startid:l_endid);
+                g_coredata.commodity.serialmkdata.op=g_database.commodities(l_realcmid).serialmkdata.op(l_startid:l_endid);
+                g_coredata.commodity.serialmkdata.hp=g_database.commodities(l_realcmid).serialmkdata.hp(l_startid:l_endid);
+                g_coredata.commodity.serialmkdata.lp=g_database.commodities(l_realcmid).serialmkdata.lp(l_startid:l_endid);
+                g_coredata.commodity.serialmkdata.cp=g_database.commodities(l_realcmid).serialmkdata.cp(l_startid:l_endid);
+                g_coredata.commodity.serialmkdata.vl=g_database.commodities(l_realcmid).serialmkdata.vl(l_startid:l_endid);
+                g_coredata.commodity.serialmkdata.oi=g_database.commodities(l_realcmid).serialmkdata.oi(l_startid:l_endid);
+                g_coredata.commodity.serialmkdata.gap=g_database.commodities(l_realcmid).serialmkdata.gap(l_startid:l_endid);
+                g_coredata.commodity.serialmkdata.ctname=g_database.commodities(l_realcmid).serialmkdata.ctname(l_startid:l_endid);
+                g_coredata.commodity.serialmkdata.datalen=l_endid-l_startid+1;    
+                g_coredata.currentdate=g_coredata.commodity.serialmkdata.date(end);
+            end
+        end        
         if l_ctid
             g_coredata.contract=l_contract;
             g_coredata.contractname=l_contractname;
