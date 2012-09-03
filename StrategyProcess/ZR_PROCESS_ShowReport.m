@@ -44,11 +44,21 @@ switch g_tables.outfiletype
         ZR_PROCESS_SaveDailyInfoToDB();
         ZR_PROCESS_SaveOrderlistToDB();
     case 'xml'
-        xml_write(strcat(g_tables.outdir,'/',g_tables.xml.record.pos.filename,'.xml'),g_tables.tabledata.record.pos(2:end,[2,3,4,5,11,12]));
-        xml_write(strcat(g_tables.outdir,'/',g_tables.xml.orderlist.filename,'.xml'),g_tables.tabledata.orderlist);
-        ZR_PROCESS_SaveReturnrateToXML();
-        ZR_PROCESS_SaveReferenceToXML();
-        ZR_PROCESS_SaveDailyInfoToXML();
+        if g_tables.xml.record.pos.issaved>0
+            xml_write(strcat(g_tables.outdir,'/',g_tables.xml.record.pos.filename,'.xml'),g_tables.tabledata.record.pos(2:end,[2,3,4,5,11,12]));
+        end
+        if g_tables.xml.orderlist.issaved>0
+            xml_write(strcat(g_tables.outdir,'/',g_tables.xml.orderlist.filename,'.xml'),g_tables.tabledata.orderlist);
+        end
+        if g_tables.xml.returnrate.issaved>0
+            ZR_PROCESS_SaveReturnrateToXML();
+        end
+        if g_tables.xml.reference.issaved>0
+            ZR_PROCESS_SaveReferenceToXML();
+        end
+        if g_tables.xml.dailyinfo.issaved>0
+            ZR_PROCESS_SaveDailyInfoToXML();
+        end
 end
 
 end

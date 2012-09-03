@@ -71,6 +71,22 @@ G_ShowTestResults.g_tables.xml.reference.filename=strcat('reference-',num2str(l_
 G_ShowTestResults.g_tables.xml.dailyinfo.filename=strcat('dailyinfo-',num2str(l_XMLfile.userid));
 G_ShowTestResults.g_tables.xml.orderlist.filename=strcat('orderlist-',num2str(l_XMLfile.userid));
 G_ShowTestResults.g_tables.xml.optimization.filename=strcat('optimization-',num2str(l_XMLfile.userid));
+
+if isfield(l_XMLfile,'savepos')
+    G_ShowTestResults.g_tables.xml.record.pos.issaved=l_XMLfile.savepos;
+    G_ShowTestResults.g_tables.xml.returnrate.issaved=l_XMLfile.savereturnrate;
+    G_ShowTestResults.g_tables.xml.reference.issaved=l_XMLfile.savereference;
+    G_ShowTestResults.g_tables.xml.dailyinfo.issaved=l_XMLfile.savedailyinfo;
+    G_ShowTestResults.g_tables.xml.orderlist.issaved=l_XMLfile.saveorderlist;
+else
+    G_ShowTestResults.g_tables.xml.record.pos.issaved=1;
+    G_ShowTestResults.g_tables.xml.returnrate.issaved=1;
+    G_ShowTestResults.g_tables.xml.reference.issaved=1;
+    G_ShowTestResults.g_tables.xml.dailyinfo.issaved=1;
+    G_ShowTestResults.g_tables.xml.orderlist.issaved=1;    
+end
+
+
 % 测评参数表
 G_ShowTestResults.g_tables.reference.name.title='合约名称';
 G_ShowTestResults.g_tables.reference.costinput.title='投入资金';
