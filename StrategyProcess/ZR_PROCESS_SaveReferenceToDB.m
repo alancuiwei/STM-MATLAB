@@ -4,8 +4,8 @@ global g_tables;
 global g_reportset;
 l_sqlstr1='delete from strategyreference_t ';
 l_sqlstr1=strcat(l_sqlstr1,' WHERE strategyid= ''',g_tables.strategyid,''' ');
-l_sqlstr1=strcat(l_sqlstr1,' and userid= ',g_tables.userid,' ');
-l_sqlstr1=strcat(l_sqlstr1,' and ordernum= ',g_tables.ordernum,' ');
+l_sqlstr1=strcat(l_sqlstr1,' and userid= ',num2str(g_tables.userid),' ');
+l_sqlstr1=strcat(l_sqlstr1,' and ordernum= ',num2str(g_tables.ordernum),' ');
 l_rightid=cell(1,length(g_reportset.commodity));
 for l_id=1:length(g_reportset.commodity)
     l_rightid(l_id)=g_reportset.commodity(l_id).record.pos.rightid(1);

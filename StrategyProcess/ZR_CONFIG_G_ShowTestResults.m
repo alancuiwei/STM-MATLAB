@@ -55,6 +55,17 @@ G_ShowTestResults.g_tables.tabledata.record.trade=[];
 G_ShowTestResults.g_tables.tabledata.orderlist=[];
 G_ShowTestResults.g_tables.outfiletype='xls';
 G_ShowTestResults.g_tables.outdir='TestResult/Tables';
+% 日期范围
+if ~isempty(l_XMLfile.coredata.startdate)
+    G_ShowTestResults.g_tables.startdate=l_XMLfile.coredata.startdate;
+else
+    G_ShowTestResults.g_tables.startdate='nolimit';        
+end
+if ~isempty(l_XMLfile.coredata.enddate)
+    G_ShowTestResults.g_tables.enddate=l_XMLfile.coredata.enddate;
+else
+    G_ShowTestResults.g_tables.enddate='nolimit';        
+end    
 % 导出信息xls
 G_ShowTestResults.g_tables.xls.outfile='TestResults';
 G_ShowTestResults.g_tables.xls.reference.sheetname='reference';

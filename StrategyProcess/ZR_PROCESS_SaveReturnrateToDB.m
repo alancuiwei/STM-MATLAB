@@ -61,8 +61,8 @@ l_data.ordernum=repmat({g_tables.ordernum}, 1, length(l_data.returnrate));
 l_sqlstr1='delete from strategyreturnrate_t ';
 % l_sqlstr1=strcat(l_sqlstr1,' where rightid regexp ''^',in_strategyid,'''');
 l_sqlstr1=strcat(l_sqlstr1,' WHERE strategyid= ''',g_tables.strategyid,''' ');
-l_sqlstr1=strcat(l_sqlstr1,' and userid= ',g_tables.userid,' ');
-l_sqlstr1=strcat(l_sqlstr1,' and ordernum= ',g_tables.ordernum,' ');
+l_sqlstr1=strcat(l_sqlstr1,' and userid= ',num2str(g_tables.userid),' ');
+l_sqlstr1=strcat(l_sqlstr1,' and ordernum= ',num2str(g_tables.ordernum),' ');
 % 连接数据库
 % l_conn=database('webfuturetest_101','root','123456');
 l_conn=ZR_DATABASE_AccessDB('webfuturetest_101','conn');
