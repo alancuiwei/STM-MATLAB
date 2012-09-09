@@ -25,7 +25,11 @@ out_totalvalue=(l_reference.profitpertrade*(l_reference.profittradenum-l_referen
     +l_reference.losspertrade*(l_reference.losstradenum+l_reference.losstradenum^0.5))/l_reference.costinput;
 
 % 获得品种数
-l_cmnum=length(g_commoditynames);
+if iscell(g_commoditynames)
+    l_cmnum=length(g_commoditynames);
+else
+    l_cmnum=1;
+end
 out_commodityvalue(l_cmnum)=0;
 for l_cmid=1:l_cmnum 
     % 计算各品种最悲观期望值

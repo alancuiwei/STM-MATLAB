@@ -9,11 +9,13 @@ global g_commoditynames;
 global g_pairnames;
 global g_coredata;
 
-l_cmnum=length(g_commoditynames);
+if iscell(g_commoditynames)
+    l_cmnum=length(g_commoditynames);
+else
+    l_cmnum=1;
+end
 
-
-
-if l_cmnum>1
+if l_cmnum>1 
     for l_cmid=1:l_cmnum
         g_coredata(l_cmid).currentdate=g_database.currentdate;
         % 在g_database找到当前品种所在的位置，如果没有该品种，则跳过

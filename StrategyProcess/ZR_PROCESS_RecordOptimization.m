@@ -44,7 +44,11 @@ g_optimization.expectedvaluennum=length(l_totalvalue);
 l_valuecounter=length(g_optimization.param);
 g_optimization.param{l_valuecounter+1}=str2num(l_paramstr);
 % 获得各个品种的期望值
-l_cmnum=length(g_commoditynames);
+if iscell(g_commoditynames)
+    l_cmnum=length(g_commoditynames);
+else
+    l_cmnum=1;
+end
 for l_cmid=1:l_cmnum
     g_optimization.commodity(l_cmid).expectedvalue(l_valuecounter+1)=l_commodityvalue(l_cmid);
 end

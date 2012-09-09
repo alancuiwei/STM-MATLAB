@@ -22,7 +22,11 @@ if isempty(g_commoditynames)
     error('品种名列表没有初始化');
 end
 %%%% 算法过程
-l_cmnum=length(g_commoditynames);
+if iscell(g_commoditynames)
+    l_cmnum=length(g_commoditynames);
+else
+    l_cmnum=1;
+end
 % 根据一组参数计算一轮
 for l_cmid=1:l_cmnum         
     % 每一个品种初始化

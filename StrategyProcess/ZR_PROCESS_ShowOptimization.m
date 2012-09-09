@@ -38,17 +38,39 @@ g_optimization.param(end+1)=g_optimization.param(l_maxid);
 switch g_tables.outfiletype
     case 'xls'
         %%%%%%%%%%%%%  各个品种情况
-        l_cmnum=length(g_commoditynames);
-        for l_cmid=1:l_cmnum
+        if iscell(g_commoditynames)
+            l_cmnum=length(g_commoditynames);
+            for l_cmid=1:l_cmnum
+                g_optimization.commodity(l_cmid).expectedvalue(end+1)=l_max;
+                l_sheetname=cell2mat(g_commoditynames(l_cmid));
+            %     l_sheetname=l_strname(regexp(l_strname,'[a-z_A-Z]')); 
+                l_paramarray=cat(1,g_optimization.param{:});
+                l_valuearray=cat(1,g_optimization.commodity(l_cmid).expectedvalue(:));
+                l_valuearray=cat(2,l_paramarray,l_valuearray);
+                l_valuearray=[l_title;num2cell(l_valuearray)];
+                xlswrite(l_filename,l_valuearray,l_sheetname, 'A1');         
+            end            
+        else
+            l_cmid=1;
             g_optimization.commodity(l_cmid).expectedvalue(end+1)=l_max;
-            l_sheetname=cell2mat(g_commoditynames(l_cmid));
+            l_sheetname=g_commoditynames;
         %     l_sheetname=l_strname(regexp(l_strname,'[a-z_A-Z]')); 
             l_paramarray=cat(1,g_optimization.param{:});
             l_valuearray=cat(1,g_optimization.commodity(l_cmid).expectedvalue(:));
             l_valuearray=cat(2,l_paramarray,l_valuearray);
             l_valuearray=[l_title;num2cell(l_valuearray)];
-            xlswrite(l_filename,l_valuearray,l_sheetname, 'A1');         
+            xlswrite(l_filename,l_valuearray,l_sheetname, 'A1');              
         end
+%         for l_cmid=1:l_cmnum
+%             g_optimization.commodity(l_cmid).expectedvalue(end+1)=l_max;
+%             l_sheetname=cell2mat(g_commoditynames(l_cmid));
+%         %     l_sheetname=l_strname(regexp(l_strname,'[a-z_A-Z]')); 
+%             l_paramarray=cat(1,g_optimization.param{:});
+%             l_valuearray=cat(1,g_optimization.commodity(l_cmid).expectedvalue(:));
+%             l_valuearray=cat(2,l_paramarray,l_valuearray);
+%             l_valuearray=[l_title;num2cell(l_valuearray)];
+%             xlswrite(l_filename,l_valuearray,l_sheetname, 'A1');         
+%         end
 
         %%%%%%%%%%%%% 总交易情况
         l_sheetname='AllCommodity';
