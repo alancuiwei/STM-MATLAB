@@ -255,98 +255,153 @@ g_reference.name={'总评'};
 
 % 投入资金
 g_reference.costinput=max(abs(g_reportset.dailyinfo.margin(l_startid:l_endid))); 
-% 下单数量
-g_reference.commodity.numoforder=floor(max(g_reference.commodity.costinput)./g_reference.commodity.costinput); 
-g_reference.numoforder=0;
-% 总盈利亏损
-% l_tradeprofit=g_reportset.record.trade.profit(...
-%     (datenum(g_reportset.record.trade.cpdate)<=l_endwindownum)&(datenum(g_reportset.record.trade.opdate)>=l_startwindownum));
-l_posprofit=g_reportset.record.pos.profit(...
-    (datenum(g_reportset.record.pos.cpdate)<=l_endwindownum)&(datenum(g_reportset.record.pos.opdate)>=l_startwindownum)); 
-g_reference.totalnetprofit=sum(l_posprofit); 
-% 毛盈利
-g_reference.grossprofit=sum(l_posprofit(l_posprofit>0)); 
-% 毛亏损
-g_reference.grossloss=sum(l_posprofit(l_posprofit<0));
-% 月回报率
-l_monthprofit=zeros(1,(12*(l_yearnum+1)));
-l_yearprofit=zeros(1,(l_yearnum+1));
-l_numofmonth=0;
-l_numofyear=0;
-for l_yearid=l_startdatevec(1,1):l_enddatevec(1,1)
-    for l_monthid=1:12
-        l_numofmonth=l_numofmonth+1;
-        l_dayid=eomday(l_yearid,l_monthid);
-        l_dayvec=[l_yearid,l_monthid,l_dayid,0,0,0];
-        l_endofmonthnum=datenum(l_dayvec);
-        % 计算收益
-        l_monthprofit(l_numofmonth)=g_reportset.dailyinfo.profit(l_endofmonthnum-l_startdatenum+1)-g_reportset.dailyinfo.profit(l_startid);
+if g_reference.costinput>0
+    % 下单数量
+    g_reference.commodity.numoforder=floor(max(g_reference.commodity.costinput)./(g_reference.commodity.costinput-1)); 
+    g_reference.numoforder=0;
+    % 总盈利亏损
+    % l_tradeprofit=g_reportset.record.trade.profit(...
+    %     (datenum(g_reportset.record.trade.cpdate)<=l_endwindownum)&(datenum(g_reportset.record.trade.opdate)>=l_startwindownum));
+    l_posprofit=g_reportset.record.pos.profit(...
+        (datenum(g_reportset.record.pos.cpdate)<=l_endwindownum)&(datenum(g_reportset.record.pos.opdate)>=l_startwindownum)); 
+    g_reference.totalnetprofit=sum(l_posprofit); 
+    % 毛盈利
+    g_reference.grossprofit=sum(l_posprofit(l_posprofit>0)); 
+    % 毛亏损
+    g_reference.grossloss=sum(l_posprofit(l_posprofit<0));
+    % 月回报率
+    l_monthprofit=zeros(1,(12*(l_yearnum+1)));
+    l_yearprofit=zeros(1,(l_yearnum+1));
+    l_numofmonth=0;
+    l_numofyear=0;
+    for l_yearid=l_startdatevec(1,1):l_enddatevec(1,1)
+        for l_monthid=1:12
+            l_numofmonth=l_numofmonth+1;
+            l_dayid=eomday(l_yearid,l_monthid);
+            l_dayvec=[l_yearid,l_monthid,l_dayid,0,0,0];
+            l_endofmonthnum=datenum(l_dayvec);
+            % 计算收益
+            l_monthprofit(l_numofmonth)=g_reportset.dailyinfo.profit(l_endofmonthnum-l_startdatenum+1)-g_reportset.dailyinfo.profit(l_startid);
+        end
+        l_numofyear=l_numofyear+1;
+        l_yearprofit(l_numofyear)=l_monthprofit(l_numofmonth);
     end
-    l_numofyear=l_numofyear+1;
-    l_yearprofit(l_numofyear)=l_monthprofit(l_numofmonth);
-end
-l_trademonthrate=(l_monthprofit-[0,l_monthprofit(1:(length(l_monthprofit)-1))])/g_reference.costinput;
-g_reference.monthreturnrate.data=reshape(l_trademonthrate,[12,l_yearnum+1]);
-% 月平均回报率
-l_tradetime=l_endid-l_startid+1;
-l_monthnum=ceil(l_tradetime/30); 
-g_reference.avemonthreturnrate=l_monthprofit(l_numofmonth)/g_reference.costinput/l_monthnum;
-% 年回报率
-l_tradeyearrate=(l_yearprofit-[0,l_yearprofit(1:(length(l_yearprofit)-1))])/g_reference.costinput;
-g_reference.yearreturnrate.data=l_tradeyearrate; 
-g_reference.years.data=l_startdatevec(1,1):l_enddatevec(1,1);
-% 年平均回报率
-l_yearnum=ceil(l_tradetime/365); 
-g_reference.aveyearreturnrate=l_yearprofit(l_numofyear)/g_reference.costinput/l_yearnum;
-% 总交易天数
-g_reference.totaltradedays=l_tradetime;
-% 总开仓次数
-g_reference.totalposnum=length(l_posprofit);     
-% 总交易次数
-g_reference.totaltradenum=length(l_posprofit);
-% 平均每天交易次数
-g_reference.totaltradenumperday=g_reference.totaltradenum/g_reference.totaltradedays; 
-% 盈利交易次数
-g_reference.profittradenum=sum(l_posprofit>0); 
-% 亏损交易次数
-g_reference.losstradenum=sum(l_posprofit<=0);
-% 盈利交易次数的比率
-g_reference.profittraderate=g_reference.profittradenum/g_reference.totaltradenum;
-% 最大单笔盈利金额
-if isempty(l_posprofit(l_posprofit>0))
+    l_trademonthrate=(l_monthprofit-[0,l_monthprofit(1:(length(l_monthprofit)-1))])/g_reference.costinput;
+    g_reference.monthreturnrate.data=reshape(l_trademonthrate,[12,l_yearnum+1]);
+    % 月平均回报率
+    l_tradetime=l_endid-l_startid+1;
+    l_monthnum=ceil(l_tradetime/30); 
+    g_reference.avemonthreturnrate=l_monthprofit(l_numofmonth)/g_reference.costinput/l_monthnum;
+    % 年回报率
+    l_tradeyearrate=(l_yearprofit-[0,l_yearprofit(1:(length(l_yearprofit)-1))])/g_reference.costinput;
+    g_reference.yearreturnrate.data=l_tradeyearrate; 
+    g_reference.years.data=l_startdatevec(1,1):l_enddatevec(1,1);
+    % 年平均回报率
+    l_yearnum=ceil(l_tradetime/365); 
+    g_reference.aveyearreturnrate=l_yearprofit(l_numofyear)/g_reference.costinput/l_yearnum;
+    % 总交易天数
+    g_reference.totaltradedays=l_tradetime;
+    % 总开仓次数
+    g_reference.totalposnum=length(l_posprofit);     
+    % 总交易次数
+    g_reference.totaltradenum=length(l_posprofit);
+    % 平均每天交易次数
+    g_reference.totaltradenumperday=g_reference.totaltradenum/g_reference.totaltradedays; 
+    % 盈利交易次数
+    g_reference.profittradenum=sum(l_posprofit>0); 
+    % 亏损交易次数
+    g_reference.losstradenum=sum(l_posprofit<=0);
+    % 盈利交易次数的比率
+    g_reference.profittraderate=g_reference.profittradenum/g_reference.totaltradenum;
+    % 最大单笔盈利金额
+    if isempty(l_posprofit(l_posprofit>0))
+        g_reference.maxprofit=0;
+        % 每单交易盈利
+        g_reference.profitpertrade=0; 
+    else
+        g_reference.maxprofit=max(l_posprofit(l_posprofit>0)); 
+    % 每单交易盈利
+    g_reference.profitpertrade=sum(l_posprofit(l_posprofit>0))....
+        /g_reference.profittradenum; 
+    end
+    % 最大单笔亏损金额
+    if isempty(l_posprofit(l_posprofit<0))
+        g_reference.maxloss=0;
+        % 每单交易亏损
+        g_reference.losspertrade=0;    
+    else
+        g_reference.maxloss=min(l_posprofit(l_posprofit<=0));
+    % 每单交易亏损
+    g_reference.losspertrade=sum(l_posprofit(l_posprofit<=0))....
+        /g_reference.losstradenum;
+    end  
+
+    % 总体每单交易盈亏率
+    g_reference.returnpertrade=sum(l_posprofit)....
+        /g_reference.totaltradenum;
+    % 期望值
+    g_reference.expectedvalue=g_reference.returnpertrade/(abs(g_reference.losspertrade)+1); 
+    % 最大回退
+    [l_maxdrawdown, l_maxdrawdownspread]=maxdrawdown(g_reportset.dailyinfo.profit(l_startid:l_endid)...
+        -g_reportset.dailyinfo.profit(l_startid),'arithmetic');
+    g_reference.maxdrawdown=l_maxdrawdown; 
+    % 最大回退
+    g_reference.maxdrawdownspread=l_maxdrawdownspread(2)-l_maxdrawdownspread(1);
+else
+    % 下单数量
+    g_reference.commodity.numoforder=floor(max(g_reference.commodity.costinput)./(g_reference.commodity.costinput-1)); 
+    g_reference.numoforder=0;
+    g_reference.totalnetprofit=0; 
+    % 毛盈利
+    g_reference.grossprofit=0; 
+    % 毛亏损
+    g_reference.grossloss=0;
+    % 月回报率
+    l_monthprofit=zeros(1,(12*(l_yearnum+1)));
+    l_yearprofit=zeros(1,(l_yearnum+1));
+
+    l_trademonthrate=(l_monthprofit-[0,l_monthprofit(1:(length(l_monthprofit)-1))])/g_reference.costinput;
+    g_reference.monthreturnrate.data=reshape(l_trademonthrate,[12,l_yearnum+1]);
+    % 月平均回报率
+    l_tradetime=l_endid-l_startid+1;
+    g_reference.avemonthreturnrate=0;
+    % 年回报率
+    l_tradeyearrate=l_yearprofit;
+    g_reference.yearreturnrate.data=l_tradeyearrate; 
+    g_reference.years.data=l_startdatevec(1,1):l_enddatevec(1,1);
+    % 年平均回报率
+    g_reference.aveyearreturnrate=0;
+    % 总交易天数
+    g_reference.totaltradedays=l_tradetime;
+    % 总开仓次数
+    g_reference.totalposnum=0;     
+    % 总交易次数
+    g_reference.totaltradenum=0;
+    % 平均每天交易次数
+    g_reference.totaltradenumperday=0; 
+    % 盈利交易次数
+    g_reference.profittradenum=0; 
+    % 亏损交易次数
+    g_reference.losstradenum=0;
+    % 盈利交易次数的比率
+    g_reference.profittraderate=0;
+    % 最大单笔盈利金额
     g_reference.maxprofit=0;
     % 每单交易盈利
     g_reference.profitpertrade=0; 
-else
-    g_reference.maxprofit=max(l_posprofit(l_posprofit>0)); 
-% 每单交易盈利
-g_reference.profitpertrade=sum(l_posprofit(l_posprofit>0))....
-    /g_reference.profittradenum; 
-end
-% 最大单笔亏损金额
-if isempty(l_posprofit(l_posprofit<0))
+    % 最大单笔亏损金额
     g_reference.maxloss=0;
     % 每单交易亏损
     g_reference.losspertrade=0;    
-else
-    g_reference.maxloss=min(l_posprofit(l_posprofit<=0));
-% 每单交易亏损
-g_reference.losspertrade=sum(l_posprofit(l_posprofit<=0))....
-    /g_reference.losstradenum;
-end  
-
-% 总体每单交易盈亏率
-g_reference.returnpertrade=sum(l_posprofit)....
-    /g_reference.totaltradenum;
-% 期望值
-g_reference.expectedvalue=g_reference.returnpertrade/(abs(g_reference.losspertrade)+1); 
-% 最大回退
-[l_maxdrawdown, l_maxdrawdownspread]=maxdrawdown(g_reportset.dailyinfo.profit(l_startid:l_endid)...
-    -g_reportset.dailyinfo.profit(l_startid),'arithmetic');
-g_reference.maxdrawdown=l_maxdrawdown; 
-% 最大回退
-g_reference.maxdrawdownspread=l_maxdrawdownspread(2)-l_maxdrawdownspread(1);
-
+    % 总体每单交易盈亏率
+    g_reference.returnpertrade=0;
+    % 期望值
+    g_reference.expectedvalue=0; 
+    % 最大回退
+    g_reference.maxdrawdown=0; 
+    % 最大回退
+    g_reference.maxdrawdownspread=0;    
+end
 
 % 计算排序
 l_titlenames=fieldnames(g_reference.sort);

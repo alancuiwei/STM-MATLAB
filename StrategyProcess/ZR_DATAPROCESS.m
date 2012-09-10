@@ -123,8 +123,8 @@ if l_cmnum>1
 else
     g_coredata.currentdate=g_database.currentdate;
     % 在g_database找到当前品种所在的位置，如果没有该品种，则跳过
-    g_coredata.commodity.name={g_commoditynames};
-    l_cmname=g_commoditynames;
+    g_coredata.commodity.name=g_commoditynames;
+    l_cmname=g_commoditynames{1};
     l_split=strfind(l_cmname,'-');
     if isempty(l_split)
         % 不包含‘-’说明是单边

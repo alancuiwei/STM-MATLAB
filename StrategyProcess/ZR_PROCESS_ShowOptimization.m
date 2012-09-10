@@ -80,6 +80,7 @@ switch g_tables.outfiletype
         l_valuearray=[l_title;num2cell(l_valuearray)];
         xlswrite(l_filename,l_valuearray,l_sheetname, 'A1');
     case 'xml'
+        g_optimization.expectedvalue(isnan(g_optimization.expectedvalue))=0;
         l_paramarray=cat(1,g_optimization.param{:});
         l_valuearray=cat(1,g_optimization.expectedvalue(:));
         l_valuearray=cat(2,l_paramarray,l_valuearray);

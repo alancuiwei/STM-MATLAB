@@ -21,7 +21,17 @@ try
     
     if numel(g_XMLfile)==1
         g_XMLfile=g_XMLfile{1};
+         if ~isempty(g_XMLfile.g_commoditynames)&&~iscell(g_XMLfile.g_commoditynames)
+            g_XMLfile.g_commoditynames={g_XMLfile.g_commoditynames};
+         end
+    else
+        for l_id=1: numel(g_XMLfile)
+             if ~isempty(g_XMLfile{l_id}.g_commoditynames)&&~iscell(g_XMLfile{l_id}.g_commoditynames)
+                g_XMLfile{l_id}.g_commoditynames={g_XMLfile{l_id}.g_commoditynames};
+             end            
+        end
     end
+
     
     % addpath(g_XMLfile.strategypath);
 %     g_XMLfile.strategyid=num2str(g_XMLfile.strategyid);

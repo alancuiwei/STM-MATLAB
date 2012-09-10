@@ -8,22 +8,25 @@ l_reference=[];
 % 计算最悲观期望值
 % 投入资金
 l_reference.costinput=max(abs(g_report.dailyinfo.margin)); 
-% 总交易次数
-l_reference.totaltradenum=g_report.record.pos.num;
-% 盈利交易次数
-l_reference.profittradenum=sum(g_report.record.pos.profit>0); 
-% 亏损交易次数
-l_reference.losstradenum=sum(g_report.record.pos.profit<=0);
-% 每单交易盈利
-l_reference.profitpertrade=sum(g_report.record.pos.profit(g_report.record.pos.profit>0))....
-    /l_reference.profittradenum; 
-% 每单交易亏损
-l_reference.losspertrade=sum(g_report.record.pos.profit(g_report.record.pos.profit<=0))....
-    /l_reference.losstradenum;
-% 输出
-out_totalvalue=(l_reference.profitpertrade*(l_reference.profittradenum-l_reference.profittradenum^0.5)...
-    +l_reference.losspertrade*(l_reference.losstradenum+l_reference.losstradenum^0.5))/l_reference.costinput;
-
+if l_reference.costinput>0
+    % 总交易次数
+    l_reference.totaltradenum=g_report.record.pos.num;
+    % 盈利交易次数
+    l_reference.profittradenum=sum(g_report.record.pos.profit>0); 
+    % 亏损交易次数
+    l_reference.losstradenum=sum(g_report.record.pos.profit<=0);
+    % 每单交易盈利
+    l_reference.profitpertrade=sum(g_report.record.pos.profit(g_report.record.pos.profit>0))....
+        /l_reference.profittradenum; 
+    % 每单交易亏损
+    l_reference.losspertrade=sum(g_report.record.pos.profit(g_report.record.pos.profit<=0))....
+        /l_reference.losstradenum;
+    % 输出
+    out_totalvalue=(l_reference.profitpertrade*(l_reference.profittradenum-l_reference.profittradenum^0.5)...
+        +l_reference.losspertrade*(l_reference.losstradenum+l_reference.losstradenum^0.5))/l_reference.costinput;
+else
+    out_totalvalue=0;
+end
 % 获得品种数
 if iscell(g_commoditynames)
     l_cmnum=length(g_commoditynames);

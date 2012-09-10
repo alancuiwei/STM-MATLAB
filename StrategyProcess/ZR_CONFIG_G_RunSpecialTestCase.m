@@ -50,7 +50,7 @@ if G_RunSpecialTestCase.issetbyXML&&~l_XMLfile.isupdated
     if ~isempty(l_commoditynames)
         for l_stid=2:numel(g_XMLfile)
             if isempty(g_XMLfile{l_stid}.g_commoditynames)
-                l_commoditynames={};
+%                 l_commoditynames={};
                 break;
             end
             l_idx=ismember(l_commoditynames,g_XMLfile{l_stid}.g_commoditynames);
