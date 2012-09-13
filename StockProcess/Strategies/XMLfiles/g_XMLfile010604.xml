@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<g_XMLfile>
+   <coredata>
+      <startdate></startdate>
+      <enddate></enddate>
+   </coredata>
+   <g_strategyparams>
+      <period>16</period>
+      <losses>0</losses>
+      <wins>-6</wins>
+   </g_strategyparams>
+   <adjustparams>
+      <period>4:20</period>
+      <losses>0:40</losses>
+      <wins>-20:20</wins>
+   </adjustparams>    
+   <optimizedmethod>0</optimizedmethod>  
+   <g_commoditynames/>
+   <g_pairnames/>
+   <g_contractnames/>
+   <strategyid>010604</strategyid>
+   <path>./Strategies/TestResults/010604</path>
+   <strategypath>./Strategies/XMLfiles</strategypath>
+   <isupdated>1</isupdated>
+   <userid/>
+   <objecttype>future</objecttype>
+   <resulttype>xls</resulttype>      
+</g_XMLfile>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<g_XMLfile>
+   <coredata>
+      <startdate>2010-01-01</startdate>
+      <enddate>2010-12-31</enddate>
+   </coredata>
+   <g_strategyparams>
+    <D>6</D>
+   </g_strategyparams>
+   <adjustparams>
+	  <D>3:20</D> 	   
+	  </adjustparams> 
+   <optimizedmethod>0</optimizedmethod>     
+   <g_commoditynames/>
+   <g_pairnames/>
+   <g_contractnames/>
+   <strategyid>040708</strategyid>
+   <path>./Strategies/TestResults/040708</path>
+   <strategypath>./Strategies/XMLfiles</strategypath>
+   <isupdated>0</isupdated>
+<userid/>
+   <objecttype>future</objecttype>
+   <resulttype>xls</resulttype> 
+</g_XMLfile>
