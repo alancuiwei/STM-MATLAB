@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <g_XMLfile>
    <coredata>
-      <startdate>2010-01-01</startdate>
-      <enddate>2010-12-31</enddate>
+      <startdate>2000-01-01</startdate>
+      <enddate>2012-01-12</enddate>
    </coredata>
    <g_strategyparams>
-       <ma1>8</ma1>
-       <ma2>10</ma2> 
+       <null>0</null>
    </g_strategyparams>
+   <adjustparams>
+       <null>0:1</null>
+   </adjustparams> 
+   <optimizedmethod>0</optimizedmethod>
    <g_commoditynames/>
    <g_pairnames/>
    <g_contractnames/>

@@ -45,26 +45,58 @@ for l_cmid=1:l_cmnum
     if numel(g_XMLfile)>1
         % 执行策略组合
         for l_xmlid=1:numel(g_XMLfile)
-            if  numel(g_commodityparams) > 1
-                l_inputdata.strategyparams=g_commodityparams{l_xmlid};
-            else
-                l_inputdata.strategyparams=g_commodityparams;                
+            try
+                if  numel(g_commodityparams) > 1
+                    l_inputdata.strategyparams=g_commodityparams{l_xmlid};
+                else
+                    l_inputdata.strategyparams=g_commodityparams;                
+                end
+                eval(strcat('l_output_strategy=ZR_STRATEGY_',g_XMLfile{l_xmlid}.strategyid,'(l_inputdata);'));
+                if isempty(l_output_strategy.record.opdate)
+                    sprintf('组合策略中策略:%s对于品种:%s没有策略输出信息',g_XMLfile{l_xmlid}.strategyid,g_commoditynames{l_cmid})
+                    break;
+                end
+                % 测试第一个策略算法处理报告
+                g_temprecord=cat(2,g_temprecord,l_output_strategy);
+                l_inputdata.commodity.dailyinfo=l_output_strategy.dailyinfo;
+            catch
+                l_output_strategy.orderlist.price=[];
+                l_output_strategy.orderlist.direction=[];
+                l_output_strategy.orderlist.name={};   
+                l_output_strategy.record.opdate={};
+                l_output_strategy.record.opdateprice=[];
+                l_output_strategy.record.cpdate={};
+                l_output_strategy.record.cpdateprice=[];
+                l_output_strategy.record.isclosepos=[];
+                l_output_strategy.record.direction=[];
+                l_output_strategy.record.ctname={};
+
+                l_output_strategy.dailyinfo.date={};
+                l_output_strategy.dailyinfo.trend=[];                
             end
-            eval(strcat('l_output_strategy=ZR_STRATEGY_',g_XMLfile{l_xmlid}.strategyid,'(l_inputdata);'));
-            if isempty(l_output_strategy.record.opdate)
-                sprintf('组合策略中策略:%s对于品种:%s没有策略输出信息',g_XMLfile{l_xmlid}.strategyid,g_commoditynames{l_cmid})
-                break;
-            end
-            % 测试第一个策略算法处理报告
-            g_temprecord=cat(2,g_temprecord,l_output_strategy);
-            l_inputdata.commodity.dailyinfo=l_output_strategy.dailyinfo;
         end
     else
         % 执行单个策略
-        l_inputdata.strategyparams=g_commodityparams;
-        eval(strcat('l_output_strategy=ZR_STRATEGY_',g_rawdata.rightid{1}(1:6),'(l_inputdata);'));
-        if isempty(l_output_strategy.record.opdate)
-            sprintf('策略:%s对于品种%s没有策略输出信息',g_rawdata.rightid{1}(1:6),g_commoditynames{l_cmid})
+        try
+            l_inputdata.strategyparams=g_commodityparams;
+            eval(strcat('l_output_strategy=ZR_STRATEGY_',g_rawdata.rightid{1}(1:6),'(l_inputdata);'));
+            if isempty(l_output_strategy.record.opdate)
+                sprintf('策略:%s对于品种%s没有策略输出信息',g_rawdata.rightid{1}(1:6),g_commoditynames{l_cmid})
+            end
+        catch
+            l_output_strategy.orderlist.price=[];
+            l_output_strategy.orderlist.direction=[];
+            l_output_strategy.orderlist.name={};   
+            l_output_strategy.record.opdate={};
+            l_output_strategy.record.opdateprice=[];
+            l_output_strategy.record.cpdate={};
+            l_output_strategy.record.cpdateprice=[];
+            l_output_strategy.record.isclosepos=[];
+            l_output_strategy.record.direction=[];
+            l_output_strategy.record.ctname={};
+
+            l_output_strategy.dailyinfo.date={};
+            l_output_strategy.dailyinfo.trend=[];
         end
     end
     

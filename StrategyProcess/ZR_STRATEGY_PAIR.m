@@ -43,7 +43,23 @@ for l_cmid=1:l_cmnum
         l_inputdata.pair=g_rawdata.pair(l_pairid);
         % 计算合约的指标
         l_output=[];
-        eval(strcat('l_output=ZR_STRATEGY_',g_rawdata.rightid{1}(1:6),'(l_inputdata);'));
+        try
+            eval(strcat('l_output=ZR_STRATEGY_',g_rawdata.rightid{1}(1:6),'(l_inputdata);'));
+        catch
+            l_output.orderlist.price=[];
+            l_output.orderlist.direction=[];
+            l_output.orderlist.name={};   
+            l_output.record.opdate={};
+            l_output.record.opdateprice=[];
+            l_output.record.cpdate={};
+            l_output.record.cpdateprice=[];
+            l_output.record.isclosepos=[];
+            l_output.record.direction=[];
+            l_output.record.ctname={};
+
+            l_output.dailyinfo.date={};
+            l_output.dailyinfo.trend=[];            
+        end
         g_orderlist=l_output.orderlist;
         g_traderecord=l_output.record;
 %         switch g_strategyid
