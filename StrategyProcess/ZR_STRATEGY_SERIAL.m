@@ -107,6 +107,7 @@ for l_cmid=1:l_cmnum
 
     g_traderecord=l_output.record;
     g_orders=l_output.orderlist;
+    ZR_PROCESS_VerifyRecord();
     ZR_PROCESS_TradeDataPerSerialContract();
     ZR_PROCESS_OrderDataPerSerialContract();
     % 计算报告数据
